@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">   
+        <title>Информационно-диагностическая система</title>
+        <link rel="shortcut icon" type="image/png" href="images/logo.png">
+        <link rel="stylesheet" type="text/css" href="css/body.css">
+        <link rel="stylesheet" type="text/css" href="css/welcome_content.css">
+        <!-- <link rel="stylesheet" type="text/css" href="css/header.css"> -->
+        <!-- <link rel="stylesheet" type="text/css" href="css/footer.css"> -->
+    </head>
+    <body>
+        <div class="form_content marg-auto clearfix ">
+
+        <div class="marg-auto" id="logo"></div>
+
+        <div class="al-center mar-bot-20">Добро пожаловать в систему тестирования</div>
+
+          <!-- action="reg" -->
+        <form id="registrationForm" autocomplete="off" action="/echo" method="post" name="registrationForm">
+
+          <div class="al-center wid_202 marg-auto">
+            <div class="al-center "><label for="name-field" class="lab">Логин: </label></div>
+            <input type="text" id="name-field" name="first-name" size="37" tabindex="0"  pattern="[А-Яа-яЁё]+" required>
+          </div>
+
+          <div class="al-center wid_202 marg-auto">
+            <div class="al-center"><label for="password-field" class="lab">Пароль: </label></div> 
+            <input type="password" id="password-field" name="password" size="37" tabindex="1" pattern="" required>
+          </div>
+
+          <a class="wid_202 marg-auto" href="">Забыли пароль?</a>
+          
+          <div class="sent-reset marg-auto clearfix">
+
+            <div class="wid_202 marg-auto">
+            <button class="fl-left al-center" id="registr">Регистрация</button>
+            <button class="fl-right al-center" id="input">Вход</button>
+            </div>
+          </div>
+        </form>
+            
+        </div>
+
+
+    </body>
+</html>

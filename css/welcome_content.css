@@ -1,0 +1,83 @@
+body{
+	background: url("../images/background.png") no-repeat;
+	background-size: 100% 100%;
+	font-size: 12px !important;
+}
+.form_content{
+	color: #272727;
+	position: fixed;
+    top: 50%;
+    left: 50%;
+    margin-top: -140px;
+    margin-left: -150px;
+	width: 300px;
+	background-color: rgba(252, 252, 252, 0.8);
+}
+div #logo{
+	width: 40px;
+	height: 40px;
+}
+#logo{
+	margin-top: 30px;
+	background: url("../images/preLogo.png") no-repeat;
+	background-size: 100% 100%;
+}
+.mar-bot-20{
+	margin-bottom: 20px;
+}
+.wid_202{
+	width: 240px;
+}
+.lab{
+    display: block;
+    padding: 0 !important;
+    text-align: left;
+    vertical-align: middle !important;
+}
+input[type="text"], input[type="password"]{
+    background-color: #E9E9E9;
+}
+a{
+	display: block;
+	color: #6A6A6A;
+	text-align: right;
+	margin-bottom: 30px;
+}
+.sent-reset{
+	margin-bottom: 0 !important;
+	margin-top:10px;
+}
+input[type="text"], input[type="password"], button{
+    border: none;
+    padding: 2px;
+}
+button{
+	font-size: 12px !important;
+	width: 115px;
+	color: #FFF;
+	margin-bottom: 39px;
+}
+#registr{
+	background: url("../images/button/buttonBlue.png") no-repeat;
+	background-size: 100% 100%;
+}
+#registr:hover{
+	background: url("../images/button/buttonBlueHover.png") no-repeat;
+	background-size: 100% 100%;
+}
+#registr:active{
+	background: url("../images/button/buttonBlueActive.png") no-repeat;
+	background-size: 100% 100%;
+}
+#input{
+	background: url("../images/button/buttonRed.png") no-repeat;
+	background-size: 100% 100%;
+}
+#input:hover{
+	background: url("../images/button/buttonRedHover.png") no-repeat;
+	background-size: 100% 100%;
+}
+#input:active{
+	background: url("../images/button/buttonRedActive.png") no-repeat;
+	background-size: 100% 100%;
+}
