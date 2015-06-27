@@ -37,7 +37,7 @@ div #logo{
 input[type="text"], input[type="password"]{
     background-color: #E9E9E9;
 }
-a{
+#forget{
 	display: block;
 	color: #6A6A6A;
 	text-align: right;
