@@ -1,0 +1,45 @@
+<?php
+
+namespace AppBundle\Entity;
+
+use Doctrine\ORM\Mapping as ORM;
+
+/**
+ * @ORM\Entity
+ * @ORM\Table(name="users")
+ */
+
+Class User
+{
+    /**
+     * @ORM\Id
+     * @ORM\Column(type="integer")
+     * @ORM\GeneratedValue(strategy="AUTO")
+     */
+    private $id;
+
+    /**
+     * @ORM\Column(type="string", length=50, unique=true)
+     */
+    private $userName;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $password;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $firstName;
+
+    /**
+     * @ORM\Column(type="string", length=50)
+     */
+    private $secondName;
+
+    /**
+     * @ORM\Column(type="string", length=10)
+     */
+    private $groupName;
+}
