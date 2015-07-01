@@ -9,7 +9,7 @@ use AppBundle\Entity\Test;
 class TestController extends Controller
 {
     /**
-     * @Route("/test{id}", name="testpage")
+     * @Route("/test/id{id}", name="testpage")
      */
     public function indexAction($id)
     {

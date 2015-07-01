@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\User;
+use AppBundle\Entity\Test;
 
 class UserController extends Controller
 {
@@ -49,7 +50,14 @@ class UserController extends Controller
 //
 //        $em->persist($user);
 //        $em->flush();
-        return $this->render('personal_page.html.twig', array('user' => $user));
+//
+//        $user->addTest($this->getDoctrine()->getRepository('AppBundle:Test')->find(1));
+        $tests = $this->getDoctrine()
+            ->getRepository('AppBundle:Test')
+            ->findAll();
+
+        return $this->render('personal_page.html.twig', array('user' => $user,
+            'tests' => $tests));
     }
 
 }

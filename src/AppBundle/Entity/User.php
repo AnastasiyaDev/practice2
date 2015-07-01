@@ -3,6 +3,8 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Doctrine\ORM\Mapping\OneToMany;
+use Doctrine\ORM\Mapping\ManyToMany;
 use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -44,6 +46,14 @@ Class User implements UserInterface, \Serializable
      * @ORM\Column(type="string", length=10)
      */
     private $groupName;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Test")
+     * @ORM\JoinTable(name="user_complete_test",
+     * joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     * inverseJoinColumns={@ORM\JoinColumn(name="test_id", referencedColumnName="id")})
+     */
+    private $tests;
 
     /**
      * Get id
@@ -249,5 +259,44 @@ Class User implements UserInterface, \Serializable
             // $this->salt
             ) = unserialize($serialized);
     }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->tests = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
+    /**
+     * Add tests
+     *
+     * @param \AppBundle\Entity\Test $tests
+     * @return User
+     */
+    public function addTest(\AppBundle\Entity\Test $tests)
+    {
+        $this->tests[] = $tests;
+
+        return $this;
+    }
+
+    /**
+     * Remove tests
+     *
+     * @param \AppBundle\Entity\Test $tests
+     */
+    public function removeTest(\AppBundle\Entity\Test $tests)
+    {
+        $this->tests->removeElement($tests);
+    }
+
+    /**
+     * Get tests
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTests()
+    {
+        return $this->tests;
+    }
 }

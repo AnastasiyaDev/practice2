@@ -28,8 +28,6 @@ Class Test
      */
     private $description;
 
-
-
     /**
      * Get id
      *
