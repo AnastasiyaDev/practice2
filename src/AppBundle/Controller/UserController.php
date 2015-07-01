@@ -34,6 +34,21 @@ class UserController extends Controller
         if(!$user) {
             throw $this->createNotFoundException('No found user for id'.$id);
         }
+//        $user = new User();
+//        $user->setUsername('Test');
+//        //pas
+//        $plainPassword = 'test';
+//        $encoder = $this->container->get('security.password_encoder');
+//        $encoded = $encoder->encodePassword($user, $plainPassword);
+//        $user->setPassword($encoded);
+//        $user->setFirstName('Тест');
+//        $user->setSecondName('Тестов');
+//        $user->setGroupName('тестебо3-9');
+//
+//        $em = $this->getDoctrine()->getManager();
+//
+//        $em->persist($user);
+//        $em->flush();
         return $this->render('personal_page.html.twig', array('user' => $user));
     }
 

@@ -1,0 +1,35 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}{{ test.name }} | {{ parent() }}{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/header.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/about_test_content.css') }}">
+{% endblock %}
+{% block body%}
+    <body>
+
+    <header>
+
+        <div class="header_content marg-auto clearfix">
+            <a href=""><div class="fl-left" id="logo"><img src="{{ asset('images/LogoOnHeader.png') }}"></div>
+                <span>Victim</span></a>
+            <a href={{ path('_welcome') }}><button class="fl-right al-center" id="exit">Выйти</button></a>
+        </div>
+
+    </header>
+
+    <div class="content marg-auto clearfix">
+        <div id="lvl">
+            <h3>{{ test.name }}</h3>
+            <p>{{ test.description }}</p>
+            <a href="#"><button class="fl-right al-center" id="begin">Начать тест</button></a>
+
+        </div>
+
+    </div>
+
+
+
+    </body>
+{% endblock %}

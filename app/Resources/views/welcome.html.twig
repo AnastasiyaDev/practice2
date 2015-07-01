@@ -12,12 +12,12 @@
 
         <div class="al-center mar-bot-20">Добро пожаловать в систему тестирования</div>
 
+        {% if error %}
+            <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+
         <!-- action="reg" -->
         <form id="registrationForm" autocomplete="off" action="{{ path('login_check') }}" method="post" name="registrationForm">
-
-            {% if error %}
-                <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
-            {% endif %}
 
             <div class="al-center wid_202 marg-auto">
                 <div class="al-center "><label for="name-field" class="lab">Логин: </label></div>
@@ -26,8 +26,10 @@
 
             <div class="al-center wid_202 marg-auto">
                 <div class="al-center"><label for="password-field" class="lab">Пароль: </label></div>
-                <input type="password" id="password-field" name="password" size="37" tabindex="1" required>
+                <input type="password" id="password-field" name="_password" size="37" tabindex="1" required>
             </div>
+
+            <input type="hidden" name="_target_patch" value="account">
 
             <a class="wid_202 marg-auto " href="" id="forget">Забыли пароль?</a>
 
@@ -35,7 +37,7 @@
 
                 <div class="wid_202 marg-auto">
                     <a href="registration_form.html"><button class="fl-left al-center" id="registr">Регистрация</button></a>
-                    <button type="submit" class="fl-right al-center" id="input">Вход</button>
+                    <button type="submit" class="fl-right al-center" name="login" id="input">Вход</button>
                 </div>
             </div>
         </form>

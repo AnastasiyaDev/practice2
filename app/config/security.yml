@@ -1,6 +1,7 @@
 security:
 
-
+    encoders:
+            AppBundle\Entity\User: bcrypt
 
     providers:
         in_memory:
@@ -9,32 +10,31 @@ security:
                      admin:
                       password: admin
                       roles: 'ROLE_ADMIN'
-        main:
-             entity: { class: AppBundle:User, property: userbame}
+        database_users:
+                entity: { class: AppBundle:User, property: username }
 
     firewalls:
-        dev:
-            pattern: ^/(_(profiler|wdt|error)|css|images|js)/
-            security: false
 
 
         secured_area:
             pattern: ^/
             anonymous: true
             logout:
-                            path:   /logout
-                            target: /
+                          path:   /logout
+                          target: /
         login_firewall:
           form_login:
-            login_path: /login
             check_path: /login_check
+            login_path: /login
+#          provider: database_users
+
+
+
 
 
 
     access_control:
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/login, roles: ROLE_USER }
         - { path: ^/admin, roles: ROLE_ADMIN }
 
 
-    encoders:
-            AppBundle\Entity\User: bcrypt
