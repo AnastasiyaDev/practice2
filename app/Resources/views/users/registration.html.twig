@@ -1,0 +1,32 @@
+{% extends '::base.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+{% endblock %}
+{% block body%}
+    <body>
+    <div align="center">
+
+        <form id="registrationForm" autocomplete="off" action="{{ path("registrationNew") }}" method="post" name="registrationForm">
+                <div><label for="name-field" class="lab">Логин: </label></div>
+                <input type="text" id="name-field" name="_username" size="37" pattern="[A-Za-z]+" value="" required>
+
+                <div><label for="password-field" class="lab">Пароль: </label></div>
+                <input type="password" id="password-field" name="_password" size="37" required>
+                 <div><label for="name-field" class="lab">Имя: </label></div>
+                  <input type="text" id="name-field" name="_firstName" size="37" tabindex="0"  value="" >
+                   <div><label for="name-field" class="lab">Фамилия: </label></div>
+                  <input type="text" id="name-field" name="_secondName" size="37" tabindex="0"   value="" >
+                 <div><label for="name-field" class="lab">Группа: </label></div>
+                 <input type="text" id="name-field" name="_groupName" size="37" tabindex="0"   value="" >
+
+                <div align="center">
+                    <button type="submit">Регистрация</button>
+                </div>
+
+        </form>
+
+    </div>
+
+    </body>
+{% endblock %}

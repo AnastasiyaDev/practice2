@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Test;
 
@@ -56,8 +57,43 @@ class UserController extends Controller
             ->getRepository('AppBundle:Test')
             ->findAll();
 
-        return $this->render('personal_page.html.twig', array('user' => $user,
+        return $this->render('users/personal_page.html.twig', array('user' => $user,
             'tests' => $tests));
     }
+
+    /**
+     * @Route("/registration", name="registrationPage")
+     */
+    public function registrationFormAction()
+    {
+        return $this->render(':users:registration.html.twig');
+
+    }
+
+    /**
+     * @Route("/registration/new", name="registrationNew")
+     */
+    public function registrationAction(Request $request)
+    {
+        $user = new User();
+        $user->setUsername(mb_strtolower($request->get('_username')));
+        //pas
+        $plainPassword = $request->get('_password');
+        $encoder = $this->container->get('security.password_encoder');
+        $encoded = $encoder->encodePassword($user, $plainPassword);
+        $user->setPassword($encoded);
+        $user->setFirstName($request->get('_firstName'));
+        $user->setSecondName($request->get('_secondName'));
+        $user->setGroupName($request->get('_groupName'));
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->persist($user);
+        $em->flush();
+
+        return $this->showUserAction($user->getId());
+    }
+
+
 
 }

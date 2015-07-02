@@ -68,7 +68,7 @@ class TestController extends Controller
 //        $em->persist($ans3);
 //        $em->flush();
 
-        return $this->render('about_test.html.twig', array('test' => $test));
+        return $this->render('tests/about_test.html.twig', array('test' => $test));
     }
 
     /**
@@ -83,7 +83,7 @@ class TestController extends Controller
         if(!$test) {
             throw $this->createNotFoundException('No found test for id'.$id);
         }
-        return $this->render('test.html.twig', array('test' => $test));
+        return $this->render('tests/test.html.twig', array('test' => $test));
     }
 
 }
