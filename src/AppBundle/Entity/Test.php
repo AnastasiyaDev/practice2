@@ -8,7 +8,6 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="tests")
  */
-
 Class Test
 {
     /**
@@ -27,6 +26,11 @@ Class Test
      * @ORM\Column(type="text")
      */
     private $description;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Question",mappedBy="test", cascade={"all"}, orphanRemoval=true)
+     */
+    private $questions;
 
     /**
      * Get id
@@ -82,5 +86,45 @@ Class Test
     public function getDescription()
     {
         return $this->description;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->questions = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add questions
+     *
+     * @param \AppBundle\Entity\Question $questions
+     * @return Test
+     */
+    public function addQuestion(\AppBundle\Entity\Question $questions)
+    {
+        $this->questions[] = $questions;
+
+        return $this;
+    }
+
+    /**
+     * Remove questions
+     *
+     * @param \AppBundle\Entity\Question $questions
+     */
+    public function removeQuestion(\AppBundle\Entity\Question $questions)
+    {
+        $this->questions->removeElement($questions);
+    }
+
+    /**
+     * Get questions
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getQuestions()
+    {
+        return $this->questions;
     }
 }

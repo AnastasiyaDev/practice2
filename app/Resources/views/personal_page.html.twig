@@ -33,7 +33,7 @@
                     {% if user.tests is not empty %}
                     <ul class="sub-menu">
                         {% for test in user.tests %}
-                        <li><a href="/test/id{{ test.id }}">
+                        <li><a href="/test/id{{ test.id }}/about">
                                 <p>{{ test.name }}</p>
                                 <span>{{ test.description }}</span>
                             </a></li>
@@ -55,7 +55,7 @@
                         {% for test in tests %}
                             {% for userTest in user.tests %}
                                 {% if test.id != userTest.id  %}
-                        <li><a href="/test/id{{ test.id }}">
+                        <li><a href="/test/id{{ test.id }}/about">
                                 <p>{{ test.name }}</p>
                                 <span>{{ test.description }}</span>
                             </a></li>
@@ -67,7 +67,7 @@
                  {% if user.tests is empty %}
                      <ul class="sub-menu">
                            {% for test in tests %}
-                               <li><a href="/test/id{{ test.id }}">
+                               <li><a href="/test/id{{ test.id }}//about">
                                 <p>{{ test.name }}</p>
                                 <span>{{ test.description }}</span>
                             </a></li>
