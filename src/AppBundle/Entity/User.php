@@ -54,6 +54,14 @@ Class User implements UserInterface, \Serializable
     private $tests;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Answer")
+     * @ORM\JoinTable(name="user_answer",
+     * joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     * inverseJoinColumns={@ORM\JoinColumn(name="answer_id", referencedColumnName="id")})
+     */
+    private $answers;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -297,4 +305,38 @@ Class User implements UserInterface, \Serializable
     {
         return $this->tests;
     }
+
+    /**
+     * Add answers
+     *
+     * @param \AppBundle\Entity\Answer $answers
+     * @return User
+     */
+    public function addAnswer(\AppBundle\Entity\Answer $answers)
+    {
+        $this->answers[] = $answers;
+
+        return $this;
+    }
+
+    /**
+     * Remove answers
+     *
+     * @param \AppBundle\Entity\Answer $answers
+     */
+    public function removeAnswer(\AppBundle\Entity\Answer $answers)
+    {
+        $this->answers->removeElement($answers);
+    }
+
+    /**
+     * Get answers
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getAnswers()
+    {
+        return $this->answers;
+    }
+
 }

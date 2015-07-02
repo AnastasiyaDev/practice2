@@ -8,6 +8,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Test;
+use AppBundle\Entity\Answer;
 
 class UserController extends Controller
 {
@@ -36,29 +37,37 @@ class UserController extends Controller
         if(!$user) {
             throw $this->createNotFoundException('No found user for id'.$id);
         }
-//        $user = new User();
-//        $user->setUsername('Test');
-//        //pas
-//        $plainPassword = 'test';
-//        $encoder = $this->container->get('security.password_encoder');
-//        $encoded = $encoder->encodePassword($user, $plainPassword);
-//        $user->setPassword($encoded);
-//        $user->setFirstName('Тест');
-//        $user->setSecondName('Тестов');
-//        $user->setGroupName('тестебо3-9');
+        $tests = $this->getDoctrine()
+                ->getRepository('AppBundle:Test')
+                ->findAll();
+//        $user->addTest($this->getDoctrine()->getRepository('AppBundle:Test')->find(5));
+//        $user->addAnswer($this->getDoctrine()->getRepository('AppBundle:Answer')->find(1));
+//        $user->addAnswer($this->getDoctrine()->getRepository('AppBundle:Answer')->find(4));
 //
 //        $em = $this->getDoctrine()->getManager();
 //
 //        $em->persist($user);
 //        $em->flush();
-//
-//        $user->addTest($this->getDoctrine()->getRepository('AppBundle:Test')->find(1));
-        $tests = $this->getDoctrine()
-            ->getRepository('AppBundle:Test')
-            ->findAll();
+
 
         return $this->render('users/personal_page.html.twig', array('user' => $user,
             'tests' => $tests));
+    }
+
+    /**
+     * @Route("/id{id}/test/id{testId}", name="userTest")
+     */
+    public function showUserTestAction($id, $testId)
+    {
+        $user = $this->getDoctrine()
+            ->getRepository('AppBundle:User')
+            ->find($id);
+        $test = $this->getDoctrine()
+            ->getRepository('AppBundle:Test')
+            ->find($testId);
+
+        return $this->render(':tests:user_test.html.twig', array('user' => $user,
+            'test' => $test));
     }
 
     /**
