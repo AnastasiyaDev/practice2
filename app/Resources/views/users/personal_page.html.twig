@@ -35,7 +35,13 @@
                         {% for test in user.tests %}
                         <li><a href="/id{{ user.id }}/test/id{{ test.id }}">
                                 <p>{{ test.name }}</p>
-                                <span>{{ test.description }}</span>
+                                <span>{{ test.description }}
+                                    {% set rating = 0 %}
+                                    {% for answer in user.answers %}
+                                        {% if answer.question.test.id == test.id %}
+                                            {% set rating = rating + answer.rating  %}
+                                        {% endif %}
+                                    {% endfor %} | {{ rating }}</span>
                             </a></li>
                         {% endfor %}
                     </ul>
