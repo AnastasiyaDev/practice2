@@ -1,0 +1,40 @@
+security:
+
+    encoders:
+            AppBundle\Entity\User: bcrypt
+
+    providers:
+        in_memory:
+            memory:
+                users:
+                     admin:
+                      password: admin
+                      roles: 'ROLE_ADMIN'
+        database_users:
+                entity: { class: AppBundle:User, property: username }
+
+    firewalls:
+
+
+        secured_area:
+            pattern: ^/
+            anonymous: true
+            logout:
+                          path:   /logout
+                          target: /
+        login_firewall:
+          form_login:
+            check_path: /login_check
+            login_path: /login
+#          provider: database_users
+
+
+
+
+
+
+    access_control:
+        - { path: ^/login, roles: ROLE_USER }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+
+

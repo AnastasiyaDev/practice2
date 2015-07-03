@@ -1,0 +1,11 @@
+{% extends ':tests:about_test.html.twig' %}
+
+{% block complete %}
+    {% set rating = 0 %}
+    {% for answer in user.answers %}
+        {% if answer.question.test.id == test.id %}
+        {% set rating = rating + answer.rating  %}
+        {% endif %}
+    {% endfor %}
+    <a href=""><button class="fl-right al-center" id="begin">{{ rating }}</button></a>
+{% endblock %}

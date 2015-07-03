@@ -1,0 +1,56 @@
+{% extends '::base.html.twig' %}
+
+{% block title %}{{ test.name }} | {{ parent() }}{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/header.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/test_content.css') }}">
+{% endblock %}
+{% block body%}
+    <body>
+
+    <header>
+
+        <div class="header_content marg-auto clearfix">
+            <a href=""><div class="fl-left" id="logo"><img src="{{ asset('images/LogoOnHeader.png') }}"></div>
+                <span>Victim</span></a>
+            <a href={{ path('_welcome') }}><button class="fl-right al-center" id="exit">Выйти</button></a>
+        </div>
+
+    </header>
+
+    <div class="content marg-auto clearfix">
+        <div id="lvl">
+            <h3>{{ test.name }}</h3>
+            <p>{{ test.description }}</p>
+        </div>
+
+
+    <p class="mar-l-35">Вопросы</p>
+
+    {% for question in test.questions %}
+    <div class="quest-box quest-box-{{ loop.index }}">
+        <div class="quest-number fl-left al-center vert-align-m"><p class="vert-align-m mar-pad-0 font-s-14">{{ loop.index }}</p></div>
+        <ul class="question fl-right mar-pad-0">
+            <h4 class="mar-pad-0">{{ question.content }}</h4>
+            <p class="mar-pad-0">выберите один из вариантов:</p>
+            <br>
+            <div class="al-center">
+                {% for answer in question.answers %}
+                <li><label for="Q{{ loop.index }}"><input type="radio" id="Q{{ loop.index }}"
+                                                          value="{{ answer.rating }}" name="Q{{ loop.index }}"><span>{{ answer.content }}</span></label></li>
+                {% endfor %}
+            </div>
+
+        </ul>
+    </div>
+        {% endfor %}
+
+    <a href=""><button class="fl-right al-center" id="end">Завершить</button></a>
+
+
+
+    </div>
+
+    </body>
+{% endblock %}
