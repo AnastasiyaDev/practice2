@@ -4,3 +4,6 @@ app:
 _welcome:
   path: /
   defaults: {_controller: AppBundle:User:index}
+
+_logout:
+      path:   /logout

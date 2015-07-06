@@ -25,34 +25,34 @@ class UserController extends Controller
 //        );
 //    }
 
-    /**
-     * @Route("/id{id}", name="userpage")
-     */
-    public function indexAction($id)
-    {
-        $user = $this->getDoctrine()
-            ->getRepository('AppBundle:User')
-            ->find($id);
 
-        if(!$user) {
-            throw $this->createNotFoundException('No found user for id'.$id);
-        }
+    /**
+     * @Route("/", name="userpage")
+     */
+    public function indexAction()
+    {
+        $user = $this->getUser();
+
         $tests = $this->getDoctrine()
                 ->getRepository('AppBundle:Test')
                 ->findAll();
-
         return $this->render('users/personal_page.html.twig', array('user' => $user,
             'tests' => $tests));
     }
+
 
     /**
      * @Route("/id{id}/test/id{testId}", name="userTest")
      */
     public function showUserTestAction($id, $testId)
     {
-        $user = $this->getDoctrine()
+        $user = $this->getUser();
+        if ($user!= $this->getDoctrine()
             ->getRepository('AppBundle:User')
-            ->find($id);
+            ->find($id)) {
+            return $this->redirect($this->generateUrl('userpage'));
+        }
+
         $test = $this->getDoctrine()
             ->getRepository('AppBundle:Test')
             ->find($testId);

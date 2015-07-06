@@ -24,10 +24,10 @@ security:
             form_login:
                         check_path: /login_check
                         login_path: /login
-            logout: true
-#            logout:
-#                          path:   /logout
-#                          target: /
+
+            logout:
+                          path:   /logout
+                          target: /
 #        login_firewall:
 #
 #          form_login:
