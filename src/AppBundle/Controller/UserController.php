@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Test;
 use AppBundle\Entity\Answer;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 
 class UserController extends Controller
 {
@@ -78,6 +79,10 @@ class UserController extends Controller
         $user = new User();
         $user->setUsername(mb_strtolower($request->get('_username')));
         //pas
+        if($request->get('_password') != $request->get('_password-2')) {
+            $error = 'Пароли не совпадают';
+            return $this->render(':users:registration.html.twig', array('error' => $error));
+        }
         $plainPassword = $request->get('_password');
         $encoder = $this->container->get('security.password_encoder');
         $encoded = $encoder->encodePassword($user, $plainPassword);
@@ -91,7 +96,10 @@ class UserController extends Controller
         $em->persist($user);
         $em->flush();
 
-        return $this->showUserAction($user->getId());
+        $token = new UsernamePasswordToken($user, $user->getPassword(), 'database_users',$user->getRoles() );
+        $this->get('security.token_storage')->setToken($token);
+
+        return $this->indexAction();
     }
 
 
