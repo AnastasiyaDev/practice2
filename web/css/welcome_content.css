@@ -1,7 +1,10 @@
-body{
-	background: url("../images/background.png") no-repeat;
-	background-size: 100% 100%;
-	font-size: 12px !important;
+body {
+    background: url("../images/background.png") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    font-size: 12px !important;
 }
 .form_content{
 	color: #272727;
@@ -12,6 +15,12 @@ body{
     margin-left: -150px;
 	width: 300px;
 	background-color: rgba(252, 252, 252, 0.8);
+}
+input{
+    width: 238px;
+}
+#registrationForm{
+    margin-top: 20px;
 }
 div #logo{
 	width: 40px;
@@ -52,10 +61,17 @@ input[type="text"], input[type="password"], button{
     padding: 2px;
 }
 button{
+    height: 21px;
+}
+button, a #registr, a #input{
 	font-size: 12px !important;
 	width: 115px;
 	color: #FFF;
 	margin-bottom: 39px;
+}
+a #registr, a #input{
+    padding: 2px;
+    height: 17px;
 }
 #registr{
 	background: url("../images/button/buttonBlue.png") no-repeat;

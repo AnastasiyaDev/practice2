@@ -6,11 +6,11 @@
 {% endblock %}
 {% block body%}
     <body>
-    <div class="form_content marg-auto clearfix ">
+    <div class="form_content clearfix">
 
         <div class="marg-auto" id="logo"></div>
 
-        <div class="al-center mar-bot-20">Добро пожаловать в систему тестирования</div>
+        <div class="al-center">Добро пожаловать в систему тестирования</div>
 
         {% if error %}
             <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
@@ -36,7 +36,7 @@
             <div class="sent-reset marg-auto clearfix">
 
                 <div class="wid_202 marg-auto">
-                    <a href="{{ path('registrationPage') }}"><button class="fl-left al-center" id="registr">Регистрация</button></a>
+                    <a href="{{ path('registrationPage') }}"><div class="fl-left al-center" id="registr" formnovalidate>Регистрация</div></a>
                     <button type="submit" class="fl-right al-center" name="login" id="input">Вход</button>
                 </div>
             </div>

@@ -17,22 +17,10 @@ body{
     width: 624px;
     font-size: 12px;
 }
-/*
-.content{
-    min-height: 100%;
-    height: 100%;
-    position: relative;
-    background-color:#FFFFFF;
-    width: 1110px;
-    margin-right: auto;
-    margin-left: auto;
+.clearfix:after{
+    content:'';
+    clear:both;
 }
-
-*/
-/*.content:after{
-  content: "";
-  display: block;
-}*/
 /*footer, .content:after{
   height: 66px; 
 }*/
@@ -54,10 +42,6 @@ body{
 }
 .al-center{
     text-align: center;
-}
-.clearfix:after{
-    content:'';
-    clear:both;
 }
 .marg-auto{
     margin-left: auto;

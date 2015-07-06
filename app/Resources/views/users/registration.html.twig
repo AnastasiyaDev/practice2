@@ -1,31 +1,56 @@
 {% extends '::base.html.twig' %}
 
+{% block title %} Регистрация | {{ parent() }}{% endblock %}
 {% block stylesheets %}
     {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/welcome_content.css') }}">
 {% endblock %}
 {% block body%}
     <body>
     <div align="center">
 
-        <form id="registrationForm" autocomplete="off" action="{{ path("registrationNew") }}" method="post" name="registrationForm">
-                <div><label for="name-field" class="lab">Логин: </label></div>
-                <input type="text" id="name-field" name="_username" size="37" pattern="[A-Za-z]+" value="" required>
+        <div class="form_content clearfix">
 
-                <div><label for="password-field" class="lab">Пароль: </label></div>
-                <input type="password" id="password-field" name="_password" size="37" required>
-                 <div><label for="name-field" class="lab">Имя: </label></div>
-                  <input type="text" id="name-field" name="_firstName" size="37" tabindex="0"  value="" >
-                   <div><label for="name-field" class="lab">Фамилия: </label></div>
-                  <input type="text" id="name-field" name="_secondName" size="37" tabindex="0"   value="" >
-                 <div><label for="name-field" class="lab">Группа: </label></div>
-                 <input type="text" id="name-field" name="_groupName" size="37" tabindex="0"   value="" >
+             <div class="marg-auto" id="logo"></div>
 
-                <div align="center">
-                    <button type="submit">Регистрация</button>
+             <form id="registrationForm" autocomplete="off" action="{{ path("registrationNew") }}" method="post" name="registrationForm">
+
+                 <div class="al-center wid_202 marg-auto">
+                    <div><label for="name-field" class="lab">Логин: </label></div>
+                    <input type="text" id="name-field" name="_username" size="37" pattern="[A-Za-z]+" value="" required>
+                 </div>
+
+                 <div class="al-center wid_202 marg-auto">
+                    <div><label for="password-field-1" class="lab">Пароль: </label></div>
+                    <input type="password" id="password-field-1" name="_password" size="37" required>
+                 </div>
+
+                 <div class="al-center wid_202 marg-auto">
+                     <div><label for="password-field-2" class="lab">Повторите пароль: </label></div>
+                     <input type="password" id="password-field-2" name="_password-2" size="37" required>
+                 </div>
+
+                 <div class="al-center wid_202 marg-auto">
+                    <div><label for="name-field" class="lab">Имя: </label></div>
+                    <input type="text" id="name-field" name="_firstName" size="37" tabindex="0"  value="" >
+                 </div>
+
+                 <div class="al-center wid_202 marg-auto">
+                    <div><label for="second-name-field" class="lab">Фамилия: </label></div>
+                    <input type="text" id="second-name-field" name="_secondName" size="37" tabindex="0"   value="" >
+                 </div>
+
+                 <div class="al-center wid_202 marg-auto mar-bot-20">
+                    <div><label for="group-field" class="lab">Группа: </label></div>
+                    <input type="text" id="group-field" name="_groupName" size="37" tabindex="0"   value="" >
+                 </div>
+
+                <div class="al-center wid_202 marg-auto">
+                    <a href="/"><div class="fl-left al-center" id="input">Назад</div></a>
+                    <button type="submit" class="fl-right al-center" id="registr">Регистрация</button>
                 </div>
-
-        </form>
-
+             </form>
+        </div>
     </div>
 
     </body>
