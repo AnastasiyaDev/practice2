@@ -12,56 +12,47 @@ use AppBundle\Entity\Answer;
 
 class UserController extends Controller
 {
+//    /**
+//     * @Route("/", name="homepage")
+//     */
+//    public function indexAction()
+//    {
+//        return $this->render('welcome.html.twig',
+//            array(
+//                'last_username' => '',
+//                'error' => '',
+//            )
+//        );
+//    }
+
+
     /**
-     * @Route("/", name="homepage")
+     * @Route("/", name="userpage")
      */
     public function indexAction()
     {
-        return $this->render('welcome.html.twig',
-            array(
-                'last_username' => '',
-                'error' => '',
-            )
-        );
-    }
+        $user = $this->getUser();
 
-    /**
-     * @Route("/id{id}", name="userpage")
-     */
-    public function showUserAction($id)
-    {
-        $user = $this->getDoctrine()
-            ->getRepository('AppBundle:User')
-            ->find($id);
-
-        if(!$user) {
-            throw $this->createNotFoundException('No found user for id'.$id);
-        }
         $tests = $this->getDoctrine()
                 ->getRepository('AppBundle:Test')
                 ->findAll();
-//        $user->addTest($this->getDoctrine()->getRepository('AppBundle:Test')->find(5));
-//        $user->addAnswer($this->getDoctrine()->getRepository('AppBundle:Answer')->find(1));
-//        $user->addAnswer($this->getDoctrine()->getRepository('AppBundle:Answer')->find(4));
-//
-//        $em = $this->getDoctrine()->getManager();
-//
-//        $em->persist($user);
-//        $em->flush();
-
-
         return $this->render('users/personal_page.html.twig', array('user' => $user,
             'tests' => $tests));
     }
+
 
     /**
      * @Route("/id{id}/test/id{testId}", name="userTest")
      */
     public function showUserTestAction($id, $testId)
     {
-        $user = $this->getDoctrine()
+        $user = $this->getUser();
+        if ($user!= $this->getDoctrine()
             ->getRepository('AppBundle:User')
-            ->find($id);
+            ->find($id)) {
+            return $this->redirect($this->generateUrl('userpage'));
+        }
+
         $test = $this->getDoctrine()
             ->getRepository('AppBundle:Test')
             ->find($testId);

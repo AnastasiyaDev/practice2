@@ -60,7 +60,6 @@ Class User implements UserInterface, \Serializable
      * inverseJoinColumns={@ORM\JoinColumn(name="answer_id", referencedColumnName="id")})
      */
     private $answers;
-
     /**
      * Get id
      *
