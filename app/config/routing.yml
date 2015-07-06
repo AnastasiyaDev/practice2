@@ -3,4 +3,4 @@ app:
     type:     annotation
 _welcome:
   path: /
-  defaults: {_controller: AppBundle:Security:logout}
+  defaults: {_controller: AppBundle:User:index}

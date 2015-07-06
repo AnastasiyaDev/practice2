@@ -12,23 +12,23 @@ use AppBundle\Entity\Answer;
 
 class UserController extends Controller
 {
-    /**
-     * @Route("/", name="homepage")
-     */
-    public function indexAction()
-    {
-        return $this->render('welcome.html.twig',
-            array(
-                'last_username' => '',
-                'error' => '',
-            )
-        );
-    }
+//    /**
+//     * @Route("/", name="homepage")
+//     */
+//    public function indexAction()
+//    {
+//        return $this->render('welcome.html.twig',
+//            array(
+//                'last_username' => '',
+//                'error' => '',
+//            )
+//        );
+//    }
 
     /**
      * @Route("/id{id}", name="userpage")
      */
-    public function showUserAction($id)
+    public function indexAction($id)
     {
         $user = $this->getDoctrine()
             ->getRepository('AppBundle:User')
@@ -40,15 +40,6 @@ class UserController extends Controller
         $tests = $this->getDoctrine()
                 ->getRepository('AppBundle:Test')
                 ->findAll();
-//        $user->addTest($this->getDoctrine()->getRepository('AppBundle:Test')->find(5));
-//        $user->addAnswer($this->getDoctrine()->getRepository('AppBundle:Answer')->find(1));
-//        $user->addAnswer($this->getDoctrine()->getRepository('AppBundle:Answer')->find(4));
-//
-//        $em = $this->getDoctrine()->getManager();
-//
-//        $em->persist($user);
-//        $em->flush();
-
 
         return $this->render('users/personal_page.html.twig', array('user' => $user,
             'tests' => $tests));
