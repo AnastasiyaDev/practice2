@@ -31,8 +31,8 @@ div #logo{
 	background: url("../images/preLogo.png") no-repeat;
 	background-size: 100% 100%;
 }
-.mar-bot-20{
-	margin-bottom: 20px;
+.mar-top-20{
+    margin-top: 30px;
 }
 .wid_202{
 	width: 240px;
@@ -50,7 +50,6 @@ input[type="text"], input[type="password"]{
 	display: block;
 	color: #6A6A6A;
 	text-align: right;
-	margin-bottom: 30px;
 }
 .sent-reset{
 	margin-bottom: 0 !important;

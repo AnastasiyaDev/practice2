@@ -37,8 +37,8 @@
             <br>
             <div class="al-center">
                 {% for answer in question.answers %}
-                <li><label for="Q{{ loop.index }}"><input type="radio" id="Q{{ loop.index }}"
-                                                          value="{{ answer.rating }}" name="Q{{ loop.index }}"><span>{{ answer.content }}</span></label></li>
+                <li><label for="Q{{ answer.id }}"><input type="radio" id="Q{{ answer.id }}"
+                                                          value="{{ answer.rating }}" name="Q{{ answer.question.id }}"><span>{{ answer.content }}</span></label></li>
                 {% endfor %}
             </div>
 

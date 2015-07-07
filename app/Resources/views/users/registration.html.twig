@@ -17,41 +17,47 @@
 
                  <div class="al-center wid_202 marg-auto">
                     <div><label for="name-field" class="lab">Логин: </label></div>
-                    <input type="text" id="name-field" name="_username" size="37" pattern="[A-Za-z]+" value="" required>
+                    <input type="text" id="name-field" name="_username" size="37" pattern="[a-zA-Z-\t]+" tabindex="1" required>
                  </div>
 
                  <div class="al-center wid_202 marg-auto">
                     <div><label for="password-field-1" class="lab">Пароль: </label></div>
-                    <input type="password" id="password-field-1" name="_password" size="37" required>
+                    <input type="password" id="password-field-1" name="_password" size="37" pattern="([a-zA-Z0-9_-]){6,10}" tabindex="2" required>
                  </div>
 
                  <div class="al-center wid_202 marg-auto">
                      <div><label for="password-field-2" class="lab">Повторите пароль: </label></div>
-                     <input type="password" id="password-field-2" name="_password-2" size="37" required>
+                     <input type="password" id="password-field-2" name="_password-2" size="37" pattern="([a-zA-Z0-9_-]){6,10}" tabindex="3" required>
                  </div>
 
                  <div class="al-center wid_202 marg-auto">
                     <div><label for="name-field" class="lab">Имя: </label></div>
-                    <input type="text" id="name-field" name="_firstName" size="37" tabindex="0"  value="" >
+                    <input type="text" id="name-field" name="_firstName" size="37" pattern="[а-яА-ЯёЁa-zA-Z-\t]+" tabindex="4" required>
                  </div>
 
                  <div class="al-center wid_202 marg-auto">
                     <div><label for="second-name-field" class="lab">Фамилия: </label></div>
-                    <input type="text" id="second-name-field" name="_secondName" size="37" tabindex="0"   value="" >
+                    <input type="text" id="second-name-field" name="_secondName"  size="37" pattern="[а-яА-ЯёЁa-zA-Z-\t]+" tabindex="5" required>
                  </div>
 
                  <div class="al-center wid_202 marg-auto mar-bot-20">
                     <div><label for="group-field" class="lab">Группа: </label></div>
-                    <input type="text" id="group-field" name="_groupName" size="37" tabindex="0"   value="" >
+                    <input type="text" id="group-field" name="_groupName" size="37" pattern="[а-яА-ЯёЁa-zA-Z0-9_-]+" tabindex="6" required>
                  </div>
 
-                <div class="al-center wid_202 marg-auto">
+                <div class="al-center wid_202 marg-auto mar-top-20">
                     <a href="/"><div class="fl-left al-center" id="input">Назад</div></a>
-                    <button type="submit" class="fl-right al-center" id="registr">Регистрация</button>
+                    <button type="submit" class="fl-right al-center" id="registr" tabindex="7">Регистрация</button>
                 </div>
              </form>
         </div>
     </div>
+
+    <script type="text/javascript">
+        var today = new Date();
+        // alert( today.toLocaleString());
+    </script>
+
 
     </body>
 {% endblock %}
