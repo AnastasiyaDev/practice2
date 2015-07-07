@@ -13,7 +13,7 @@
         <div class="al-center">Добро пожаловать в систему тестирования</div>
 
         {% if error %}
-            <div>{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+            <div id="err" class="al-center"> Неверный пароль</div>
         {% endif %}
 
         <!-- action="reg" -->
@@ -21,12 +21,12 @@
 
             <div class="al-center wid_202 marg-auto">
                 <div class="al-center "><label for="name-field" class="lab">Логин: </label></div>
-                <input type="text" id="name-field" name="_username" size="37" tabindex="0"  pattern="[A-Za-z]+" value="{{ last_username }}" required>
+                <input type="text" id="name-field" name="_username" size="37" tabindex="1"  pattern="[A-Za-z]+" value="{{ last_username }}" required>
             </div>
 
             <div class="al-center wid_202 marg-auto">
                 <div class="al-center"><label for="password-field" class="lab">Пароль: </label></div>
-                <input type="password" id="password-field" name="_password" size="37" tabindex="1" required>
+                <input type="password" id="password-field" name="_password" size="37" tabindex="2" required>
             </div>
 
             <input type="hidden" name="_target_patch" value="account">
@@ -35,9 +35,9 @@
 
             <div class="sent-reset marg-auto clearfix">
 
-                <div class="wid_202 marg-auto">
+                <div class="wid_202 marg-auto mar-top-20">
                     <a href="{{ path('registrationPage') }}"><div class="fl-left al-center" id="registr" formnovalidate>Регистрация</div></a>
-                    <button type="submit" class="fl-right al-center" name="login" id="input">Вход</button>
+                    <button type="submit" class="fl-right al-center" name="login" id="input" tabindex="3">Вход</button>
                 </div>
             </div>
         </form>

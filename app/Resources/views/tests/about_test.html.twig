@@ -9,15 +9,7 @@
 {% block body%}
     <body>
 
-    <header>
-
-        <div class="header_content marg-auto clearfix">
-            <a href=""><div class="fl-left" id="logo"><img src="{{ asset('images/LogoOnHeader.png') }}"></div>
-                <span>Victim</span></a>
-            <a href={{ path('_welcome') }}><button class="fl-right al-center" id="exit">Выйти</button></a>
-        </div>
-
-    </header>
+    {% include 'header.html.twig' %}
 
     <div class="content marg-auto clearfix">
         <div id="lvl">
@@ -28,9 +20,7 @@
                 {% endblock %}
 
         </div>
-
     </div>
-
 
 
     </body>
