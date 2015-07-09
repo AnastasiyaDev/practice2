@@ -25,7 +25,7 @@
                     {% if user.tests is not empty %}
                     <ul class="sub-menu">
                         {% for test in user.tests %}
-                        <li><a href="/id{{ user.id }}/test/id{{ test.id }}">
+                        <li><a href={{ path('_welcome') }}id{{ user.id }}/test/id{{ test.id }}>
                                 <p>{{ test.name }}</p>
                                 <span>{{ test.description }}
                                     {% set rating = 0 %}
@@ -82,7 +82,7 @@
                     {% if tests is not empty %}
                         <ul class="sub-menu">
                             {% for test in tests %}
-                                <li><a href="/test/id{{ test.id }}/about">
+                                <li><a href={{ path('_welcome') }}test/id{{ test.id }}/about>
                                         <p>{{ test.name }}</p>
                                         <span>{{ test.description }}</span>
                                     </a></li>

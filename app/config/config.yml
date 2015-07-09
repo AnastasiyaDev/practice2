@@ -58,6 +58,10 @@ doctrine:
         dbname:   victim
         user:     victim
         password: senseyL0L
+##        for host
+#        dbname:   u966217987_vict
+#        user:     u966217987_vict
+#        password: Nh6y2ubsTG
         charset:  UTF8
         # if using pdo_sqlite as your database driver:
         #   1. add the path in parameters.yml
