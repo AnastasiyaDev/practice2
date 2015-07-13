@@ -34,9 +34,16 @@ class UserController extends Controller
     {
         $user = $this->getUser();
 
+        foreach ($user->getTests()->getValues() as $test) {
+            $test->addExplanation($this->get('calculate')->calculate($user,$test));
+        }
+
         $tests = $this->getDoctrine()
                 ->getRepository('AppBundle:Test')
                 ->findAll();
+
+
+
         return $this->render('users/personal_page.html.twig', array('user' => $user,
             'tests' => $tests));
     }
