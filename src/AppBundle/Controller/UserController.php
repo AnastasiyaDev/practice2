@@ -33,16 +33,16 @@ class UserController extends Controller
     public function indexAction()
     {
         $user = $this->getUser();
-
+        $arrayOfAlreadyUsedIds = null; $i = 0;
         foreach ($user->getTests()->getValues() as $test) {
             $test->addExplanation($this->get('calculate')->calculate($user,$test));
+            $arrayOfAlreadyUsedIds[$i++] = $test->getId();
         }
 
-        $tests = $this->getDoctrine()
-                ->getRepository('AppBundle:Test')
-                ->findAll();
-
-
+        $q = $this->getDoctrine()->getManager()->createQuery(
+            'SELECT t FROM AppBundle:Test t WHERE t.id NOT IN (:test)'
+        )->setParameter('test',$arrayOfAlreadyUsedIds);
+        $tests = $q->getResult();
 
         return $this->render('users/personal_page.html.twig', array('user' => $user,
             'tests' => $tests));
