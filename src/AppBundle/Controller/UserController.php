@@ -8,8 +8,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Test;
-use AppBundle\Entity\Answer;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
+use AppBundle\Entity\Explanation;
 
 class UserController extends Controller
 {
@@ -57,9 +57,10 @@ class UserController extends Controller
         $test = $this->getDoctrine()
             ->getRepository('AppBundle:Test')
             ->find($testId);
+        $userExp = $this->get('calculate')->calculate($user,$test);
 
         return $this->render(':tests:user_test.html.twig', array('user' => $user,
-            'test' => $test));
+            'test' => $test,'userExp' => $userExp));
     }
 
     /**

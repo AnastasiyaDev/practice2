@@ -1,11 +1,14 @@
 {% extends ':tests:about_test.html.twig' %}
 
+{% block body %}
+    {{ parent() }}
 {% block complete %}
-    {% set rating = 0 %}
-    {% for answer in user.answers %}
-        {% if answer.question.test.id == test.id %}
-        {% set rating = rating + answer.rating  %}
-        {% endif %}
-    {% endfor %}
-    <a href=""><button class="fl-right al-center" id="begin">{{ rating }}</button></a>
+{% endblock %}
+    <div class="content marg-auto clearfix">
+    <div id="lvl">
+        <h3>Пояснения к результатам</h3>
+        <p>{{ userExp.rating }}</p>
+        <p>{{ userExp.description }}</p>
+    </div>
+
 {% endblock %}
