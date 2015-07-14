@@ -5,6 +5,8 @@
     {{ parent() }}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/header.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/personal_page_content.css') }}">
+    {#<script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>#}
+    <script type="text/javascript" src="{{ asset('js/jquery-1.11.3.min.js') }}"></script>
 {% endblock %}
 {% block body%}
     <body>
@@ -18,31 +20,33 @@
             <div id="nGroup">{{ user.groupName }}</div>
         </div>
 
-        <div class="passed-test">
-            <ul class="main-menu">
-                <li><a href="">Пройденные тесты</a>
-                    {% if user.tests is not empty %}
-                    <ul class="sub-menu">
+
+        <ul class="main-menu">
+            <li><a href="#0">Пройденные тесты</a>
+                {% if user.tests is not empty %}
+                    <ul>
                         {% for test in user.tests %}
-                        <li><a href="/id{{ user.id }}/test/id{{ test.id }}">
-                                <p>{{ test.name }}</p>
-                                <span>{{ test.description }}
-                                    {% set rating = 0 %}
-                                    {% for answer in user.answers %}
-                                        {% if answer.question.test.id == test.id %}
-                                            {% set rating = rating + answer.rating  %}
-                                        {% endif %}
-                                    {% endfor %} | {{ rating }}</span>
-                            </a></li>
+                            <li class="sub-menu">
+                                <a href="/id{{ user.id }}/test/id{{ test.id }}">
+                                    <p>{{ test.name }}</p>
+                                    <span>{{ test.description }}
+                                        {% set rating = 0 %}
+                                        {% for answer in user.answers %}
+                                            {% if answer.question.test.id == test.id %}
+                                                {% set rating = rating + answer.rating  %}
+                                            {% endif %}
+                                        {% endfor %} | {{ rating }}
+                                    </span>
+                                </a>
+                            </li>
                         {% endfor %}
                     </ul>
-                    {% else %}
-                        <span>Здесь будут отображаться пройденные тесты</span>
-                    {% endif %}
-                </li>
+                {% else %}
+                    <span>Здесь будут отображаться пройденные тесты</span>
+                {% endif %}
+            </li>
+        </ul>
 
-            </ul>
-        </div>
 
         {#<div class="tests">#}
             {#<ul class="main-menu">#}
@@ -75,29 +79,39 @@
             {#{% endif %}#}
         {#</div>#}
 
-        <div class="tests">
-            <ul class="main-menu">
-                <li><a href="">Тесты</a>
-                    {% if tests is not empty %}
-                        <ul class="sub-menu">
-                            {% for test in tests %}
-                                <li><a href="/test/id{{ test.id }}/about">
-                                        <p>{{ test.name }}</p>
-                                        <span>{{ test.description }}</span>
-                                    </a></li>
-                            {% endfor %}
-                        </ul>
-                    {% else %}
-                        <span>Тестов больше нет</span>
-                    {% endif %}
-                </li>
-            </ul>
-        </div>
 
+        <ul class="main-menu">
+            <li><a href="#1">Тесты</a>
+                {% if tests is not empty %}
+                    <ul>
+                        {% for test in tests %}
+                            <li class="sub-menu"><a href="/test/id{{ test.id }}/about">
+                                    <p>{{ test.name }}</p>
+                                    <span>{{ test.description }}</span>
+                                </a></li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <span>Тестов больше нет</span>
+                {% endif %}
+            </li>
+        </ul>
+
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+
+                $('li').click(function (event) {
+                    $(this).parent().find("li ul:visible").slideUp()
+                    if($(this).children("ul").is(":hidden"))$(this).children("ul").slideDown() ;
+                    event.stopPropagation();
+                });
+            });
+
+        </script>
 
     </div>
-
-
 
     </body>
 {% endblock %}
