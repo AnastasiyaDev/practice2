@@ -33,6 +33,14 @@ Class Test
     private $questions;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Explanation")
+     * @ORM\JoinTable(name="test_explanation",
+     * joinColumns={@ORM\JoinColumn(name="test_id", referencedColumnName="id")},
+     * inverseJoinColumns={@ORM\JoinColumn(name="explanation_id",referencedColumnName="id")})
+     */
+    private $explanation;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -126,5 +134,38 @@ Class Test
     public function getQuestions()
     {
         return $this->questions;
+    }
+
+    /**
+     * Add explanation
+     *
+     * @param \AppBundle\Entity\Explanation $explanation
+     * @return Test
+     */
+    public function addExplanation(\AppBundle\Entity\Explanation $explanation)
+    {
+        $this->explanation[] = $explanation;
+
+        return $this;
+    }
+
+    /**
+     * Remove explanation
+     *
+     * @param \AppBundle\Entity\Explanation $explanation
+     */
+    public function removeExplanation(\AppBundle\Entity\Explanation $explanation)
+    {
+        $this->explanation->removeElement($explanation);
+    }
+
+    /**
+     * Get explanation
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getExplanation()
+    {
+        return $this->explanation;
     }
 }
