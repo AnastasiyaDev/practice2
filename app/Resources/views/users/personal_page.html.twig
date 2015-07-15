@@ -10,7 +10,6 @@
 {% endblock %}
 {% block body%}
     <body>
-
     {% include 'header.html.twig' %}
 
 
@@ -48,41 +47,6 @@
             </li>
         </ul>
 
-            </ul>
-        </div>
-
-        {#<div class="tests">#}
-            {#<ul class="main-menu">#}
-                {#<li><a href="">Тесты</a>#}
-                    {#{% if user.tests is not empty %}#}
-                    {#<ul class="sub-menu">#}
-                        {#{% for userTest in user.tests %}#}
-                            {#{% for test in tests  %}#}
-                                {#{% if test.id != userTest.id  %}#}
-                        {#<li><a href="/test/id{{ test.id }}/about">#}
-                                {#<p>{{ test.name }}</p>#}
-                                {#<span>{{ test.description }}</span>#}
-                            {#</a></li>#}
-                                    {#{% endif %}#}
-                            {#{% endfor %}#}
-                            {#{% endfor %}#}
-                    {#</ul>#}
-                        {#{% endif %}#}
-                 {#{% if user.tests is empty %}#}
-                     {#<ul class="sub-menu">#}
-                           {#{% for test in tests %}#}
-                               {#<li><a href="/test/id{{ test.id }}/about">#}
-                                {#<p>{{ test.name }}</p>#}
-                                {#<span>{{ test.description }}</span>#}
-                            {#</a></li>#}
-                           {#{% endfor %}#}
-        {#</ul>#}
-                {#</li>#}
-            {#</ul>#}
-            {#{% endif %}#}
-        {#</div>#}
-
-
         <ul class="main-menu">
             <li><a href="#1">Тесты</a>
                 {% if tests is not empty %}
@@ -100,7 +64,6 @@
             </li>
         </ul>
 
-    </div>
 
         <script type="text/javascript">
 
