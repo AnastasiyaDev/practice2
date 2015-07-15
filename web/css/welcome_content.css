@@ -80,26 +80,27 @@ a #registr, a #input{
     height: 17px;
 }
 #registr{
-	background: url("../images/button/buttonBlue.png") no-repeat;
+	background: url("../images/button/buttonRed.png") no-repeat;
+
 	background-size: 100% 100%;
 }
 #registr:hover{
-	background: url("../images/button/buttonBlueHover.png") no-repeat;
-	background-size: 100% 100%;
-}
-#registr:active{
-	background: url("../images/button/buttonBlueActive.png") no-repeat;
-	background-size: 100% 100%;
-}
-#input{
-	background: url("../images/button/buttonRed.png") no-repeat;
-	background-size: 100% 100%;
-}
-#input:hover{
 	background: url("../images/button/buttonRedHover.png") no-repeat;
 	background-size: 100% 100%;
 }
-#input:active{
+#registr:active{
 	background: url("../images/button/buttonRedActive.png") no-repeat;
+	background-size: 100% 100%;
+}
+#input{
+	background: url("../images/button/buttonBlue.png") no-repeat;
+	background-size: 100% 100%;
+}
+#input:hover{
+	background: url("../images/button/buttonBlueHover.png") no-repeat;
+	background-size: 100% 100%;
+}
+#input:active{
+	background: url("../images/button/buttonBlueActive.png") no-repeat;
 	background-size: 100% 100%;
 }
