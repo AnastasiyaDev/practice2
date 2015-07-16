@@ -43,6 +43,9 @@ body{
 .al-center{
     text-align: center;
 }
+.w-bold{
+    font-weight: bold;
+}
 .marg-auto{
     margin-left: auto;
     margin-right: auto;

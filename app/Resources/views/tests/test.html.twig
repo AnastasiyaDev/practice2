@@ -5,6 +5,7 @@
     {{ parent() }}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/header.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/test_content.css') }}">
+    <script type="text/javascript" src="{{ asset('js/jquery-1.11.3.min.js') }}"></script>
 {% endblock %}
 
 {% block body%}
@@ -33,11 +34,10 @@
                 <div class="al-center">
                     {% for answer in question.answers %}
                     <li><label for="Q{{ answer.id }}"><input type="radio" id="Q{{ answer.id }}"
-                                                             value="{{ answer.rating }}" name="Q{{ answer.question.id }}"><span>{{ answer.content }}</span></label></li>
+                                                             value="{{ answer.id }}" name="_answerArray[{{ answer.question.id }}]" required><span>{{ answer.content }}</span></label></li>
 
                     {% endfor %}
                 </div>
-
             </ul>
         </div>
             {% endfor %}
@@ -46,6 +46,22 @@
 
         </form>
 
+        {#<script type="text/javascript">#}
+
+            {#$(document).ready(function () {#}
+
+                {#$('input[type="radio"]').click(function (event) {#}
+                    {#$(.quest-box)#}
+                {#});#}
+            {#});#}
+
+        {#</script>#}
+
+        {% if answers is defined %}
+            {% for answer in answers %}
+                {{ answer }}
+            {% endfor %}
+        {% endif %}
 
 
     </div>
