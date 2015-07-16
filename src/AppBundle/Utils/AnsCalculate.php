@@ -16,10 +16,10 @@ class AnsCalculate
                 $rating+=$answer->getRating();
         }
         foreach ($test->getExplanation()->getValues() as $explanation) {
-            if ($rating < $explanation->getRating()) {
+            if ($rating >= $explanation->getMinRating() and $rating <= $explanation->getMaxRating()) {
                 $userExplanation = new Explanation();
                 $userExplanation->setDescription($explanation->getDescription());
-                $userExplanation->setRating($rating);
+                $userExplanation->setMinRating($rating);
                 return $userExplanation;
             }
         }

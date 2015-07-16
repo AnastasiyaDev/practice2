@@ -21,11 +21,15 @@ class Explanation
      * @ORM\Column(type="text")
      */
     private $description;
-
+    
     /**
      * @ORM\Column(type="integer")
      */
-    private $rating;
+    private $minRating;
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $maxRating;
 
 
     /**
@@ -62,25 +66,48 @@ class Explanation
     }
 
     /**
-     * Set rating
+     * Set minRating
      *
-     * @param integer $rating
+     * @param integer $minRating
      * @return Explanation
      */
-    public function setRating($rating)
+    public function setMinRating($minRating)
     {
-        $this->rating = $rating;
+        $this->minRating = $minRating;
 
         return $this;
     }
 
     /**
-     * Get rating
+     * Get minRating
      *
      * @return integer 
      */
-    public function getRating()
+    public function getMinRating()
     {
-        return $this->rating;
+        return $this->minRating;
+    }
+
+    /**
+     * Set maxRating
+     *
+     * @param integer $maxRating
+     * @return Explanation
+     */
+    public function setMaxRating($maxRating)
+    {
+        $this->maxRating = $maxRating;
+
+        return $this;
+    }
+
+    /**
+     * Get maxRating
+     *
+     * @return integer 
+     */
+    public function getMaxRating()
+    {
+        return $this->maxRating;
     }
 }
