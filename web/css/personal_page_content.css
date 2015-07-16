@@ -26,8 +26,13 @@
 .main-menu>li{
     border-radius: 0.5em/0.5em;
     background:#FFFFFF;
+    border: 1px solid #777;
 }
 li ul {
     display: none;
-
+}
+#prompt{
+    color: #777;
+    margin-left: 180px;
+    border: none;
 }

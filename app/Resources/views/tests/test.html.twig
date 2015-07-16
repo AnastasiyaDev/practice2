@@ -21,25 +21,30 @@
 
     <p class="mar-l-35">Вопросы</p>
 
-    {% for question in test.questions %}
-    <div class="quest-box quest-box-{{ loop.index }}">
-        <div class="quest-number fl-left al-center vert-align-m"><p class="vert-align-m mar-pad-0 font-s-14">{{ loop.index }}</p></div>
-        <ul class="question fl-right mar-pad-0">
-            <h4 class="mar-pad-0">{{ question.content }}</h4>
-            <p class="mar-pad-0">выберите один из вариантов:</p>
-            <br>
-            <div class="al-center">
-                {% for answer in question.answers %}
-                <li><label for="Q{{ answer.id }}"><input type="radio" id="Q{{ answer.id }}"
-                                                          value="{{ answer.rating }}" name="Q{{ answer.question.id }}"><span>{{ answer.content }}</span></label></li>
-                {% endfor %}
-            </div>
+        <form id="questionForm" action={{ path('_welcome') }}test/id{{ test.id }}/complete method="post" name="questionForm">
 
-        </ul>
-    </div>
-        {% endfor %}
+        {% for question in test.questions %}
+        <div class="quest-box quest-box-{{ loop.index }}">
+            <div class="quest-number fl-left al-center vert-align-m"><p class="vert-align-m mar-pad-0 font-s-14">{{ loop.index }}</p></div>
+            <ul class="question fl-right mar-pad-0">
+                <h4 class="mar-pad-0">{{ question.content }}</h4>
+                <p class="mar-pad-0">выберите один из вариантов:</p>
+                <br>
+                <div class="al-center">
+                    {% for answer in question.answers %}
+                    <li><label for="Q{{ answer.id }}"><input type="radio" id="Q{{ answer.id }}"
+                                                             value="{{ answer.rating }}" name="Q{{ answer.question.id }}"><span>{{ answer.content }}</span></label></li>
 
-    <a href=""><button class="fl-right al-center" id="end">Завершить</button></a>
+                    {% endfor %}
+                </div>
+
+            </ul>
+        </div>
+            {% endfor %}
+
+        <button type="submit" class="fl-right al-center" id="end">Завершить</button>
+
+        </form>
 
 
 
