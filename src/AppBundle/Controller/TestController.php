@@ -7,6 +7,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Test;
 use AppBundle\Entity\Question;
 use AppBundle\Entity\Answer;
+use Symfony\Component\HttpFoundation\Request;
 
 class TestController extends Controller
 {
@@ -84,6 +85,24 @@ class TestController extends Controller
             throw $this->createNotFoundException('No found test for id'.$id);
         }
         return $this->render('tests/test.html.twig', array('test' => $test));
+    }
+
+    /**
+     * @Route("/test/id{id}/complete", name="testCompete")
+     */
+    public function completeTestAction($id, Request $request)
+    {
+        $test = $this->getDoctrine()
+            ->getRepository('AppBundle:Test')
+            ->find($id);
+
+        if(!$test) {
+            throw $this->createNotFoundException('No found test for id'.$id);
+        }
+
+        $answerArray = $request->get('_answerArray');
+
+        return $this->render('tests/test.html.twig', array('test' => $test, 'answers' => $answerArray));
     }
 
 }
