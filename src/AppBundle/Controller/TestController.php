@@ -96,16 +96,10 @@ class TestController extends Controller
             ->getRepository('AppBundle:Test')
             ->find($id);
 
-        if(!$test) {
-            throw $this->createNotFoundException('No found test for id'.$id);
-        }
-
-        $answerArray = $request->get('_answerArray');
-
         $user = $this->getUser();
 
         $user->addTest($test);
-        foreach($answerArray as $answer) {
+        foreach($request->get('_answerArray') as $answer) {
             $user->addAnswer($this->getDoctrine()->getRepository('AppBundle:Answer')->find($answer));
         }
 
@@ -113,7 +107,8 @@ class TestController extends Controller
         $em->persist($user);
         $em->flush();
 
-        return $this->render('tests/test.html.twig', array('test' => $test, 'answers' => $answerArray));
+//        return $this->render('tests/test.html.twig', array('test' => $test, 'answers' => $answerArray));
+        return $this->redirectToRoute('userTest', array('id' => $user->getId(), 'testId' => $test->getId()));
     }
 
 }
