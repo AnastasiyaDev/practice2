@@ -9,7 +9,6 @@ use Symfony\Component\HttpFoundation\Request;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Test;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
-use AppBundle\Entity\Explanation;
 
 class UserController extends Controller
 {
@@ -106,8 +105,13 @@ class UserController extends Controller
 
         $em = $this->getDoctrine()->getManager();
 
-        $em->persist($user);
-        $em->flush();
+        try {
+            $em->persist($user);
+            $em->flush();
+        } catch(\Exception $e) {
+            $error = 'Логин уже занят';
+            return $this->render(':users:registration.html.twig', array('error' => $error));
+        }
 
         $token = new UsernamePasswordToken($user, $user->getPassword(), 'database_users',$user->getRoles() );
         $this->get('security.token_storage')->setToken($token);
