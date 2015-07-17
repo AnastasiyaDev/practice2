@@ -102,6 +102,17 @@ class TestController extends Controller
 
         $answerArray = $request->get('_answerArray');
 
+        $user = $this->getUser();
+
+        $user->addTest($test);
+        foreach($answerArray as $answer) {
+            $user->addAnswer($this->getDoctrine()->getRepository('AppBundle:Answer')->find($answer));
+        }
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($user);
+        $em->flush();
+
         return $this->render('tests/test.html.twig', array('test' => $test, 'answers' => $answerArray));
     }
 
