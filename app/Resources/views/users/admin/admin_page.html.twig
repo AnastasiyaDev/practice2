@@ -16,7 +16,7 @@
         <li><a href="#0">Тесты</a>
                 <ul>
                     {% for test in tests %}
-                        <li class="sub-menu"><a href={{ path('_welcome') }}test/id{{ test.id }}/about>
+                        <li class="sub-menu"><a href={{ path('_welcome') }}test/id{{ test.id }}>
                                 <p>{{ test.name }}</p>
                                 <span>{{ test.description }}</span>
                                 <span> <a href={{ path('_welcome') }}test/id{{ test.id }}/edit>РЕДАКТРИРОВАТЬ</a>

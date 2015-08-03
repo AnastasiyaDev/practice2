@@ -17,6 +17,13 @@
         <div id="lvl">
             <h3>{{ test.name }}</h3>
             <p>{{ test.description }}</p>
+            {% if is_granted('ROLE_ADMIN') %}
+                <span>
+                    <a href={{ path('_welcome') }}test/id{{ test.id }}/edit>РЕДАКТРИРОВАТЬ</a>
+                    | <a href={{ path('_welcome') }}test/id{{ test.id }}/del>УДАЛИТЬ</a>
+                    | <a href={{ path('_welcome') }}test/id{{ test.id }}/add>ДОБАВИТЬ ВОПРОС</a>
+                </span>
+            {% endif %}
         </div>
 
 
@@ -33,17 +40,19 @@
                 <br>
                 <div class="al-center">
                     {% for answer in question.answers %}
-                    <li><label for="Q{{ answer.id }}"><input type="radio" id="Q{{ answer.id }}"
-                                                             value="{{ answer.id }}" name="_answerArray[{{ answer.question.id }}]" required><span>{{ answer.content }}</span></label></li>
+                    <li><label for="Q{{ answer.id }}">{% if not is_granted('ROLE_ADMIN') %}<input type="radio" id="Q{{ answer.id }}"
+                                                             value="{{ answer.id }}" name="_answerArray[{{ answer.question.id }}]" required>{% endif %}<span>{{ answer.content }}</span></label></li>
 
                     {% endfor %}
+                    <a href={{ path('_welcome') }}test/id{{ test.id }}/question{{ question.id }}/del>УДАЛИТЬ</a>
                 </div>
             </ul>
         </div>
             {% endfor %}
 
+    {% if not is_granted('ROLE_ADMIN') %}
         <button type="submit" class="fl-right al-center" id="end">Завершить</button>
-
+    {% endif %}
         </form>
 
         {#<script type="text/javascript">#}

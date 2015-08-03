@@ -78,6 +78,37 @@ class AdminController extends Controller
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
+     * @Route("/test/id{id}/edit", name="testEditForm")
+     */
+    public function editTestFormAction($id) {
+
+        $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($id);
+
+        return $this->render('tests/edit_test.html.twig', array('test' => $test));
+    }
+
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Route("/test/id{id}/editComplete", name="testEdit")
+     */
+    public function editTestAction(Request $request, $id) {
+
+        $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($id);
+
+        $test->setName($request->get('_name'));
+        $test->setDescription($request->get('_description'));
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->persist($test);
+        $em->flush();
+
+        return $this->redirectToRoute('testpage', array('id' => $test->getId()));
+
+    }
+
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route("/test/id{id}/add", name="addQuestionForm")
      */
     public function addQuestionFormAction($id) {
@@ -119,9 +150,30 @@ class AdminController extends Controller
         $em->flush();
 
 
-        return $this->redirectToRoute('aboutTestpage', array('id' => $test->getId()));
+        return $this->redirectToRoute('testpage', array('id' => $test->getId()));
 
     }
+
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Route("/test/id{testId}/question{id}/del", name="delQuestion")
+     */
+    public function delQuestionAction($testId, $id) {
+        $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($testId);
+        $question = $this->getDoctrine()->getRepository('AppBundle:Question')->find($id);
+
+        $test->removeQuestion($question);
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->persist($test);
+        $em->remove($question);
+        $em->flush();
+
+        return $this->redirectToRoute('testpage', array('id' => $test->getId()));
+    }
+
+
 
 
 
