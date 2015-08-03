@@ -55,6 +55,17 @@
     {% endif %}
         </form>
 
+        {% if is_granted('ROLE_ADMIN') %}
+        <div class="content marg-auto clearfix">
+            {% for explanation in test.explanation %}
+            <div id="lvl">
+                <h3>Пояснение {{ loop.index }}</h3>
+                <p>{{ explanation.description }}</p>
+                <p>Минимальный Рейтинг:{{ explanation.MinRating }}</p>
+                <p>Максимальный рейтинг:{{ explanation.MaxRating }}</p>
+            </div>
+            {% endfor %}
+        {% endif %}
         {#<script type="text/javascript">#}
 
             {#$(document).ready(function () {#}
