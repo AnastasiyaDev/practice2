@@ -60,6 +60,12 @@ Class User implements UserInterface, \Serializable
      * inverseJoinColumns={@ORM\JoinColumn(name="answer_id", referencedColumnName="id")})
      */
     private $answers;
+
+    /**
+     * @ORM\Column(type="string")
+     */
+    private $roles;
+
     /**
      * Get id
      *
@@ -203,7 +209,8 @@ Class User implements UserInterface, \Serializable
      */
     public function getRoles()
     {
-        return array('ROLE_USER');
+//        return array('ROLE_USER');
+        return array($this->roles);
     }
 
     /**
@@ -338,4 +345,17 @@ Class User implements UserInterface, \Serializable
         return $this->answers;
     }
 
+
+    /**
+     * Set roles
+     *
+     * @param string $roles
+     * @return User
+     */
+    public function setRoles($roles)
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
 }

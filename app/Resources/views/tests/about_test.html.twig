@@ -15,9 +15,17 @@
         <div id="lvl">
             <h3>{{ test.name }}</h3>
             <p>{{ test.description }}</p>
-            {% block complete %}
-            <a href={{ path('_welcome') }}test/id{{ test.id }}><button class="fl-right al-center" id="begin">Начать тест</button></a>
+            {% if is_granted('ROLE_ADMIN') %}
+                <span>
+                    <a href={{ path('_welcome') }}test/id{{ test.id }}/edit>РЕДАКТРИРОВАТЬ</a>
+                    | <a href={{ path('_welcome') }}test/id{{ test.id }}/del>УДАЛИТЬ</a>
+                    | <a href={{ path('_welcome') }}test/id{{ test.id }}/add>ДОБАВИТЬ ВОПРОС</a>
+                </span>
+            {% else %}
+                {% block complete %}
+                    <a href={{ path('_welcome') }}test/id{{ test.id }}><button class="fl-right al-center" id="begin">Начать тест</button></a>
                 {% endblock %}
+            {% endif %}
 
         </div>
     </div>

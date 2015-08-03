@@ -31,6 +31,11 @@ class UserController extends Controller
      */
     public function indexAction()
     {
+        if ($this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('adminPage');
+
+        }
+
         $user = $this->getUser();
 
         if (!$user->getTests()->isEmpty())
@@ -102,6 +107,7 @@ class UserController extends Controller
         $user->setFirstName($request->get('_firstName'));
         $user->setSecondName($request->get('_secondName'));
         $user->setGroupName($request->get('_groupName'));
+        $user->setRoles('ROLE_USER');
 
         $em = $this->getDoctrine()->getManager();
 
