@@ -9,9 +9,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Test;
-use AppBundle\Entity\Question;
-use AppBundle\Entity\Answer;
-use Symfony\Component\Yaml\Tests\A;
 
 class AdminController extends Controller
 {
@@ -24,154 +21,50 @@ class AdminController extends Controller
 
         $tests = $this->getDoctrine()->getRepository('AppBundle:Test')->findAll();
 
+        return $this->render(':users/admin:admin_page.html.twig', array('user' => $this->getUser(),
+            'tests' => $tests));
+    }
+
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Route("/users",name="usersList")
+     */
+    public function showAllUsersAction() {
+
         $users = $this->getDoctrine()->getRepository('AppBundle:User')->findByRoles('ROLE_USER');
 
-
-        return $this->render(':users/admin:admin_page.html.twig', array('user' => $this->getUser(),
-            'tests' => $tests, 'users' => $users));
-    }
-
-    /**
-     * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/test", name="testNewForm")
-     */
-    public function newTestFormAction() {
-        return $this->render(':tests:new_test.html.twig');
-    }
-
-    /**
-     * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/test/new", name="testNew")
-     */
-    public function newTestAction(Request $request) {
-
-        $test = new Test();
-
-        $test->setName($request->get('_name'));
-        $test->setDescription($request->get('_description'));
-
-        $em = $this->getDoctrine()->getManager();
-
-        $em->persist($test);
-        $em->flush();
-
-        return $this->redirectToRoute('aboutTestpage', array('id' => $test->getId()));
+        return $this->render('users/admin/users.html.twig', array('user' => $this->getUser(),
+            'users' => $users));
 
     }
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/test/id{id}/del", name="testDel")
+     * @Route("/group",name="groupList")
      */
-    public function delTestAction($id) {
+    public function showAllGroupAction() {
 
-        $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($id);
+        $users = $this->getDoctrine()->getRepository('AppBundle:User')->findByRoles('ROLE_USER');
 
-        $em = $this->getDoctrine()->getManager();
-
-        $em->remove($test);
-        $em->flush();
-
-        return $this->indexAction();
+        return $this->render(':users/admin:all_groups.html.twig', array('user' => $this->getUser(),
+            'users' => $users));
 
     }
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/test/id{id}/edit", name="testEditForm")
+     * @Route("/group/{groupName}",name="groupUser")
      */
-    public function editTestFormAction($id) {
+    public function showUserByGroupAction($groupName) {
 
-        $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($id);
+        $users = $this->getDoctrine()->getRepository('AppBundle:User')->findByGroupName($groupName);
 
-        return $this->render('tests/edit_test.html.twig', array('test' => $test));
-    }
-
-    /**
-     * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/test/id{id}/editComplete", name="testEdit")
-     */
-    public function editTestAction(Request $request, $id) {
-
-        $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($id);
-
-        $test->setName($request->get('_name'));
-        $test->setDescription($request->get('_description'));
-
-        $em = $this->getDoctrine()->getManager();
-
-        $em->persist($test);
-        $em->flush();
-
-        return $this->redirectToRoute('testpage', array('id' => $test->getId()));
+        return $this->render('users/admin/users.html.twig', array('user' => $this->getUser(),
+            'users' => $users));
 
     }
 
-    /**
-     * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/test/id{id}/add", name="addQuestionForm")
-     */
-    public function addQuestionFormAction($id) {
-        $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($id);
-        return $this->render(':tests:new_question.html.twig', array('test' => $test));
-    }
 
-    /**
-     * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/test/id{id}/addComplete", name="addQuestion")
-     */
-    public function addQuestionAction(Request $request, $id) {
-
-        $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($id);
-
-        $quest = new Question();
-        $quest->setContent($request->get('_description'));
-        $quest->setTest($test);
-
-        $answer1 = new Answer();
-        $answer1->setContent($request->get('_answer1'));
-        $answer1->setRating($request->get('_answer1rating'));
-        $answer1->setQuestion($quest);
-        $answer2 = new Answer();
-        $answer2->setContent($request->get('_answer2'));
-        $answer2->setRating($request->get('_answer2rating'));
-        $answer2->setQuestion($quest);
-
-        $test->addQuestion($quest);
-        $quest->addAnswer($answer1);
-        $quest->addAnswer($answer2);
-
-        $em = $this->getDoctrine()->getManager();
-
-        $em->persist($test);
-        $em->persist($quest);
-        $em->persist($answer1);
-        $em->persist($answer2);
-        $em->flush();
-
-
-        return $this->redirectToRoute('testpage', array('id' => $test->getId()));
-
-    }
-
-    /**
-     * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/test/id{testId}/question{id}/del", name="delQuestion")
-     */
-    public function delQuestionAction($testId, $id) {
-        $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($testId);
-        $question = $this->getDoctrine()->getRepository('AppBundle:Question')->find($id);
-
-        $test->removeQuestion($question);
-
-        $em = $this->getDoctrine()->getManager();
-
-        $em->persist($test);
-        $em->remove($question);
-        $em->flush();
-
-        return $this->redirectToRoute('testpage', array('id' => $test->getId()));
-    }
 
 
 

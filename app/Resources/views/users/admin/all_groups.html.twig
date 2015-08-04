@@ -1,0 +1,44 @@
+{% extends ':users:personal_page.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/header.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/personal_page_content.css') }}">
+    <script type="text/javascript" src="{{ asset('js/jquery-1.11.3.min.js') }}"></script>
+{% endblock %}
+{% block body%}
+    <body>
+    {% include 'header.html.twig' %}
+
+    <div class="content marg-auto clearfix ">
+
+        <ul class="main-menu">
+            <li><a href="#1">Пользователи</a>
+                <ul>
+                    {% for user in users %}
+                        <li class="sub-menu"><a href={{ path('groupUser',{ 'groupName':user.groupName}) }}>
+                                <p>{{ user.groupName }}</p>
+                                <span></span>
+                            </a></li>
+                    {% endfor %}
+                </ul>
+            </li>
+        </ul>
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+
+                $('li').click(function (event) {
+                    $(this).parent().find("li ul:visible").slideUp()
+                    if($(this).children("ul").is(":hidden"))$(this).children("ul").slideDown() ;
+                    event.stopPropagation();
+                });
+            });
+
+        </script>
+    </div>
+
+
+    </body>
+{% endblock %}

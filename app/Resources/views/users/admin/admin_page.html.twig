@@ -16,11 +16,11 @@
         <li><a href="#0">Тесты</a>
                 <ul>
                     {% for test in tests %}
-                        <li class="sub-menu"><a href={{ path('_welcome') }}test/id{{ test.id }}>
+                        <li class="sub-menu"><a href={{ path('testpage',{'id':test.id}) }}>
                                 <p>{{ test.name }}</p>
                                 <span>{{ test.description }}</span>
-                                <span> <a href={{ path('_welcome') }}test/id{{ test.id }}/edit>РЕДАКТРИРОВАТЬ</a>
-                                    <a href={{ path('_welcome') }}test/id{{ test.id }}/del>УДАЛИТЬ</a> </span>
+                                <span> <a href={{ path('testEditForm', {'id':test.id}) }}>РЕДАКТРИРОВАТЬ</a>
+                                    <a href={{ path('testDel', {'id':test.id}) }}>УДАЛИТЬ</a> </span>
                             </a></li>
                     {% endfor %}
                     <a href={{ path('testNewForm') }}> + Новый тест</a>
@@ -31,12 +31,16 @@
         <ul class="main-menu">
             <li><a href="#1">Пользователи</a>
                     <ul>
-                        {% for user in users %}
-                            <li class="sub-menu"><a href="">
-                                    <p>{{ user.username }}</p>
-                                    <span>{{ user.firstName }} {{ user.secondName }}</span>
+                            <li class="sub-menu"><a href={{ path('usersList') }}>
+                                    <p>Список всех пользователей</p>
+                                    <span></span>
                                 </a></li>
-                        {% endfor %}
+                    </ul>
+                    <ul>
+                        <li class="sub-menu"><a href={{ path('groupList') }}>
+                            <p>Список пользователей по группам</p>
+                            <span></span>
+                        </a></li>
                     </ul>
             </li>
         </ul>
