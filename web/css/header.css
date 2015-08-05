@@ -31,15 +31,3 @@ button{
     margin-top: 14px;
     font-weight: bold;
 }
-#exit{
-	background: url("../images/button/buttonBlue.png") no-repeat;
-	background-size: 100% 100%;
-}
-#exit:hover{
-	background: url("../images/button/buttonBlueHover.png") no-repeat;
-	background-size: 100% 100%;
-}
-#exit:active{
-	background: url("../images/button/buttonBlueActive.png") no-repeat;
-	background-size: 100% 100%;
-}

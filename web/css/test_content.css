@@ -52,36 +52,18 @@ h3{
 	background-size: 100% 100%;
 	margin: 0px 0px 20px 0px !important;
 }
-/*input[type="radio"]:active .quest-box{*/
-	/*border: 1px solid #66dd66;*/
-
-/*}*/
-/*#add-q:active .quest-box{*/
-	/**/
-/*}*/
+textarea{
+	resize: none;
+}
 .add-content{
 	width: 410px;
 }
 .butblock{
 	width: 115px;
-	margin-top: auto;
-	margin-bottom: auto;
-	height: 63px;
 	padding: 5px;
 }
 .butblock>button{
-	margin-top: 0px !important;
+	margin-top: 5px !important;
+	font-weight: normal;
 }
-#esc{
-	background: url("../images/button/buttonRed.png") no-repeat;
-	background-size: 100% 100%;
 
-}
-#add-ans{
-	background: url("../images/button/buttonGreen.png") no-repeat;
-	background-size: 100% 100%;
-}
-#save{
-	background: url("../images/button/buttonBlue.png") no-repeat;
-	background-size: 100% 100%;
-}

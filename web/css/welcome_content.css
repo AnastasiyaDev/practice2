@@ -38,7 +38,7 @@ div #logo{
 	background: url("../images/preLogo.png") no-repeat;
 	background-size: 100% 100%;
 }
-.mar-top-20{
+.mar-top-30{
     margin-top: 30px;
 }
 .wid_202{
@@ -52,6 +52,7 @@ div #logo{
 }
 input[type="text"], input[type="password"]{
     background-color: #E9E9E9;
+    border: none;
 }
 #forget{
 	display: block;
@@ -63,7 +64,6 @@ input[type="text"], input[type="password"]{
 	margin-top:10px;
 }
 input[type="text"], input[type="password"], button{
-    border: none;
     padding: 2px;
 }
 button{
@@ -79,28 +79,4 @@ a #registr, a #input{
     padding: 2px;
     height: 17px;
 }
-#registr{
-	background: url("../images/button/buttonRed.png") no-repeat;
 
-	background-size: 100% 100%;
-}
-#registr:hover{
-	background: url("../images/button/buttonRedHover.png") no-repeat;
-	background-size: 100% 100%;
-}
-#registr:active{
-	background: url("../images/button/buttonRedActive.png") no-repeat;
-	background-size: 100% 100%;
-}
-#input{
-	background: url("../images/button/buttonBlue.png") no-repeat;
-	background-size: 100% 100%;
-}
-#input:hover{
-	background: url("../images/button/buttonBlueHover.png") no-repeat;
-	background-size: 100% 100%;
-}
-#input:active{
-	background: url("../images/button/buttonBlueActive.png") no-repeat;
-	background-size: 100% 100%;
-}

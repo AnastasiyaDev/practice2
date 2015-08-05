@@ -21,7 +21,6 @@
                 <span>
                     <a id="edit-q" href={{ path('testEditForm', {'id':test.id}) }}>РЕДАКТРИРОВАТЬ ОПИСАНИЕ</a>
                     | <a id="clean-q" href={{ path('testDel', {'id':test.id}) }}>УДАЛИТЬ</a>
-                    | <a id="add-q">ДОБАВИТЬ ВОПРОС</a>
                 </span>
             {% endif %}
         </div>
@@ -53,9 +52,9 @@
         </div>
             {% endfor %}
 
-    {% if not is_granted('ROLE_ADMIN') %}
-        <button type="submit" class="fl-right al-center" id="end">Завершить</button>
-    {% endif %}
+            {% if not is_granted('ROLE_ADMIN') %}
+                <button type="submit" class="fl-right al-center" id="end">Завершить</button>
+            {% endif %}
         </form>
 
         {#------------------- Add question form------------------------#}
@@ -72,7 +71,7 @@
                     <div class="fl-left add-content">
 
                         <label for="text-q-{{ NumberQ  }}">Текст вопроса: </label>
-                        <textarea id="text-q-{{ NumberQ  }}" rows="10px" cols="50px" name="_description" tabindex="1" resize="none"></textarea>
+                        <textarea id="text-q-{{ NumberQ  }}" rows="6" cols="55" name="_description" tabindex="1"></textarea>
 
                         <div class="fl-left add-a-box">
 
@@ -89,16 +88,19 @@
 
                     </div>
 
-
                     <div class="fl-right butblock">
-                        <button id="esc"  type="button" class="al-center" tabindex="">Отмена</button>
-                        <button id="add-ans" type="button" class="al-center" tabindex="">Добавить ответ</button>
+                        <button id="esc" class="red-button" type="button" class="al-center" tabindex="">Отмена</button>
+                        <button id="add-ans" class="green-button" type="button" class="al-center" tabindex="">Добавить ответ</button>
                         {#<input type="button" value="Add answer" onclick="addAns">#}
-                        <button id="save" type="submit" class="al-center" tabindex="">Сохранить</button>
+                        <button id="save" class="blue-button" type="submit" class="al-center" tabindex="">Сохранить</button>
                     </div>
+
+
                 </div>
             </div>
         </form>
+
+        <button id="add-q"  class="green-button" type="button" class="al-center" tabindex="">Добавить вопрос</button>
 
         {#--------------end Add question form--------------------------#}
 
