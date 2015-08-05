@@ -16,13 +16,30 @@
             <h3>{{ test.name }}</h3>
             <p>{{ test.description }}</p>
 
-                {% block complete %}
-                    <a href={{ path('_welcome') }}test/id{{ test.id }}><button class="fl-right al-center" id="begin">Начать тест</button></a>
-                {% endblock %}
+        {% if not is_granted('ROLE_ADMIN') %}
+
+            {% block complete %}
+                <a href={{ path('_welcome') }}test/id{{ test.id }}>
+                    <button class="fl-right al-center" id="begin">Начать тест</button>
+                </a>
+            {% endblock %}
+
+        {% endif %}
+
+        {% if is_granted('ROLE_ADMIN') %}
+            <span>
+            <a id="edit-q" href={{ path('testpage', {'id':test.id}) }}>РЕДАКТРИРОВАТЬ ТЕСТ</a>
+            </span>
+
+        {% endif %}
+
 
 
         </div>
     </div>
+
+
+
 
 
     </body>

@@ -19,9 +19,9 @@
             <p>{{ test.description }}</p>
             {% if is_granted('ROLE_ADMIN') %}
                 <span>
-                    <a href={{ path('testEditForm', {'id':test.id}) }}>РЕДАКТРИРОВАТЬ</a>
-                    | <a href={{ path('testDel', {'id':test.id}) }}>УДАЛИТЬ</a>
-                    | <a href={{ path('addQuestionForm', {'id':test.id}) }}>ДОБАВИТЬ ВОПРОС</a>
+                    <a id="edit-q" href={{ path('testEditForm', {'id':test.id}) }}>РЕДАКТРИРОВАТЬ ОПИСАНИЕ</a>
+                    | <a id="clean-q" href={{ path('testDel', {'id':test.id}) }}>УДАЛИТЬ</a>
+                    | <a id="add-q">ДОБАВИТЬ ВОПРОС</a>
                 </span>
             {% endif %}
         </div>
@@ -29,19 +29,22 @@
 
     <p class="mar-l-35">Вопросы</p>
 
-        <form id="questionForm" action={{ path('_welcome') }}test/id{{ test.id }}/complete method="post" name="questionForm">
+        <form id="questionForm" action="{{ path('testCompete', {'id':test.id}) }}" method="post" name="questionForm">
 
         {% for question in test.questions %}
         <div class="quest-box quest-box-{{ loop.index }}">
             <div class="quest-number fl-left al-center vert-align-m"><p class="vert-align-m mar-pad-0 font-s-14">{{ loop.index }}</p></div>
             <ul class="question fl-right mar-pad-0">
-                <h4 class="mar-pad-0">{{ question.content }}</h4>
+                <h4>{{ question.content }}</h4>
                 <p class="mar-pad-0">выберите один из вариантов:</p>
                 <br>
                 <div class="al-center">
                     {% for answer in question.answers %}
-                    <li><label for="Q{{ answer.id }}">{% if not is_granted('ROLE_ADMIN') %}<input type="radio" id="Q{{ answer.id }}"
-                                                             value="{{ answer.id }}" name="_answerArray[{{ answer.question.id }}]" required>{% endif %}<span>{{ answer.content }}</span></label></li>
+                    <li><label for="Q{{ answer.id }}">{% if not is_granted('ROLE_ADMIN') %}
+                            <input type="radio" id="Q{{ answer.id }}" value="{{ answer.id }}" name="_answerArray[{{ answer.question.id }}]" required>{% endif %}
+                            <span>{{ answer.content }}{% if is_granted('ROLE_ADMIN') %}[{{ answer.rating }}] {% endif %}</span>
+                        </label>
+                    </li>
 
                     {% endfor %}
                     <a href={{ path('_welcome') }}test/id{{ test.id }}/question{{ question.id }}/del>УДАЛИТЬ</a>
@@ -55,6 +58,50 @@
     {% endif %}
         </form>
 
+        {#------------------- Add question form------------------------#}
+
+        {% set NumberQ = test.questions|length %}
+        <form id="AddQuestionForm" action="{{ path('addQuestion', {'id':test.id}) }}" method="post" name="AddQuestionForm">
+
+            {% set NumberQ  = NumberQ + 1 %}
+            {% set NumberAns = 0 %}
+            <div class="quest-box quest-box-{{ NumberQ }}">
+                <div class="quest-number fl-left al-center vert-align-m"><p class="vert-align-m mar-pad-0 font-s-14">{{ NumberQ }}</p></div>
+                <div class="question fl-right mar-pad-0">
+
+                    <div class="fl-left add-content">
+
+                        <label for="text-q-{{ NumberQ  }}">Текст вопроса: </label>
+                        <textarea id="text-q-{{ NumberQ  }}" rows="10px" cols="50px" name="_description" tabindex="1" resize="none"></textarea>
+
+                        <div class="fl-left add-a-box">
+
+
+                             <label for="text-a-{{ NumberAns }}">Ответ: </label>
+                             <input id="text-a-{{ NumberAns }}" type="text" name="_answer[{{ NumberAns }}][content]" size="8" tabindex="2" pattern="[a-zA-Z0-9_-\t]+">
+
+                             <span>
+                                 <label for="text-p-{{ NumberAns }}">Баллы за ответ: </label>
+                                 <input id="text-p-{{ NumberAns }}" type="text" name="_answer[{{ NumberAns }}][rating]" size="2" tabindex="3" pattern="[0-9]+">
+                             </span>
+                            {% set NumberAns  = NumberAns + 1 %}
+                        </div>
+
+                    </div>
+
+
+                    <div class="fl-right butblock">
+                        <button id="esc"  type="button" class="al-center" tabindex="">Отмена</button>
+                        <button id="add-ans" type="button" class="al-center" tabindex="">Добавить ответ</button>
+                        {#<input type="button" value="Add answer" onclick="addAns">#}
+                        <button id="save" type="submit" class="al-center" tabindex="">Сохранить</button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        {#--------------end Add question form--------------------------#}
+
         {% if is_granted('ROLE_ADMIN') %}
         <div class="content marg-auto clearfix">
             {% for explanation in test.explanation %}
@@ -65,7 +112,9 @@
                 <p>Максимальный рейтинг:{{ explanation.MaxRating }}</p>
             </div>
             {% endfor %}
+        </div>
         {% endif %}
+
         {#<script type="text/javascript">#}
 
             {#$(document).ready(function () {#}
@@ -76,6 +125,44 @@
             {#});#}
 
         {#</script>#}
+
+
+        {#---------------------------------Add form question---------------------------------#}
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+
+                $('document').append('#AddQuestionForm');
+                $('#AddQuestionForm').hide();
+                $('#add-q').click(function () {
+                        $('#AddQuestionForm').show();
+                });
+            });
+
+        </script>
+        {#---------------------------------End form question--------------------------------#}
+
+
+        <script type="text/javascript">
+
+
+            $(document).ready(function () {
+                $('#add-ans').click(function (){
+//                    $('.add-content').prepend('.add-a-box');
+//                    $('#aft').after( );
+                    $("div.add-a-box").clone().appendTo("div.add-content");
+
+                });
+            });
+
+//        function addAns(){
+////            $('document').append( $('.add-a-box') );
+//            $('document').append( '' );
+//
+//        }
+
+        </script>
+
 
         {% if answers is defined %}
             {% for answer in answers %}

@@ -36,3 +36,31 @@ li ul {
     margin-left: 180px;
     border: none;
 }
+.sub:first-child{
+    border-radius:0.5em 0.5em 0em 0em !important;
+}
+.main-menu .sub:first-child a:hover{
+    border-radius:0.5em 0.5em 0em 0em !important;
+    background:#00A0FB;
+    color: #FFF;
+}
+.sub:last-child{
+    border-radius:0em 0em 0.5em 0.5em !important;
+}
+.main-menu .sub:last-child a:hover{
+    border-radius:0em 0em 0.5em 0.5em !important;
+    background:#00A0FB;
+    color: #FFF;
+}
+.main-menu .sub a:hover{
+    border-radius:0 !important;
+    background:#00A0FB;
+    color: #FFF;
+}
+.sub{
+    border-radius:0 !important;
+    list-style:none;
+    width: inherit;
+    padding:0;
+    margin:0;
+}

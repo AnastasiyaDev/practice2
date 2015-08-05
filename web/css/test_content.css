@@ -33,14 +33,12 @@ h3{
 .question{
 	list-style:none; 
 	width: 540px;
-    margin-right: 15px;
-    margin-bottom: 20px;
 }
 .question li{
 	display: inline-block;
 	margin: 20px 0px 10px 0px;	
 }
-.question h4{
+.question h4, .add-content{
 	font-weight: normal;
 	margin: 5px 0px 0px 5px;
 }
@@ -58,3 +56,32 @@ h3{
 	/*border: 1px solid #66dd66;*/
 
 /*}*/
+/*#add-q:active .quest-box{*/
+	/**/
+/*}*/
+.add-content{
+	width: 410px;
+}
+.butblock{
+	width: 115px;
+	margin-top: auto;
+	margin-bottom: auto;
+	height: 63px;
+	padding: 5px;
+}
+.butblock>button{
+	margin-top: 0px !important;
+}
+#esc{
+	background: url("../images/button/buttonRed.png") no-repeat;
+	background-size: 100% 100%;
+
+}
+#add-ans{
+	background: url("../images/button/buttonGreen.png") no-repeat;
+	background-size: 100% 100%;
+}
+#save{
+	background: url("../images/button/buttonBlue.png") no-repeat;
+	background-size: 100% 100%;
+}

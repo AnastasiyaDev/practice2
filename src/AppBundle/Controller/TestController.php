@@ -173,29 +173,27 @@ class TestController extends Controller
 
         $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($id);
 
+        $em = $this->getDoctrine()->getManager();
+
         $quest = new Question();
         $quest->setContent($request->get('_description'));
         $quest->setTest($test);
-
-        $answer1 = new Answer();
-        $answer1->setContent($request->get('_answer1'));
-        $answer1->setRating($request->get('_answer1rating'));
-        $answer1->setQuestion($quest);
-        $answer2 = new Answer();
-        $answer2->setContent($request->get('_answer2'));
-        $answer2->setRating($request->get('_answer2rating'));
-        $answer2->setQuestion($quest);
-
         $test->addQuestion($quest);
-        $quest->addAnswer($answer1);
-        $quest->addAnswer($answer2);
 
-        $em = $this->getDoctrine()->getManager();
+        $ans = ($request->get('_answer'));
+
+        for ($i=0; $i<count($ans);$i++) {
+            $answer = new Answer();
+            $answer->setContent($ans[$i]['content']);
+            $answer->setRating($ans[$i]['rating']);
+            $answer->setQuestion($quest);
+            $quest->addAnswer($answer);
+            $em->persist($answer);
+
+        }
 
         $em->persist($test);
         $em->persist($quest);
-        $em->persist($answer1);
-        $em->persist($answer2);
         $em->flush();
 
 

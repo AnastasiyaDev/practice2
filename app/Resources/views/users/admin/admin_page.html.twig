@@ -3,7 +3,6 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/header.css') }}">
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/personal_page_content.css') }}">
     <script type="text/javascript" src="{{ asset('js/jquery-1.11.3.min.js') }}"></script>
 {% endblock %}
 {% block body%}
@@ -16,7 +15,7 @@
         <li><a href="#0">Тесты</a>
                 <ul>
                     {% for test in tests %}
-                        <li class="sub-menu"><a href={{ path('testpage',{'id':test.id}) }}>
+                        <li class="sub-menu"><a href={{ path('aboutTestpage',{'id':test.id}) }}>
                                 <p>{{ test.name }}</p>
                                 <span>{{ test.description }}</span>
                                 <span> <a href={{ path('testEditForm', {'id':test.id}) }}>РЕДАКТРИРОВАТЬ</a>
@@ -58,6 +57,11 @@
 
         </script>
     </div>
+
+    <script type="text/javascript">
+        var today = new Date();
+        // alert( today.toLocaleString());
+    </script>
 
 
     </body>
