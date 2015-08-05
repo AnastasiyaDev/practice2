@@ -27,6 +27,10 @@
     border-radius: 0.5em/0.5em;
     background:#FFFFFF;
     border: 1px solid #777;
+    border-bottom: none;
+}
+.main-menu>li:last-child{
+    border-bottom: 1px solid #777 !important;
 }
 li ul {
     display: none;
