@@ -1,0 +1,64 @@
+{% extends ':users:personal_page.html.twig' %}
+
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/header.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/personal_page_content.css') }}">
+    <script type="text/javascript" src="{{ asset('js/jquery-1.11.3.min.js') }}"></script>
+{% endblock %}
+{% block body%}
+    <body>
+    {% include 'header.html.twig' %}
+
+    <div class="content marg-auto clearfix ">
+
+    <ul class="main-menu">
+        <li><a href="#0">Тесты</a>
+                <ul>
+                    {% for test in tests %}
+                        <li class="sub-menu"><a href={{ path('testpage',{'id':test.id}) }}>
+                                <p>{{ test.name }}</p>
+                                <span>{{ test.description }}</span>
+                                <span> <a href={{ path('testEditForm', {'id':test.id}) }}>РЕДАКТРИРОВАТЬ</a>
+                                    <a href={{ path('testDel', {'id':test.id}) }}>УДАЛИТЬ</a> </span>
+                            </a></li>
+                    {% endfor %}
+                    <a href={{ path('testNewForm') }}> + Новый тест</a>
+                </ul>
+        </li>
+    </ul>
+
+        <ul class="main-menu">
+            <li><a href="#1">Пользователи</a>
+                    <ul>
+                            <li class="sub-menu"><a href={{ path('usersList') }}>
+                                    <p>Список всех пользователей</p>
+                                    <span></span>
+                                </a></li>
+                    </ul>
+                    <ul>
+                        <li class="sub-menu"><a href={{ path('groupList') }}>
+                            <p>Список пользователей по группам</p>
+                            <span></span>
+                        </a></li>
+                    </ul>
+            </li>
+        </ul>
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+
+                $('li').click(function (event) {
+                    $(this).parent().find("li ul:visible").slideUp()
+                    if($(this).children("ul").is(":hidden"))$(this).children("ul").slideDown() ;
+                    event.stopPropagation();
+                });
+            });
+
+        </script>
+    </div>
+
+
+    </body>
+{% endblock %}

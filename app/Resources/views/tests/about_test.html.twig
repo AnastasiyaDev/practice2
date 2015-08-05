@@ -15,9 +15,11 @@
         <div id="lvl">
             <h3>{{ test.name }}</h3>
             <p>{{ test.description }}</p>
-            {% block complete %}
-            <a href={{ path('_welcome') }}test/id{{ test.id }}><button class="fl-right al-center" id="begin">Начать тест</button></a>
+
+                {% block complete %}
+                    <a href={{ path('_welcome') }}test/id{{ test.id }}><button class="fl-right al-center" id="begin">Начать тест</button></a>
                 {% endblock %}
+
 
         </div>
     </div>

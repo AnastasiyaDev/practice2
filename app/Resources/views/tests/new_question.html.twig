@@ -1,0 +1,53 @@
+{% extends '::base.html.twig' %}
+
+{% block title %} Добавить вопрос | {{ parent() }}{% endblock %}
+{% block body%}
+    <body>
+    <div align="center">
+
+        <div class="form_content clearfix">
+
+            <div class="marg-auto" id="logo"></div>
+
+            {% if error is defined %}
+                <div id="err" class="al-center">{{ error }}</div>
+            {% endif %}
+
+            <form id="newQuestionForm" autocomplete="off" action="{{ path('addQuestion', {'id': test.id}) }}" method="post" name="registrationForm">
+
+                <div class="al-center wid_202 marg-auto">
+                    <div><label for="name-field" class="lab">Вопрос: </label></div>
+                    <textarea id="description-field" name="_description"  tabindex="1" required></textarea>
+                </div>
+
+                <div class="al-center wid_202 marg-auto">
+                    <div><label for="name-field" class="lab">Ответ 1: </label></div>
+                    <input type="text" id="name-field" name="_answer1"  tabindex="1">
+                </div>
+                <div class="al-center wid_202 marg-auto">
+                    <div><label for="name-field" class="lab">Баллы за ответ 1: </label></div>
+                    <input type="text" id="name-field" name="_answer1rating"  tabindex="1">
+                </div>
+
+                <div class="al-center wid_202 marg-auto">
+                    <div><label for="name-field" class="lab">Ответ 2: </label></div>
+                    <input type="text" id="name-field" name="_answer2"  tabindex="1">
+                </div>
+                <div class="al-center wid_202 marg-auto">
+                    <div><label for="name-field" class="lab">Баллы за ответ 2: </label></div>
+                    <input type="text" id="name-field" name="_answer2rating"  tabindex="1">
+                </div>
+
+                <div class="al-center wid_202 marg-auto mar-top-20">
+                    <a href={{ path('_welcome') }}><div class="fl-left al-center" id="input">Назад</div></a>
+                    <button type="submit" class="fl-right al-center" id="create" tabindex="7">Создать</button>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+
+
+    </body>
+{% endblock %}

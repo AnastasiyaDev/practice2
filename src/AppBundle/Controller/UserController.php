@@ -27,11 +27,27 @@ class UserController extends Controller
 
 
     /**
-     * @Route("/", name="userpage")
+     * @Route("/", name="root")
      */
     public function indexAction()
     {
+        if ($this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('adminPage');
+
+        }
+
         $user = $this->getUser();
+
+        return $this->redirectToRoute('userPage',array('id' => $user->getId()));
+
+    }
+
+    /**
+     * @Route("id{id}",name="userPage")
+     */
+    public function showUserAction($id) {
+
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
 
         if (!$user->getTests()->isEmpty())
         {
@@ -50,6 +66,7 @@ class UserController extends Controller
 
         return $this->render('users/personal_page.html.twig', array('user' => $user,
             'tests' => $tests));
+
     }
 
 
@@ -102,6 +119,7 @@ class UserController extends Controller
         $user->setFirstName($request->get('_firstName'));
         $user->setSecondName($request->get('_secondName'));
         $user->setGroupName($request->get('_groupName'));
+        $user->setRoles('ROLE_USER');
 
         $em = $this->getDoctrine()->getManager();
 

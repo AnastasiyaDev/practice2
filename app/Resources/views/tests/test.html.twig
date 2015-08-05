@@ -17,6 +17,13 @@
         <div id="lvl">
             <h3>{{ test.name }}</h3>
             <p>{{ test.description }}</p>
+            {% if is_granted('ROLE_ADMIN') %}
+                <span>
+                    <a href={{ path('testEditForm', {'id':test.id}) }}>РЕДАКТРИРОВАТЬ</a>
+                    | <a href={{ path('testDel', {'id':test.id}) }}>УДАЛИТЬ</a>
+                    | <a href={{ path('addQuestionForm', {'id':test.id}) }}>ДОБАВИТЬ ВОПРОС</a>
+                </span>
+            {% endif %}
         </div>
 
 
@@ -33,19 +40,32 @@
                 <br>
                 <div class="al-center">
                     {% for answer in question.answers %}
-                    <li><label for="Q{{ answer.id }}"><input type="radio" id="Q{{ answer.id }}"
-                                                             value="{{ answer.id }}" name="_answerArray[{{ answer.question.id }}]" required><span>{{ answer.content }}</span></label></li>
+                    <li><label for="Q{{ answer.id }}">{% if not is_granted('ROLE_ADMIN') %}<input type="radio" id="Q{{ answer.id }}"
+                                                             value="{{ answer.id }}" name="_answerArray[{{ answer.question.id }}]" required>{% endif %}<span>{{ answer.content }}</span></label></li>
 
                     {% endfor %}
+                    <a href={{ path('_welcome') }}test/id{{ test.id }}/question{{ question.id }}/del>УДАЛИТЬ</a>
                 </div>
             </ul>
         </div>
             {% endfor %}
 
+    {% if not is_granted('ROLE_ADMIN') %}
         <button type="submit" class="fl-right al-center" id="end">Завершить</button>
-
+    {% endif %}
         </form>
 
+        {% if is_granted('ROLE_ADMIN') %}
+        <div class="content marg-auto clearfix">
+            {% for explanation in test.explanation %}
+            <div id="lvl">
+                <h3>Пояснение {{ loop.index }}</h3>
+                <p>{{ explanation.description }}</p>
+                <p>Минимальный Рейтинг:{{ explanation.MinRating }}</p>
+                <p>Максимальный рейтинг:{{ explanation.MaxRating }}</p>
+            </div>
+            {% endfor %}
+        {% endif %}
         {#<script type="text/javascript">#}
 
             {#$(document).ready(function () {#}
