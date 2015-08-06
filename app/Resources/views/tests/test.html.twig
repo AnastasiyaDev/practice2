@@ -19,8 +19,9 @@
             <p>{{ test.description }}</p>
             {% if is_granted('ROLE_ADMIN') %}
                 <span>
-                    <a id="edit-q" href={{ path('testEditForm', {'id':test.id}) }}>РЕДАКТРИРОВАТЬ ОПИСАНИЕ</a>
-                    | <a id="clean-q" href={{ path('testDel', {'id':test.id}) }}>УДАЛИТЬ</a>
+                    <button id="del-d" class="red-button" type="button" class="al-center" tabindex="">Удалить</button>
+                    <button id="edit-des" class="blue-button" type="button" class="al-center" tabindex="">Редактировать</button>
+                    <button id="save-d" class="blue-button fl-right" type="button" class="al-center" tabindex="">Сохранить</button>
                 </span>
             {% endif %}
         </div>
@@ -59,7 +60,7 @@
             {% endif %}
         </form>
 
-        {#------------------- Add question form------------------------#}
+        {#------------------- start Add question form------------------------#}
 
         {% set NumberQ = test.questions|length %}
         <form id="AddQuestionForm" action="{{ path('addQuestion', {'id':test.id}) }}" method="post" name="AddQuestionForm">
@@ -70,11 +71,10 @@
                 <div class="quest-number fl-left al-center vert-align-m"><p class="vert-align-m mar-pad-0 font-s-14">{{ NumberQ }}</p></div>
                 <div class="question fl-right mar-pad-0">
 
-                    <div class="fl-left add-content">
+                    <div class="fl-left width-410" id="add-content">
 
                         <label for="text-q-{{ NumberQ  }}">Текст вопроса: </label>
-                        <textarea id="text-q-{{ NumberQ  }}" rows="6" cols="55" name="_description" tabindex="1"></textarea>
-
+                        <textarea id="text-q-{{ NumberQ  }}" name="_description" tabindex="1"></textarea>
                         <div class="fl-left add-a-box">
 
 
@@ -107,6 +107,49 @@
     {% endif %}
         {#--------------end Add question form--------------------------#}
 
+        {#--------------------------------start form description test-----------------------------------------#}
+
+
+        <form id="descriptionTestForm" action="" method="post" name="descriptionTestForm">
+
+            <div class="modalDialogDes width-410">
+
+                 <div class="al-center">
+                     <label for="name-field-in-form-des" class="lab">Имя: </label>
+                     <input type="text" id="name-field-in-form-des" name="_name" value={{ test.name }}  tabindex="1" required>
+                 </div>
+
+                 <div class="al-center">
+                     <label for="description-field-in-des-form" class="lab">Описание: </label>
+                     <textarea id="description-field-in-des-form" name="_description" tabindex="2" required>{{ test.description }}</textarea>
+                 </div>
+
+
+                 <div class="height-35">
+                     <a href={{ path('testpage', {'id':test.id}) }}><div class="fl-left al-center blue-button" id="input">Назад</div></a>
+                     <button type="submit" class="fl-right al-center red-button" id="create" tabindex="">Сохранить</button>
+                 </div>
+
+
+            </div>
+        </form>
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+
+                $('#edit-des').click(function () {
+                    $('#descriptionTestForm').show();
+                });
+            });
+
+        </script>
+
+
+
+
+        {#----------------------------end form description test-----------------------------------------#}
+
         {% if is_granted('ROLE_ADMIN') %}
         <div class="content marg-auto clearfix">
             {% for explanation in test.explanation %}
@@ -120,19 +163,25 @@
         </div>
         {% endif %}
 
-        {#<script type="text/javascript">#}
+        {#----------------------------------------start border color----------------------------------#}
 
-            {#$(document).ready(function () {#}
+        <script type="text/javascript">
 
-                {#$('input[type="radio"]').click(function (event) {#}
-                    {#$(.quest-box)#}
-                {#});#}
-            {#});#}
+            $(document).ready(function () {
 
-        {#</script>#}
+                $('input[type="radio"]').click(function (event) {
+                    $('.question').css({'border':'1px solid #00FF00'}) &&
+                    $('.quest-number').css({'background-color':'#00FF00', 'color': '#00FF00'});
+                });
+            });
+
+        </script>
+
+        {#----------------------------------------end border color----------------------------------#}
 
 
-        {#---------------------------------Add form question---------------------------------#}
+
+        {#---------------------------------start Add in form question---------------------------------#}
         <script type="text/javascript">
 
             $(document).ready(function () {
@@ -153,9 +202,9 @@
 
             $(document).ready(function () {
                 $('#add-ans').click(function (){
-//                    $('.add-content').prepend('.add-a-box');
+//                    $('#add-content').prepend('.add-a-box');
 //                    $('#aft').after( );
-                    $("div.add-a-box").clone().appendTo("div.add-content");
+                    $("div.add-a-box").clone().appendTo("#add-content");
 
                 });
             });

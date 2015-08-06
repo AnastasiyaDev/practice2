@@ -1,14 +1,51 @@
-{% extends ':tests:about_test.html.twig' %}
+{#{% extends ':tests:about_test.html.twig' %}#}
 
-{% block body %}
+{#{% block body %}#}
+    {#{{ parent() }}#}
+{#{% block complete %}#}
+{#{% endblock %}#}
+    {#<div class="content marg-auto clearfix">#}
+    {#<div id="lvl">#}
+        {#<h3>Пояснения к результатам</h3>#}
+        {#&#123;&#35;<p>{{ userExp.minRating }}</p>&#35;&#125;#}
+        {#<p>{{ userExp.description }}</p>#}
+    {#</div>#}
+
+{#{% endblock %}#}
+{% extends '::base.html.twig' %}
+
+{% block title %}{{ test.name }} | {{ parent() }}{% endblock %}
+{% block stylesheets %}
     {{ parent() }}
-{% block complete %}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/header.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/about_test_content.css') }}">
 {% endblock %}
+{% block body%}
+    <body>
+
+    {% include 'header.html.twig' %}
+
     <div class="content marg-auto clearfix">
-    <div id="lvl">
-        <h3>Пояснения к результатам</h3>
-        <p>{{ userExp.minRating }}</p>
-        <p>{{ userExp.description }}</p>
+
+        <div class="lvl lvl1">
+
+            <div class="fl-left">
+                <h3>{{ test.name }}</h3>
+                <p>{{ test.description }}</p>
+            </div>
+
+            <div class="fl-right">
+                Результат:<span class="font-size-60">{{ userExp.minRating }}</span>
+            </div>
+
+        </div>
+
+        <div class="lvl lvl2">
+            <h3>Пояснения к результатам</h3>
+            <p>{{ userExp.description }}</p>
+        </div>
+
     </div>
 
+    </body>
 {% endblock %}

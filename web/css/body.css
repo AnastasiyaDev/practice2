@@ -64,14 +64,20 @@ body{
 a{
     outline: none; 
 }
-button::-moz-focus-inner,
+button, .red-button, .blue-button, .green-button{
+    font-size: 12px !important;
+    width: 115px;
+    color: #FFF;
+    padding: 2px;
+    font-weight: normal;
+}
+button,button::-moz-focus-inner,
 input[type="reset"]::-moz-focus-inner,
 input[type="button"]::-moz-focus-inner,
 input[type="submit"]::-moz-focus-inner,
 input[type="submit"]::-moz-focus-inner,
 input[type="file"] > input[type="button"]::-moz-focus-inner {
     border: none;
-
 }
 .red-button{
     background: url("../images/button/buttonRed.png") no-repeat;
@@ -108,4 +114,19 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
 .green-button:active{
     background: url("../images/button/buttonGreenActive.png") no-repeat;
     background-size: 100% 100%;
+}
+.width-410{
+    width: 410px;
+}
+.height-35{
+    height: 35px;
+}
+.mar-l-35{
+    margin-left: 35px;
+}
+.mar-top-30{
+    margin-top: 30px;
+}
+.wid_202{
+    width: 240px;
 }

@@ -38,12 +38,6 @@ div #logo{
 	background: url("../images/preLogo.png") no-repeat;
 	background-size: 100% 100%;
 }
-.mar-top-30{
-    margin-top: 30px;
-}
-.wid_202{
-	width: 240px;
-}
 .lab{
     display: block;
     padding: 0 !important;
@@ -63,20 +57,16 @@ input[type="text"], input[type="password"]{
 	margin-bottom: 0 !important;
 	margin-top:10px;
 }
-input[type="text"], input[type="password"], button{
+input[type="text"], input[type="password"]{
     padding: 2px;
 }
 button{
     height: 21px;
 }
 button, a #registr, a #input{
-	font-size: 12px !important;
-	width: 115px;
-	color: #FFF;
-	margin-bottom: 39px;
+	margin-bottom: 39px !important;
 }
 a #registr, a #input{
-    padding: 2px;
     height: 17px;
 }
 
