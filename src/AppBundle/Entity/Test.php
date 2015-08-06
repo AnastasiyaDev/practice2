@@ -41,6 +41,11 @@ Class Test
     private $explanation;
 
     /**
+     * @ORM\ManyToMany(targetEntity="User",mappedBy="tests")
+     */
+    private $users;
+
+    /**
      * Get id
      *
      * @return integer 

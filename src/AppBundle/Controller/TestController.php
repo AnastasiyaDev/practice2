@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Explanation;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Test;
@@ -153,16 +154,6 @@ class TestController extends Controller
         $em->flush();
 
         return $this->redirectToRoute('testpage', array('id' => $test->getId()));
-
-    }
-
-    /**
-     * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/test/id{id}/add", name="addQuestionForm")
-     */
-    public function addQuestionFormAction($id) {
-        $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($id);
-        return $this->render(':tests:new_question.html.twig', array('test' => $test));
     }
 
     /**
@@ -203,6 +194,46 @@ class TestController extends Controller
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
+     * @Route("/test/id{testId}/question{id}/edit", name="editQuestion")
+     */
+    public function editQuestionAction(Request $request, $testId, $id) {
+        $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($testId);
+        $question = $this->getDoctrine()->getRepository('AppBundle:Question')->find($id);
+
+        $question->setContent($request->get('_description'));
+        $question->setTest($test);
+
+        $em = $this->getDoctrine()->getManager();
+
+        $ans = ($request->get('_answer'));
+        $questionAns = $question->getAnswers();
+
+        foreach($questionAns as $answer)
+        for ($i=0; $i<count($ans);$i++) {
+            $answer->setContent($ans[$i]['content']);
+            $answer->setRating($ans[$i]['rating']);
+            $em->persist($answer);
+        }
+
+        if(count($ans)>count($questionAns)) {
+            for ($i=0; $i<count($ans)-count($questionAns);$i++) {
+                $answer = new Answer();
+                $answer->setContent($ans[$i]['content']);
+                $answer->setRating($ans[$i]['rating']);
+                $answer->setQuestion($question);
+                $question->addAnswer($answer);
+                $em->persist($answer);
+            }
+        }
+
+        $em->persist($question);
+        $em->flush();
+
+        return $this->redirectToRoute('testpage', array('id' => $test->getId()));
+    }
+
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route("/test/id{testId}/question{id}/del", name="delQuestion")
      */
     public function delQuestionAction($testId, $id) {
@@ -219,5 +250,69 @@ class TestController extends Controller
 
         return $this->redirectToRoute('testpage', array('id' => $test->getId()));
     }
+
+    /**
+     * @Route("/test/id{id}/addExplanation", name="addExplanation")
+     */
+    public function addExplanationAction(Request $request, $id) {
+
+        $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($id);
+
+        $explanation = new Explanation();
+        $explanation->setDescription($request->get('_description'));
+        $explanation->setMinRating($request->get('_minRating'));
+        $explanation->setMaxRating($request->get('_maxRating'));
+
+        $test->addExplanation($explanation);
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->persist($explanation);
+        $em->persist($test);
+        $em->flush();
+
+        return $this->redirectToRoute('testpage', array('id' => $test->getId()));
+    }
+
+    /**
+     * @Route("/test/id{id}/explanation{idExplanation}/edit", name="editExplanation")
+     */
+    public function editExplanationAction(Request $request, $id, $idExplanation) {
+
+        $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($id);
+        $explanation = $this->getDoctrine()->getRepository('AppBundle:Explanation')->find($idExplanation);
+
+        $explanation->setDescription($request->get('_description'));
+        $explanation->setMinRating($request->get('_minRating'));
+        $explanation->setMaxRating($request->get('_maxRating'));
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->persist($explanation);
+        $em->flush();
+
+        return $this->redirectToRoute('testpage', array('id' => $test->getId()));
+    }
+
+    /**
+     * @Route("/test/id{id}/explanation{idExplanation}/del", name="delExplanation")
+     */
+    public function delExplanationAction(Request $request, $id, $idExplanation) {
+
+        $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($id);
+        $explanation = $this->getDoctrine()->getRepository('AppBundle:Explanation')->find($idExplanation);
+
+        $test->removeExplanation($explanation);
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->persist($test);
+        $em->remove($explanation);
+        $em->flush();
+
+        return $this->redirectToRoute('testpage', array('id' => $test->getId()));
+    }
+
+
 
 }
