@@ -13,32 +13,14 @@
     <div class="content marg-auto clearfix ">
 
         <ul class="main-menu">
-            <li><a href="#1">Пользователи</a>
-                <ul>
-                    {% for user in users %}
-                        <li class="sub-menu"><a href={{ path('groupUser',{ 'groupName':user.groupName}) }}>
-                                <p>{{ user.groupName }}</p>
-                                <span></span>
-                            </a></li>
-                    {% endfor %}
-                </ul>
-            </li>
+            {% for user in users %}
+                <li class="sub"><a href={{ path('userPage',{ 'id':user.id}) }}>
+                        <p>{{ user.groupName }}</p>
+                    </a></li>
+            {% endfor %}
         </ul>
 
-        <script type="text/javascript">
-
-            $(document).ready(function () {
-
-                $('li').click(function (event) {
-                    $(this).parent().find("li ul:visible").slideUp()
-                    if($(this).children("ul").is(":hidden"))$(this).children("ul").slideDown() ;
-                    event.stopPropagation();
-                });
-            });
-
-        </script>
     </div>
-
 
     </body>
 {% endblock %}
