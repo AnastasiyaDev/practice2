@@ -33,6 +33,11 @@ class Answer {
      */
     private $question;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="User",mappedBy="answers")
+     */
+    private $users;
+
 
     /**
      * Get id
