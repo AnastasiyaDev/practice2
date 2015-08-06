@@ -82,3 +82,17 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+#sphinxsearch
+sphinxsearch:
+    searchd:
+        # Host name for your Sphinx daemon
+        host: localhost
+        # Port number for your Sphinx daemon
+        port: 9312
+        # If you want to connect via scoket
+#        socket: /path/to/socket.file
+    indexes:
+        # List of sphinx index names (key) and entity names (value)
+        # to use it in searchEx() method
+        IndexName: "Bundle:Entity"

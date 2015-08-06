@@ -121,7 +121,7 @@ class TestController extends Controller
         $em->remove($test);
         $em->flush();
 
-        return $this->indexAction();
+        return $this->redirectToRoute('adminPage');
 
     }
 
