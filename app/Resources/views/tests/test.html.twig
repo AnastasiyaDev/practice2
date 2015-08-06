@@ -19,7 +19,10 @@
             <p>{{ test.description }}</p>
             {% if is_granted('ROLE_ADMIN') %}
                 <span>
+                    <a href={{ path('testDel', {'id':test.id}) }}>
                     <button id="del-d" class="red-button" type="button" class="al-center" tabindex="">Удалить</button>
+                    </a>
+
                     <button id="edit-des" class="blue-button" type="button" class="al-center" tabindex="">Редактировать</button>
                     <button id="save-d" class="blue-button fl-right" type="button" class="al-center" tabindex="">Сохранить</button>
                 </span>
@@ -91,7 +94,7 @@
                     </div>
 
                     <div class="fl-right butblock">
-                        <button id="esc" class="red-button" type="button" class="al-center" tabindex="">Отмена</button>
+                        <button id="cancel" class="red-button" type="button" class="al-center" tabindex="">Отмена</button>
                         <button id="add-ans" class="green-button" type="button" class="al-center" tabindex="">Добавить ответ</button>
                         {#<input type="button" value="Add answer" onclick="addAns">#}
                         <button id="save" class="blue-button" type="submit" class="al-center" tabindex="">Сохранить</button>
@@ -105,12 +108,31 @@
     {% if is_granted('ROLE_ADMIN') %}
         <button id="add-q"  class="green-button" type="button" class="al-center" tabindex="">Добавить вопрос</button>
     {% endif %}
+
+
+        <script type="text/javascript">
+
+            $(document).ready(function () {
+
+                $('document').append('#AddQuestionForm');
+                $('#AddQuestionForm').hide();
+                $('#add-q').click(function () {
+                    $('#AddQuestionForm').show();
+                })
+                $('#cancel').click(function () {
+                    $('#AddQuestionForm').hide();
+                });
+            });
+
+        </script>
+
+
         {#--------------end Add question form--------------------------#}
 
         {#--------------------------------start form description test-----------------------------------------#}
 
 
-        <form id="descriptionTestForm" action="" method="post" name="descriptionTestForm">
+        <form id="descriptionTestForm" action="{{ path('testEdit', {'id': test.id}) }}" method="post" name="descriptionTestForm">
 
             <div class="modalDialogDes width-410">
 
@@ -147,7 +169,6 @@
 
 
 
-
         {#----------------------------end form description test-----------------------------------------#}
 
         {% if is_granted('ROLE_ADMIN') %}
@@ -178,23 +199,6 @@
         </script>
 
         {#----------------------------------------end border color----------------------------------#}
-
-
-
-        {#---------------------------------start Add in form question---------------------------------#}
-        <script type="text/javascript">
-
-            $(document).ready(function () {
-
-                $('document').append('#AddQuestionForm');
-                $('#AddQuestionForm').hide();
-                $('#add-q').click(function () {
-                        $('#AddQuestionForm').show();
-                });
-            });
-
-        </script>
-        {#---------------------------------End form question--------------------------------#}
 
 
         <script type="text/javascript">

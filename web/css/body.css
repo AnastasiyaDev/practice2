@@ -64,7 +64,7 @@ body{
 a{
     outline: none; 
 }
-button, .red-button, .blue-button, .green-button{
+.red-button, .blue-button, .green-button{
     font-size: 12px !important;
     width: 115px;
     color: #FFF;

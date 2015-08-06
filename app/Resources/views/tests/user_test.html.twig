@@ -1,17 +1,3 @@
-{#{% extends ':tests:about_test.html.twig' %}#}
-
-{#{% block body %}#}
-    {#{{ parent() }}#}
-{#{% block complete %}#}
-{#{% endblock %}#}
-    {#<div class="content marg-auto clearfix">#}
-    {#<div id="lvl">#}
-        {#<h3>Пояснения к результатам</h3>#}
-        {#&#123;&#35;<p>{{ userExp.minRating }}</p>&#35;&#125;#}
-        {#<p>{{ userExp.description }}</p>#}
-    {#</div>#}
-
-{#{% endblock %}#}
 {% extends '::base.html.twig' %}
 
 {% block title %}{{ test.name }} | {{ parent() }}{% endblock %}
