@@ -124,6 +124,9 @@ input[type="file"] > input[type="button"]::-moz-focus-inner {
 .mar-l-35{
     margin-left: 35px;
 }
+.marg-r-30{
+    margin-right: 30px;
+}
 .mar-top-30{
     margin-top: 30px;
 }

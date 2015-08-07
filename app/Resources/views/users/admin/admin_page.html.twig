@@ -16,18 +16,13 @@
             <ul>
                 {% for test in tests %}
                     <li class="sub-menu">
-                        <a class="uuu" href={{ path('aboutTestpage',{'id':test.id}) }}>
+                        <a  href={{ path('aboutTestpage',{'id':test.id}) }}>
 
-                                <p>{{ test.name }}</p>
-                                <span>{{ test.description }}</span>
-
-
-                                {#<span> <a href={{ path('testEditForm', {'id':test.id}) }}>РЕДАКТРИРОВАТЬ</a>#}
-                                {#<a href={{ path('testDel', {'id':test.id}) }}>УДАЛИТЬ</a> </span>#}
-                            </a>
-
-
-
+                            <p>{{ test.name }}</p>
+                            <span>{{ test.description }}</span>
+                            <span> <a href={{ path('testEditForm', {'id':test.id}) }}>РЕДАКТРИРОВАТЬ</a>
+                                   <a href={{ path('testDel', {'id':test.id}) }}>УДАЛИТЬ</a> </span>
+                        </a>
                     </li>
                 {% endfor %}
                 <a href={{ path('testNewForm') }}> + Новый тест</a>

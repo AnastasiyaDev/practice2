@@ -49,9 +49,7 @@ input[type="text"], input[type="password"]{
     border: none;
 }
 #forget{
-	display: block;
 	color: #6A6A6A;
-	text-align: right;
 }
 .sent-reset{
 	margin-bottom: 0 !important;
