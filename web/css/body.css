@@ -70,6 +70,7 @@ a{
     color: #FFF;
     padding: 2px;
     font-weight: normal;
+    text-align: center;
 }
 button,button::-moz-focus-inner,
 input[type="reset"]::-moz-focus-inner,

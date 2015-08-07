@@ -10,7 +10,7 @@ h3{
 }
 .quest-box{
 	width: inherit;
-	height: 120px;
+	/*height: 120px;*/
 }
 .quest-number{
 	width: 48px;
@@ -81,4 +81,11 @@ a #input{
 }
 #input, #create{
 	margin-top: 5px;
+}
+#cancel-a{
+	background: url("../images/button/cancel.png") no-repeat;
+	background-size: 100% 100%;
+}
+#add-q{
+	margin-top: 15px;
 }

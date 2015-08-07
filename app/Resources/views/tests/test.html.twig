@@ -72,7 +72,7 @@
 
             <div class="quest-box quest-box-{{ NumberQ }}">
                 <div class="quest-number fl-left al-center vert-align-m"><p class="vert-align-m mar-pad-0 font-s-14">{{ NumberQ }}</p></div>
-                <div class="question fl-right mar-pad-0">
+                <div class="question fl-right mar-pad-0 clear-fix">
 
                     <div class="fl-left width-410" id="add-content">
 
@@ -87,16 +87,20 @@
                              <span>
                                  <label for="text-p">Баллы за ответ: </label>
                                  <input id="text-p" type="text" name="_answer[0][rating]" size="2" tabindex="3" pattern="[0-9]+">
+
                              </span>
+                            {#<span> <button id="cancel-a" class="" type="button" tabindex=""></button></span>#}
+
+
 
                         </div>
 
                     </div>
 
                     <div class="fl-right butblock">
-                        <button id="cancel" class="red-button" type="button" class="al-center" tabindex="">Отмена</button>
-                        <button id="add-ans" class="green-button" type="button" class="al-center" tabindex="">Добавить ответ</button>
-                        <button id="save" class="blue-button" type="submit" class="al-center" tabindex="">Сохранить</button>
+                        <button id="cancel-q" class="red-button" type="button" tabindex="">Отмена</button>
+                        <button id="add-ans" class="green-button" type="button" tabindex="">Добавить ответ</button>
+                        <button id="save" class="blue-button" type="submit" tabindex="">Сохранить</button>
                     </div>
 
 
@@ -107,7 +111,6 @@
     {% if is_granted('ROLE_ADMIN') %}
         <button id="add-q"  class="green-button" type="button" class="al-center" tabindex="">Добавить вопрос</button>
     {% endif %}
-
 
         {#----------------------------------------Start Add question-----------------------------------------------#}
 
@@ -120,14 +123,14 @@
                 $('#add-q').click(function () {
                     $('#AddQuestionForm').show();
                 })
-                $('#cancel').click(function () {
+                $('#cancel-q').click(function () {
                     $('#AddQuestionForm').hide();
                 });
             });
 
         </script>
 
-        {#----------------------------------------Start Add answer-----------------------------------------------#}
+        {#----------------------------------------Start Add/cancel answer-----------------------------------------------#}
 
         <script type="text/javascript">
 
@@ -144,6 +147,17 @@
                     numAns++;
 
                 });
+
+                $('#cancel-a').click(function (){
+                    $(' <div class="fl-left add-a-box add-a-box-'+numAns+'">'
+                       +'<label for="text-a-'+numAns+'">Ответ: <//label>'
+                       +'<input id="text-a-'+numAns+'" type="text" name="_answer['+numAns+'][content]" size="8" tabindex="2" pattern="[a-zA-Z0-9_-/t]+">'
+                       +'<span> <label for="text-p-'+numAns+'">Баллы за ответ: <//label>'
+                       +'<input id="text-p-'+numAns+'" type="text" name="_answer['+numAns+'][rating]" size="2" tabindex="3" pattern="[0-9]+">'
+                       +'<//span><//div>').hide();
+
+                });
+
             });
 
         </script>
