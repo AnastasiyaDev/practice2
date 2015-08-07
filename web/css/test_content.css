@@ -83,8 +83,13 @@ a #input{
 	margin-top: 5px;
 }
 #cancel-a{
-	background: url("../images/button/cancel.png") no-repeat;
+	background: url("../images/trigleOpen.png") no-repeat;
 	background-size: 100% 100%;
+	width: 17px;
+	height: 17px;
+	display: inline-block;
+	margin: 0px 4px 4px 4px;
+	outline: none;
 }
 #add-q{
 	margin-top: 15px;
