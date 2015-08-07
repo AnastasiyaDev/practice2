@@ -69,7 +69,7 @@
         <form id="AddQuestionForm" action="{{ path('addQuestion', {'id':test.id}) }}" method="post" name="AddQuestionForm">
 
             {% set NumberQ  = NumberQ + 1 %}
-            {% set NumberAns = 0 %}
+
             <div class="quest-box quest-box-{{ NumberQ }}">
                 <div class="quest-number fl-left al-center vert-align-m"><p class="vert-align-m mar-pad-0 font-s-14">{{ NumberQ }}</p></div>
                 <div class="question fl-right mar-pad-0">
@@ -79,16 +79,16 @@
                         <label for="text-q-{{ NumberQ  }}">Текст вопроса: </label>
                         <textarea id="text-q-{{ NumberQ  }}" name="_description" tabindex="1"></textarea>
 
-                        <div class="fl-left add-a-box add-a-box-{{ NumberAns }}">
+                        <div class="fl-left add-a-box">
 
-                             <label for="text-a-{{ NumberAns }}">Ответ: </label>
-                             <input id="text-a-{{ NumberAns }}" type="text" name="_answer[{{ NumberAns }}][content]" size="8" tabindex="2" pattern="[a-zA-Z0-9_-\t]+">
+                             <label for="text-a">Ответ: </label>
+                             <input id="text-a" type="text" name="_answer[0][content]" size="8" tabindex="2" pattern="[a-zA-Z0-9_-\t]+">
 
                              <span>
-                                 <label for="text-p-{{ NumberAns }}">Баллы за ответ: </label>
-                                 <input id="text-p-{{ NumberAns }}" type="text" name="_answer[{{ NumberAns }}][rating]" size="2" tabindex="3" pattern="[0-9]+">
+                                 <label for="text-p">Баллы за ответ: </label>
+                                 <input id="text-p" type="text" name="_answer[0][rating]" size="2" tabindex="3" pattern="[0-9]+">
                              </span>
-                            {#{% set NumberAns  = NumberAns + 1 %}#}
+
                         </div>
 
                     </div>
@@ -96,7 +96,6 @@
                     <div class="fl-right butblock">
                         <button id="cancel" class="red-button" type="button" class="al-center" tabindex="">Отмена</button>
                         <button id="add-ans" class="green-button" type="button" class="al-center" tabindex="">Добавить ответ</button>
-                        {#<input type="button" value="Add answer" onclick="addAns">#}
                         <button id="save" class="blue-button" type="submit" class="al-center" tabindex="">Сохранить</button>
                     </div>
 
