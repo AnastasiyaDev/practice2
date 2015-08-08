@@ -12,7 +12,6 @@ use AppBundle\Entity\Answer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
-use Symfony\Component\Validator\Constraints\DateTime;
 
 class TestController extends Controller
 {
@@ -25,6 +24,10 @@ class TestController extends Controller
             ->getRepository('AppBundle:Test')
             ->find($id);
 
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $results = $this->getDoctrine()->getRepository('AppBundle:Result')->findByTest($id);
+            return $this->render('tests/about_test.html.twig', array('test' => $test, 'results' => $results));
+        }
 
         $user = $this->getUser();
         if (!$user->getTests()->isEmpty()) {
@@ -91,7 +94,7 @@ class TestController extends Controller
 
         $test->addResult($result);
         $user->addResult($result);
-        $explanation->setResults($result);
+        $explanation->addResult($result);
 
 
 
@@ -102,7 +105,6 @@ class TestController extends Controller
         $em->persist($user);
         $em->flush();
 
-//        return $this->render('tests/test.html.twig', array('test' => $test, 'answers' => $answerArray));
         return $this->redirectToRoute('userTest', array('id' => $user->getId(), 'testId' => $test->getId()));
     }
 

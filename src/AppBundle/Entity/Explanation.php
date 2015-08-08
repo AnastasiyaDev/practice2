@@ -38,7 +38,7 @@ class Explanation
     private $test;
 
     /**
-     * @ORM\OneToOne(targetEntity="Result",mappedBy="explanation", cascade={"all"},orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Result",mappedBy="explanation", cascade={"all"},orphanRemoval=true)
      */
     private $results;
 
@@ -146,19 +146,6 @@ class Explanation
     }
 
     /**
-     * Set results
-     *
-     * @param \AppBundle\Entity\Result $results
-     * @return Explanation
-     */
-    public function setResults(\AppBundle\Entity\Result $results = null)
-    {
-        $this->results = $results;
-
-        return $this;
-    }
-
-    /**
      * Get results
      *
      * @return \AppBundle\Entity\Result 
@@ -166,5 +153,35 @@ class Explanation
     public function getResults()
     {
         return $this->results;
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->results = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add results
+     *
+     * @param \AppBundle\Entity\Result $results
+     * @return Explanation
+     */
+    public function addResult(\AppBundle\Entity\Result $results)
+    {
+        $this->results[] = $results;
+
+        return $this;
+    }
+
+    /**
+     * Remove results
+     *
+     * @param \AppBundle\Entity\Result $results
+     */
+    public function removeResult(\AppBundle\Entity\Result $results)
+    {
+        $this->results->removeElement($results);
     }
 }
