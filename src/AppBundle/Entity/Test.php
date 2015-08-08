@@ -33,10 +33,7 @@ Class Test
     private $questions;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Explanation")
-     * @ORM\JoinTable(name="test_explanation",
-     * joinColumns={@ORM\JoinColumn(name="test_id", referencedColumnName="id")},
-     * inverseJoinColumns={@ORM\JoinColumn(name="explanation_id",referencedColumnName="id")})
+     * @ORM\OneToMany(targetEntity="Explanation",mappedBy="test", cascade={"all"},orphanRemoval=true)
      */
     private $explanation;
 
@@ -44,6 +41,11 @@ Class Test
      * @ORM\ManyToMany(targetEntity="User",mappedBy="tests")
      */
     private $users;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Result",mappedBy="test", cascade={"all"},orphanRemoval=true)
+     */
+    private $results;
 
     /**
      * Get id
@@ -172,5 +174,71 @@ Class Test
     public function getExplanation()
     {
         return $this->explanation;
+    }
+
+    /**
+     * Add users
+     *
+     * @param \AppBundle\Entity\User $users
+     * @return Test
+     */
+    public function addUser(\AppBundle\Entity\User $users)
+    {
+        $this->users[] = $users;
+
+        return $this;
+    }
+
+    /**
+     * Remove users
+     *
+     * @param \AppBundle\Entity\User $users
+     */
+    public function removeUser(\AppBundle\Entity\User $users)
+    {
+        $this->users->removeElement($users);
+    }
+
+    /**
+     * Get users
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getUsers()
+    {
+        return $this->users;
+    }
+
+    /**
+     * Add results
+     *
+     * @param \AppBundle\Entity\Result $results
+     * @return Test
+     */
+    public function addResult(\AppBundle\Entity\Result $results)
+    {
+        $this->results[] = $results;
+
+        return $this;
+    }
+
+    /**
+     * Remove results
+     *
+     * @param \AppBundle\Entity\Result $results
+     */
+    public function removeResult(\AppBundle\Entity\Result $results)
+    {
+        $this->results->removeElement($results);
+    }
+
+    /**
+     * Get results
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getResults()
+    {
+        return $this->results;
     }
 }

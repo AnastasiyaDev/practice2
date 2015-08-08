@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Explanation;
+use AppBundle\Entity\Result;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Test;
@@ -11,6 +12,7 @@ use AppBundle\Entity\Answer;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 class TestController extends Controller
 {
@@ -23,11 +25,15 @@ class TestController extends Controller
             ->getRepository('AppBundle:Test')
             ->find($id);
 
+
         $user = $this->getUser();
-        foreach ($user->getTests()->getValues() as $userTest) {
-            if ($userTest === $test)
-                return $this->redirectToRoute('userTest', array('id' => $user->getId(), 'testId' => $test->getId()));
+        if (!$user->getTests()->isEmpty()) {
+            foreach ($user->getTests()->getValues() as $userTest) {
+                if ($userTest === $test)
+                    return $this->redirectToRoute('userTest', array('id' => $user->getId(), 'testId' => $test->getId()));
+            }
         }
+
 
         if(!$test) {
             throw $this->createNotFoundException('No found test for id'.$id);
@@ -46,10 +52,13 @@ class TestController extends Controller
             ->find($id);
 
         $user = $this->getUser();
-        foreach ($user->getTests()->getValues() as $userTest) {
-            if ($userTest === $test)
-                return $this->redirectToRoute('userTest', array('id' => $user->getId(), 'testId' => $test->getId()));
+        if (!$user->getTests()->isEmpty()) {
+            foreach ($user->getTests()->getValues() as $userTest) {
+                if ($userTest === $test)
+                    return $this->redirectToRoute('userTest', array('id' => $user->getId(), 'testId' => $test->getId()));
+            }
         }
+
 
         if(!$test) {
             throw $this->createNotFoundException('No found test for id'.$id);
@@ -72,8 +81,24 @@ class TestController extends Controller
         foreach($request->get('_answerArray') as $answer) {
             $user->addAnswer($this->getDoctrine()->getRepository('AppBundle:Answer')->find($answer));
         }
+        $result = new Result();
+        $result->setTest($test);
+        $result->setUser($user);
+        $result->setRating($this->get('calculate')->calculateRating($user,$test));
+        $explanation = $this->get('calculate')->findExplanation($result->getRating(),$test);
+        $result->setExplanation($explanation);
+        $result->setDate(new \DateTime(date('d.m.Y')));
+
+        $test->addResult($result);
+        $user->addResult($result);
+        $explanation->setResults($result);
+
+
 
         $em = $this->getDoctrine()->getManager();
+        $em->persist($explanation);
+        $em->persist($result);
+        $em->persist($test);
         $em->persist($user);
         $em->flush();
 
@@ -128,7 +153,7 @@ class TestController extends Controller
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/test/id{id}/edit", name="testEditForm")
+     * @Route("/test/id{id}/explanationForm", name="testEditForm")
      */
     public function editTestFormAction($id) {
 
@@ -139,7 +164,7 @@ class TestController extends Controller
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/test/id{id}/editComplete", name="testEdit")
+     * @Route("/test/id{id}/editComplete", name="editTest")
      */
     public function editTestAction(Request $request, $id) {
 
@@ -174,13 +199,14 @@ class TestController extends Controller
         $ans = ($request->get('_answer'));
 
         for ($i=0; $i<count($ans);$i++) {
-            $answer = new Answer();
-            $answer->setContent($ans[$i]['content']);
-            $answer->setRating($ans[$i]['rating']);
-            $answer->setQuestion($quest);
-            $quest->addAnswer($answer);
-            $em->persist($answer);
-
+            if (!empty($ans[$i]['content'])) {
+                $answer = new Answer();
+                $answer->setContent($ans[$i]['content']);
+                $answer->setRating($ans[$i]['rating']);
+                $answer->setQuestion($quest);
+                $quest->addAnswer($answer);
+                $em->persist($answer);
+            }else continue;
         }
 
         $em->persist($test);
@@ -264,6 +290,7 @@ class TestController extends Controller
         $explanation->setMaxRating($request->get('_maxRating'));
 
         $test->addExplanation($explanation);
+        $explanation->setTest($test);
 
         $em = $this->getDoctrine()->getManager();
 

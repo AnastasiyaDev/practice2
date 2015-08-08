@@ -54,7 +54,6 @@ class UserController extends Controller
             $arrayOfAlreadyUsedIds = null;$i = 0;
             foreach ($user->getTests()->getValues() as $test)
             {
-                $test->addExplanation($this->get('calculate')->calculate($user,$test));
                 $arrayOfAlreadyUsedIds[$i++] = $test->getId();
             }
             $q = $this->getDoctrine()->getManager()->createQuery(
@@ -85,10 +84,17 @@ class UserController extends Controller
         $test = $this->getDoctrine()
             ->getRepository('AppBundle:Test')
             ->find($testId);
-        $userExp = $this->get('calculate')->calculate($user,$test);
+
+        $q = $this->getDoctrine()->getManager()->createQuery(
+            'SELECT r FROM AppBundle:Result r WHERE r.user=(:user) AND r.test=(:test)'
+        )->setParameters(array(
+                'user' => $user->getId(),
+                'test' => $test->getId(),
+                ));
+        $result = $q->getResult();
 
         return $this->render(':tests:user_test.html.twig', array('user' => $user,
-            'test' => $test,'userExp' => $userExp));
+            'test' => $test,'result' => $result[0]));
     }
 
     /**

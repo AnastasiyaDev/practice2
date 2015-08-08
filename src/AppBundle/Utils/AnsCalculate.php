@@ -8,23 +8,33 @@ use AppBundle\Entity\Explanation;
 
 class AnsCalculate
 {
+    /**
+     * @param $rating
+     * @param Test $test
+     * @return Explanation
+     */
+    public function findExplanation($rating, Test $test) {
+        foreach ($test->getExplanation()->getValues() as $explanation) {
+            if ($rating >= $explanation->getMinRating() and $rating <= $explanation->getMaxRating()) {
+                return $explanation;
+            }
+        }
+        return new Explanation();
 
-    public function calculate(User $user, Test $test) {
+    }
+
+    /**
+     * @param User $user
+     * @param Test $test
+     * @return int
+     */
+    public function calculateRating(User $user, Test $test) {
         $rating = 0;
         foreach ($user->getAnswers()->getValues() as $answer) {
             if ($answer->getQuestion()->getTest()->getId()==$test->getId())
                 $rating+=$answer->getRating();
         }
-        foreach ($test->getExplanation()->getValues() as $explanation) {
-            if ($rating >= $explanation->getMinRating() and $rating <= $explanation->getMaxRating()) {
-                $userExplanation = new Explanation();
-                $userExplanation->setDescription($explanation->getDescription());
-                $userExplanation->setMinRating($rating);
-                return $userExplanation;
-            }
-        }
-        return new Explanation();
-
+        return $rating;
     }
 
 

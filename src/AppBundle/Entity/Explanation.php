@@ -31,6 +31,17 @@ class Explanation
      */
     private $maxRating;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="Test",inversedBy="explanation")
+     * @ORM\JoinColumn(name="test_id",referencedColumnName="id")
+     */
+    private $test;
+
+    /**
+     * @ORM\OneToOne(targetEntity="Result",mappedBy="explanation", cascade={"all"},orphanRemoval=true)
+     */
+    private $results;
+
 
     /**
      * Get id
@@ -109,5 +120,51 @@ class Explanation
     public function getMaxRating()
     {
         return $this->maxRating;
+    }
+
+    /**
+     * Set test
+     *
+     * @param \AppBundle\Entity\Test $test
+     * @return Explanation
+     */
+    public function setTest(\AppBundle\Entity\Test $test = null)
+    {
+        $this->test = $test;
+
+        return $this;
+    }
+
+    /**
+     * Get test
+     *
+     * @return \AppBundle\Entity\Test 
+     */
+    public function getTest()
+    {
+        return $this->test;
+    }
+
+    /**
+     * Set results
+     *
+     * @param \AppBundle\Entity\Result $results
+     * @return Explanation
+     */
+    public function setResults(\AppBundle\Entity\Result $results = null)
+    {
+        $this->results = $results;
+
+        return $this;
+    }
+
+    /**
+     * Get results
+     *
+     * @return \AppBundle\Entity\Result 
+     */
+    public function getResults()
+    {
+        return $this->results;
     }
 }

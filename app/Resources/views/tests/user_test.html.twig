@@ -21,17 +21,18 @@
             </div>
 
             <div class="fl-right">
-                Результат:<span class="font-size-60">{{ userExp.minRating }}</span>
+                Результат:<span class="font-size-60">{{ result.rating }}</span>
             </div>
 
         </div>
 
         <div class="lvl lvl2">
             <h3>Пояснения к результатам</h3>
-            <p>{{ userExp.description }}</p>
+            <p>{{ result.explanation.description }}</p>
         </div>
 
     </div>
+
 
     </body>
 {% endblock %}
