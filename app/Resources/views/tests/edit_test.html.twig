@@ -13,16 +13,26 @@
                 <div id="err" class="al-center">{{ error }}</div>
             {% endif %}
 
-            <form id="editTestForm" autocomplete="off" action="{{ path('testEdit', {'id': test.id}) }}" method="post" name="registrationForm">
+            <form id="editTestForm" autocomplete="off" action="{{ path('addExplanation', {'id': test.id}) }}" method="post" name="registrationForm">
 
-                <div class="al-center wid_202 marg-auto">
-                    <div><label for="name-field" class="lab">Имя: </label></div>
-                    <input type="text" id="name-field" name="_name" value={{ test.name }}  tabindex="1" required>
-                </div>
+                {#<div class="al-center wid_202 marg-auto">#}
+                    {#<div><label for="name-field" class="lab">Имя: </label></div>#}
+                    {#<input type="text" id="name-field" name="_name" value=  tabindex="1" required>#}
+                {#</div>#}
 
                 <div class="al-center wid_202 marg-auto">
                     <div><label for="name-field" class="lab">Описание: </label></div>
-                    <textarea id="description-field" name="_description"   tabindex="1" required>{{ test.description }}</textarea>
+                    <textarea id="description-field" name="_description"   tabindex="1" required></textarea>
+                </div>
+
+                <div class="al-center wid_202 marg-auto">
+                    <div><label for="name-field" class="lab">Мин: </label></div>
+                    <input type="text" id="name-field" name="_minRating"  tabindex="1" required>
+                </div>
+
+                <div class="al-center wid_202 marg-auto">
+                    <div><label for="name-field" class="lab">Макс: </label></div>
+                    <input type="text" id="name-field" name="_maxRating"  tabindex="1" required>
                 </div>
 
 
