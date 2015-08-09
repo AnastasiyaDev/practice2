@@ -41,7 +41,8 @@ Class User implements UserInterface, \Serializable
     private $secondName;
 
     /**
-     * @ORM\Column(type="string", length=10)
+     * @ORM\ManyToOne(targetEntity="Department",inversedBy="users")
+     * @ORM\JoinColumn(name="department_id",referencedColumnName="id")
      */
     private $department;
 
@@ -171,29 +172,6 @@ Class User implements UserInterface, \Serializable
     public function getSecondName()
     {
         return $this->secondName;
-    }
-
-    /**
-     * Set groupName
-     *
-     * @param string $groupName
-     * @return User
-     */
-    public function setGroupName($groupName)
-    {
-        $this->groupName = $groupName;
-
-        return $this;
-    }
-
-    /**
-     * Get groupName
-     *
-     * @return string 
-     */
-    public function getGroupName()
-    {
-        return $this->groupName;
     }
 
     /**
@@ -397,13 +375,14 @@ Class User implements UserInterface, \Serializable
         return $this->results;
     }
 
+
     /**
      * Set department
      *
-     * @param string $department
+     * @param \AppBundle\Entity\Department $department
      * @return User
      */
-    public function setDepartment($department)
+    public function setDepartment(\AppBundle\Entity\Department $department = null)
     {
         $this->department = $department;
 
@@ -413,7 +392,7 @@ Class User implements UserInterface, \Serializable
     /**
      * Get department
      *
-     * @return string 
+     * @return \AppBundle\Entity\Department 
      */
     public function getDepartment()
     {

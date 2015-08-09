@@ -44,10 +44,13 @@ class AdminController extends Controller
      */
     public function showAllGroupAction() {
 
-        $users = $this->getDoctrine()->getRepository('AppBundle:User')->findByRoles('ROLE_USER');
+        $q = $this->getDoctrine()->getManager()->createQuery(
+            "SELECT d FROM AppBundle:Department d WHERE d.name<>'FakeDepartment'"
+        );
+        $departments = $q->getResult();
 
         return $this->render(':users/admin:all_groups.html.twig', array('user' => $this->getUser(),
-            'users' => $users));
+            'departments' => $departments));
 
     }
 
@@ -68,7 +71,9 @@ class AdminController extends Controller
      * @Route("/users/addForm",name="addUserForm")
      */
     public function addUserFormAction() {
-        return $this->render(':users:registration.html.twig');
+
+
+        return $this->render(':users:registration.html.twig', array('departments' => $departments));
     }
 
     /**

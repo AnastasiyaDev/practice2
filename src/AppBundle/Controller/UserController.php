@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Company;
+use AppBundle\Entity\Department;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -103,7 +105,6 @@ class UserController extends Controller
     public function registrationFormAction()
     {
         return $this->render(':users:registration.html.twig');
-
     }
 
     /**
@@ -124,7 +125,11 @@ class UserController extends Controller
         $user->setPassword($encoded);
         $user->setFirstName($request->get('_firstName'));
         $user->setSecondName($request->get('_secondName'));
-        $user->setGroupName($request->get('_groupName'));
+
+        if(!empty($request->get('_department'))) {
+            $user->setDepartment($this->getDoctrine()->getRepository('AppBundle:Department')->find($request->get('_department')));
+        }else
+            $user->setDepartment($this->getDoctrine()->getRepository('AppBundle:Department')->find(1));
         $user->setRoles('ROLE_USER');
 
         $em = $this->getDoctrine()->getManager();
