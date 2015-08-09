@@ -26,10 +26,12 @@
 
         </div>
 
+        {% if result.explanation is not empty %}
         <div class="lvl lvl2">
             <h3>Пояснения к результатам</h3>
             <p>{{ result.explanation.description }}</p>
         </div>
+        {% endif %}
 
     </div>
 

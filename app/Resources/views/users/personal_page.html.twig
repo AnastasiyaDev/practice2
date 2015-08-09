@@ -17,6 +17,13 @@
         <div id="personal">
             <div id="name">{{ user.firstName }} {{ user.secondName }}</div>
             <div id="nGroup">{{ user.groupName }}</div>
+            {% if is_granted('ROLE_ADMIN') %}
+                <span>
+                    <a href={{ path('delUser', {'id':user.id}) }}>
+                        <button id="del-d" class="red-button" type="button" class="al-center" tabindex="">Удалить</button>
+                    </a>
+                </span>
+            {% endif %}
         </div>
 
 

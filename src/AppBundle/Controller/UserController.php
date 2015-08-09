@@ -137,6 +137,10 @@ class UserController extends Controller
             return $this->render(':users:registration.html.twig', array('error' => $error));
         }
 
+        if ($this->isGranted('ROLE_ADMIN')) {
+            return $this->showUserAction($user->getId());
+        }
+
         $token = new UsernamePasswordToken($user, $user->getPassword(), 'database_users',$user->getRoles() );
         $this->get('security.token_storage')->setToken($token);
 

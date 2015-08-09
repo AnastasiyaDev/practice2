@@ -79,6 +79,7 @@ class TestController extends Controller
             ->find($id);
 
         $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
 
         $user->addTest($test);
         foreach($request->get('_answerArray') as $answer) {
@@ -88,18 +89,17 @@ class TestController extends Controller
         $result->setTest($test);
         $result->setUser($user);
         $result->setRating($this->get('calculate')->calculateRating($user,$test));
-        $explanation = $this->get('calculate')->findExplanation($result->getRating(),$test);
-        $result->setExplanation($explanation);
+        if (!$test->getExplanation()->isEmpty()) {
+            $explanation = $this->get('calculate')->findExplanation($result->getRating(),$test);
+            $result->setExplanation($explanation);
+            $explanation->addResult($result);
+            $em->persist($explanation);
+        }
         $result->setDate(new \DateTime(date('d.m.Y')));
 
         $test->addResult($result);
         $user->addResult($result);
-        $explanation->addResult($result);
 
-
-
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($explanation);
         $em->persist($result);
         $em->persist($test);
         $em->persist($user);
@@ -138,7 +138,7 @@ class TestController extends Controller
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/test/id{id}/del", name="testDel")
+     * @Route("/test/id{id}/del", name="delTest")
      */
     public function delTestAction($id) {
 

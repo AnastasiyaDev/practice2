@@ -19,7 +19,7 @@
             <p>{{ test.description }}</p>
             {% if is_granted('ROLE_ADMIN') %}
                 <span>
-                    <a href={{ path('testDel', {'id':test.id}) }}>
+                    <a href={{ path('delTest', {'id':test.id}) }}>
                     <button id="del-d" class="red-button" type="button" class="al-center" tabindex="">Удалить</button>
                     </a>
 

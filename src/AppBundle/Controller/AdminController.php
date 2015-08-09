@@ -64,6 +64,36 @@ class AdminController extends Controller
 
     }
 
+    /**
+     * @Route("/users/addForm",name="addUserForm")
+     */
+    public function addUserFormAction() {
+        return $this->render(':users:registration.html.twig');
+    }
+
+    /**
+     * @Route("/users/add",name="addUser")
+     */
+    public function addUserAction() {
+
+    }
+
+    /**
+     * @Route("/id{id}/del",name="delUser")
+     */
+    public function delUserAction($id) {
+
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->remove($user);
+        $em->flush();
+
+        return $this->indexAction();
+    }
+
+
 
 
 

@@ -45,7 +45,7 @@ class Result
     private $date;
 
     /**
-     * @ORM\OneToOne(targetEntity="Explanation", inversedBy="results")
+     * @ORM\ManyToOne(targetEntity="Explanation", inversedBy="results",)
      */
     private $explanation;
 
