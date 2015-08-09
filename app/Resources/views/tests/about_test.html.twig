@@ -42,7 +42,11 @@
     {% if is_granted('ROLE_ADMIN') %}
         {% if results is not empty %}
             {% for result in results %}
-                <div><p>{{ result.user.firstName }} {{  result.user.secondName }} | {{ result.rating }} | {{ result.explanation.description }} | {{ result.date|date("d.m.Y") }}  </p></div>
+                <div><p>{{ result.user.firstName }} {{  result.user.secondName }} | {{ result.rating }} |
+                        {% if result.explanation is not empty %}
+                        {{ result.explanation.description }}|
+                        {% endif %}
+                        {{ result.date|date("d.m.Y") }}  </p></div>
             {% endfor %}
         {% endif %}
     {% endif %}

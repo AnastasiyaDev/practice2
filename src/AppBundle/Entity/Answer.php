@@ -8,14 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity()
  * @ORM\Table(name="answers")
  */
-class Answer {
-
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
+class Answer extends BaseEntity
+{
 
     /**
      * @ORM\Column(type="text")
@@ -37,17 +31,6 @@ class Answer {
      * @ORM\ManyToMany(targetEntity="User",mappedBy="answers")
      */
     private $users;
-
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Set content

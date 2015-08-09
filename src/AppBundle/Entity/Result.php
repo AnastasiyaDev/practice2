@@ -14,15 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="results")
  */
-class Result
+class Result extends BaseEntity
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
     /**
      * @ORM\Column(type="integer")
      */
@@ -48,17 +41,6 @@ class Result
      * @ORM\ManyToOne(targetEntity="Explanation", inversedBy="results",)
      */
     private $explanation;
-
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Set rating

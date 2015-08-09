@@ -43,7 +43,7 @@ Class User implements UserInterface, \Serializable
     /**
      * @ORM\Column(type="string", length=10)
      */
-    private $groupName;
+    private $department;
 
     /**
      * @ORM\ManyToMany(targetEntity="Test", inversedBy="users")
@@ -395,5 +395,28 @@ Class User implements UserInterface, \Serializable
     public function getResults()
     {
         return $this->results;
+    }
+
+    /**
+     * Set department
+     *
+     * @param string $department
+     * @return User
+     */
+    public function setDepartment($department)
+    {
+        $this->department = $department;
+
+        return $this;
+    }
+
+    /**
+     * Get department
+     *
+     * @return string 
+     */
+    public function getDepartment()
+    {
+        return $this->department;
     }
 }

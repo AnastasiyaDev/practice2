@@ -8,14 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity)
  * @ORM\Table(name="explanations")
  */
-class Explanation
+class Explanation extends BaseEntity
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
 
     /**
      * @ORM\Column(type="text")
@@ -41,17 +35,6 @@ class Explanation
      * @ORM\OneToMany(targetEntity="Result",mappedBy="explanation", cascade={"all"},orphanRemoval=true)
      */
     private $results;
-
-
-    /**
-     * Get id
-     *
-     * @return integer 
-     */
-    public function getId()
-    {
-        return $this->id;
-    }
 
     /**
      * Set description
