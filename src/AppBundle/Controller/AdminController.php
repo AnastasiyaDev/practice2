@@ -72,6 +72,10 @@ class AdminController extends Controller
      */
     public function addUserFormAction() {
 
+        $q = $this->getDoctrine()->getManager()->createQuery(
+            "SELECT d FROM AppBundle:Department d WHERE d.name<>'FakeDepartment'"
+        );
+        $departments = $q->getResult();
 
         return $this->render(':users:registration.html.twig', array('departments' => $departments));
     }
