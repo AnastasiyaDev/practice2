@@ -20,8 +20,7 @@
 
                             <p>{{ test.name }}</p>
                             <span>{{ test.description }}</span>
-                            <span> <a href={{ path('testEditForm', {'id':test.id}) }}>РЕДАКТРИРОВАТЬ</a>
-                                   <a href={{ path('delTest', {'id':test.id}) }}>УДАЛИТЬ</a> </span>
+                            <span><a href={{ path('delTest', {'id':test.id}) }}>УДАЛИТЬ</a></span>
                         </a>
                     </li>
                 {% endfor %}
@@ -63,12 +62,6 @@
 
         </script>
     </div>
-
-    <script type="text/javascript">
-        var today = new Date();
-        // alert( today.toLocaleString());
-    </script>
-
 
     </body>
 {% endblock %}

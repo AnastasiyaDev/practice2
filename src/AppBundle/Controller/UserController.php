@@ -149,7 +149,7 @@ class UserController extends Controller
         $token = new UsernamePasswordToken($user, $user->getPassword(), 'database_users',$user->getRoles() );
         $this->get('security.token_storage')->setToken($token);
 
-        return $this->indexAction();
+        return $this->redirectToRoute('userPage',array('id' => $user->getId()));
     }
 
 

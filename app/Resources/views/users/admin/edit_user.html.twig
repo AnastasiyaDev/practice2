@@ -1,0 +1,53 @@
+{% extends '::base.html.twig' %}
+
+{% block title %} Редактировать пользователя | {{ parent() }}{% endblock %}
+{% block body%}
+    <body>
+    <div align="center">
+
+        <div class="form_content clearfix">
+
+            <div class="marg-auto" id="logo"></div>
+
+            {% if error is defined %}
+                <div id="err" class="al-center">{{ error }}</div>
+            {% endif %}
+
+            <form id="editTestForm" autocomplete="off" action="{{ path('editUser', {'id': user.id}) }}" method="post" name="registrationForm">
+
+                {#<div class="al-center wid_202 marg-auto">#}
+                {#<div><label for="name-field" class="lab">Имя: </label></div>#}
+                {#<input type="text" id="name-field" name="_name" value=  tabindex="1" required>#}
+                {#</div>#}
+
+                <div class="al-center wid_202 marg-auto">
+                    <div><label for="name-field" class="lab">Имя: </label></div>
+                    <input type="text" id="name-field" name="_firstName" value={{ user.firstName }}  tabindex="1">
+                </div>
+
+                <div class="al-center wid_202 marg-auto">
+                    <div><label for="name-field" class="lab">Фамилия: </label></div>
+                    <input type="text" id="name-field" name="_secondName" value={{ user.secondName }}  tabindex="1">
+                </div>
+
+                <select name="_department">
+                        <option value={{ user.department.id }} selected>{{ user.department.name }}</option>
+                    {% for department in departments %}
+                        <option value={{ department.id }}>{{ department.name }}</option>
+                    {% endfor %}
+                </select>
+
+
+                <div class="al-center wid_202 marg-auto mar-top-20">
+                    <a href={{ path('_welcome') }}><div class="fl-left al-center" id="input">Назад</div></a>
+                    <button type="submit" class="fl-right al-center" id="create" tabindex="7">Сохранить</button>
+                </div>
+
+
+            </form>
+        </div>
+    </div>
+
+
+    </body>
+{% endblock %}

@@ -69,6 +69,7 @@ class AdminController extends Controller
 
     /**
      * @Route("/users/addForm",name="addUserForm")
+     * @Security("has_role('ROLE_ADMIN')")
      */
     public function addUserFormAction() {
 
@@ -81,13 +82,47 @@ class AdminController extends Controller
     }
 
     /**
-     * @Route("/users/add",name="addUser")
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Route("/{id}/editForm",name="editUserForm")
      */
-    public function addUserAction() {
+    public function editUserFormAction($id) {
 
+        $user =  $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
+
+        $q = $this->getDoctrine()->getManager()->createQuery(
+            "SELECT d FROM AppBundle:Department d WHERE d.name<>'FakeDepartment'"
+        );
+        $departments = $q->getResult();
+
+        return $this->render('users/admin/edit_user.html.twig', array('user' => $user, 'departments' => $departments));
     }
 
     /**
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Route("/{id}/edit",name="editUser")
+     */
+    public function editUserAction(Request $request, $id) {
+
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
+
+        $em = $this->getDoctrine()->getManager();
+
+        $user->setFirstName($request->get('_firstName'));
+        $user->setSecondName($request->get('_secondName'));
+        if ($user->getDepartment() !==
+            $department = $this->getDoctrine()->getRepository('AppBundle:Department')->find($request->get('_department'))) {
+            $this->getDoctrine()->getRepository('AppBundle:Department')->find($user->getDepartment())->removeUser($user);
+            $user->setDepartment($department);
+            $department->addUser($user);
+        }
+
+        $em->flush();
+
+        return $this->redirectToRoute('userPage',array('id' => $id));
+    }
+
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route("/id{id}/del",name="delUser")
      */
     public function delUserAction($id) {
@@ -99,7 +134,7 @@ class AdminController extends Controller
         $em->remove($user);
         $em->flush();
 
-        return $this->indexAction();
+        return $this->redirectToRoute('adminPage');
     }
 
 

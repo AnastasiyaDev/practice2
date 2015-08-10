@@ -93,16 +93,14 @@ class TestController extends Controller
             $explanation = $this->get('calculate')->findExplanation($result->getRating(),$test);
             $result->setExplanation($explanation);
             $explanation->addResult($result);
-            $em->persist($explanation);
+
         }
         $result->setDate(new \DateTime(date('d.m.Y')));
 
         $test->addResult($result);
         $user->addResult($result);
 
-        $em->persist($result);
         $em->persist($test);
-        $em->persist($user);
         $em->flush();
 
         return $this->redirectToRoute('userTest', array('id' => $user->getId(), 'testId' => $test->getId()));
@@ -207,12 +205,9 @@ class TestController extends Controller
                 $answer->setRating($ans[$i]['rating']);
                 $answer->setQuestion($quest);
                 $quest->addAnswer($answer);
-                $em->persist($answer);
             }else continue;
         }
 
-        $em->persist($test);
-        $em->persist($quest);
         $em->flush();
 
 
@@ -240,7 +235,6 @@ class TestController extends Controller
         for ($i=0; $i<count($ans);$i++) {
             $answer->setContent($ans[$i]['content']);
             $answer->setRating($ans[$i]['rating']);
-            $em->persist($answer);
         }
 
         if(count($ans)>count($questionAns)) {
@@ -250,7 +244,6 @@ class TestController extends Controller
                 $answer->setRating($ans[$i]['rating']);
                 $answer->setQuestion($question);
                 $question->addAnswer($answer);
-                $em->persist($answer);
             }
         }
 
