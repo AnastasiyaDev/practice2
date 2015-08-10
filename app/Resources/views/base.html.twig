@@ -6,11 +6,13 @@
         {% block stylesheets %}
             <link rel="stylesheet" type="text/css" href="{{ asset('css/body.css') }}">
         {% endblock %}
+        {% block javascripts %}
+            <script type="text/javascript" src="{{ asset('js/jquery-1.11.3.min.js') }}"></script>
+        {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('Logo.png') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/body.css') }}">
     </head>
     <body>
         {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
     </body>
 </html>
