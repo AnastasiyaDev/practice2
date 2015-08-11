@@ -35,6 +35,11 @@ Class Test extends NamedEntity
      */
     private $results;
 
+    /**
+     * @ORM\ManyToMany(targetEntity="Company",mappedBy="tests")
+     */
+    private $companies;
+
 
     /**
      * Set description
@@ -196,5 +201,38 @@ Class Test extends NamedEntity
     public function getResults()
     {
         return $this->results;
+    }
+
+    /**
+     * Add companies
+     *
+     * @param \AppBundle\Entity\Company $companies
+     * @return Test
+     */
+    public function addCompany(\AppBundle\Entity\Company $companies)
+    {
+        $this->companies[] = $companies;
+
+        return $this;
+    }
+
+    /**
+     * Remove companies
+     *
+     * @param \AppBundle\Entity\Company $companies
+     */
+    public function removeCompany(\AppBundle\Entity\Company $companies)
+    {
+        $this->companies->removeElement($companies);
+    }
+
+    /**
+     * Get companies
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCompanies()
+    {
+        return $this->companies;
     }
 }

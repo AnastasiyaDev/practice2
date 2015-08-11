@@ -51,19 +51,34 @@ class UserController extends Controller
 
         $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
 
+        $findTests = function($source){
+            foreach ($source->getTests()->getValues() as $test)
+            {
+                $TestIds[] = $test->getId();
+            }
+            return $TestIds;
+        };
+
         if (!$user->getTests()->isEmpty())
         {
-            $arrayOfAlreadyUsedIds = null;$i = 0;
-            foreach ($user->getTests()->getValues() as $test)
-            {
-                $arrayOfAlreadyUsedIds[$i++] = $test->getId();
-            }
             $q = $this->getDoctrine()->getManager()->createQuery(
-                'SELECT t FROM AppBundle:Test t WHERE t.id NOT IN (:test)'
-            )->setParameter('test',$arrayOfAlreadyUsedIds);
+                'SELECT t FROM AppBundle:Test t WHERE t.id NOT IN (:test) AND ( t.id IN (:generalTest) OR t.id IN (:companyTest))'
+            )->setParameters( array(
+                'test' => $findTests($user),
+                'generalTest' => $findTests($this->getDoctrine()->getRepository('AppBundle:Company')
+                                 ->findOneBy(array('name' => 'FakeCompany'))),
+                'companyTest' => $findTests($user->getDepartment()->getCompany())
+            ));
             $tests = $q->getResult();
         } else
-            $tests = $this->getDoctrine()->getRepository('AppBundle:Test')->findAll();
+            $q = $this->getDoctrine()->getManager()->createQuery(
+                'SELECT t FROM AppBundle:Test t WHERE t.id IN (:generalTest) OR t.id IN (:companyTest)'
+            )->setParameters( array(
+                'generalTest' => $findTests($this->getDoctrine()->getRepository('AppBundle:Company')
+                    ->findOneBy(array('name' => 'FakeCompany'))),
+                'companyTest' => $findTests($user->getDepartment()->getCompany())
+            ));
+            $tests = $q->getResult();
 
         return $this->render('users/personal_page.html.twig', array('user' => $user,
             'tests' => $tests));
@@ -129,7 +144,7 @@ class UserController extends Controller
         if(!empty($request->get('_department'))) {
             $user->setDepartment($this->getDoctrine()->getRepository('AppBundle:Department')->find($request->get('_department')));
         }else
-            $user->setDepartment($this->getDoctrine()->getRepository('AppBundle:Department')->find(1));
+            $user->setDepartment($this->getDoctrine()->getRepository('AppBundle:Department')->findOneBy(array('name' => 'FakeCompany')));
         $user->setRoles('ROLE_USER');
 
         $em = $this->getDoctrine()->getManager();

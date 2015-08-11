@@ -18,18 +18,16 @@ class AdminController extends Controller
      */
     public function indexAction()
     {
-
-        $tests = $this->getDoctrine()->getRepository('AppBundle:Test')->findAll();
-
         return $this->render(':users/admin:admin_page.html.twig', array('user' => $this->getUser(),
-            'tests' => $tests));
+            'tests' => $this->getDoctrine()->getRepository('AppBundle:Test')->findAll()));
     }
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
      * @Route("/users",name="usersList")
      */
-    public function showAllUsersAction() {
+    public function showAllUsersAction()
+    {
 
         $users = $this->getDoctrine()->getRepository('AppBundle:User')->findByRoles('ROLE_USER');
 
@@ -42,7 +40,8 @@ class AdminController extends Controller
      * @Security("has_role('ROLE_ADMIN')")
      * @Route("/group",name="groupList")
      */
-    public function showAllGroupAction() {
+    public function showAllGroupAction()
+    {
 
         $q = $this->getDoctrine()->getManager()->createQuery(
             "SELECT d FROM AppBundle:Department d WHERE d.name<>'FakeDepartment'"
@@ -58,7 +57,8 @@ class AdminController extends Controller
      * @Security("has_role('ROLE_ADMIN')")
      * @Route("/group/{groupName}",name="groupUser")
      */
-    public function showUserByGroupAction($groupName) {
+    public function showUserByGroupAction($groupName)
+    {
 
         $users = $this->getDoctrine()->getRepository('AppBundle:User')->findByGroupName($groupName);
 
@@ -71,7 +71,8 @@ class AdminController extends Controller
      * @Route("/users/addForm",name="addUserForm")
      * @Security("has_role('ROLE_ADMIN')")
      */
-    public function addUserFormAction() {
+    public function addUserFormAction()
+    {
 
         $q = $this->getDoctrine()->getManager()->createQuery(
             "SELECT d FROM AppBundle:Department d WHERE d.name<>'FakeDepartment'"
@@ -85,7 +86,8 @@ class AdminController extends Controller
      * @Security("has_role('ROLE_ADMIN')")
      * @Route("/{id}/editForm",name="editUserForm")
      */
-    public function editUserFormAction($id) {
+    public function editUserFormAction($id)
+    {
 
         $user =  $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
 
@@ -101,7 +103,8 @@ class AdminController extends Controller
      * @Security("has_role('ROLE_ADMIN')")
      * @Route("/{id}/edit",name="editUser")
      */
-    public function editUserAction(Request $request, $id) {
+    public function editUserAction(Request $request, $id)
+    {
 
         $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
 
@@ -125,7 +128,8 @@ class AdminController extends Controller
      * @Security("has_role('ROLE_ADMIN')")
      * @Route("/id{id}/del",name="delUser")
      */
-    public function delUserAction($id) {
+    public function delUserAction($id)
+    {
 
         $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
 

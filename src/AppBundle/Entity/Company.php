@@ -13,45 +13,86 @@ class Company extends NamedEntity
     /**
      * @ORM\OneToMany(targetEntity="Department",mappedBy="company", cascade={"all"},orphanRemoval=true)
      */
-    private $departaments;
+    private $departments;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="Test",inversedBy="companies")
+     * @ORM\JoinTable(name="company_test",
+     * joinColumns={@ORM\JoinColumn(name="company_id", referencedColumnName="id")},
+     * inverseJoinColumns={@ORM\JoinColumn(name="test_id", referencedColumnName="id")})
+     */
+    private $tests;
     /**
      * Constructor
      */
     public function __construct()
     {
-        $this->departaments = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->departments = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
-     * Add departaments
+     * Add departments
      *
-     * @param \AppBundle\Entity\Department $departaments
+     * @param \AppBundle\Entity\Department $departments
      * @return Company
      */
-    public function addDepartament(\AppBundle\Entity\Department $departaments)
+    public function addDepartment(\AppBundle\Entity\Department $departments)
     {
-        $this->departaments[] = $departaments;
+        $this->departments[] = $departments;
 
         return $this;
     }
 
     /**
-     * Remove departaments
+     * Remove departments
      *
-     * @param \AppBundle\Entity\Department $departaments
+     * @param \AppBundle\Entity\Department $departments
      */
-    public function removeDepartament(\AppBundle\Entity\Department $departaments)
+    public function removeDepartment(\AppBundle\Entity\Department $departments)
     {
-        $this->departaments->removeElement($departaments);
+        $this->departments->removeElement($departments);
     }
 
     /**
-     * Get departaments
+     * Get departments
      *
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getDepartaments()
+    public function getDepartments()
     {
-        return $this->departaments;
+        return $this->departments;
+    }
+
+    /**
+     * Add tests
+     *
+     * @param \AppBundle\Entity\Test $tests
+     * @return Company
+     */
+    public function addTest(\AppBundle\Entity\Test $tests)
+    {
+        $this->tests[] = $tests;
+
+        return $this;
+    }
+
+    /**
+     * Remove tests
+     *
+     * @param \AppBundle\Entity\Test $tests
+     */
+    public function removeTest(\AppBundle\Entity\Test $tests)
+    {
+        $this->tests->removeElement($tests);
+    }
+
+    /**
+     * Get tests
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getTests()
+    {
+        return $this->tests;
     }
 }

@@ -24,7 +24,11 @@
 
                     <button id="edit-des" class="blue-button" type="button" class="al-center" tabindex="">Редактировать</button>
                     <button id="save-d" class="blue-button fl-right" type="button" class="al-center" tabindex="">Сохранить</button>
+
                 </span>
+                {% for company in test.companies %}
+                <p>{{ company.name }}</p>
+                {% endfor %}
             {% endif %}
         </div>
 

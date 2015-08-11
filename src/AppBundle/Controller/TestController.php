@@ -111,7 +111,9 @@ class TestController extends Controller
      * @Route("/test", name="testNewForm")
      */
     public function newTestFormAction() {
-        return $this->render(':tests:new_test.html.twig');
+        return $this->render(':tests:new_test.html.twig',array(
+            'companies' => $this->getDoctrine()->getRepository('AppBundle:Company')->findAll()
+        ));
     }
 
     /**
@@ -124,6 +126,9 @@ class TestController extends Controller
 
         $test->setName($request->get('_name'));
         $test->setDescription($request->get('_description'));
+        $company = $this->getDoctrine()->getRepository('AppBundle:Company')->find($request->get('_company'));
+        $test->addCompany($company);
+        $company->addTest($test);
 
         $em = $this->getDoctrine()->getManager();
 
@@ -143,6 +148,11 @@ class TestController extends Controller
         $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($id);
 
         $em = $this->getDoctrine()->getManager();
+
+        foreach ($test->getCompanies() as $company) {
+            $company->removeTest($test);
+            $em->persist($company);
+        }
 
         $em->remove($test);
         $em->flush();

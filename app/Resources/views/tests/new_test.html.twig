@@ -25,6 +25,12 @@
                     <textarea id="description-field" name="_description"  tabindex="1" required></textarea>
                 </div>
 
+                <select name="_company">
+                    {% for company in companies %}
+                        <option value={{ company.id }}>{{ company.name }}</option>
+                    {% endfor %}
+                </select>
+
 
                 <div class="al-center wid_202 marg-auto mar-top-20">
                     <a href={{ path('_welcome') }}><div class="fl-left al-center" id="input">Назад</div></a>

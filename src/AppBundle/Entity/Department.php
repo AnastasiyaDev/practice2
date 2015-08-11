@@ -11,7 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 class Department extends NamedEntity
 {
     /**
-     * @ORM\ManyToOne(targetEntity="Company",inversedBy="departaments")
+     * @ORM\ManyToOne(targetEntity="Company",inversedBy="departments")
      * @ORM\JoinColumn(name="company_id",referencedColumnName="id")
      */
     private $company;
