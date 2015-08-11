@@ -7,7 +7,9 @@
             <link rel="stylesheet" type="text/css" href="{{ asset('css/body.css') }}">
         {% endblock %}
         {% block javascripts %}
-            <script type="text/javascript" src="{{ asset('js/jquery-1.11.3.min.js') }}"></script>
+            {% javascripts 'js/jquery.min.js' %}
+            <script type="text/javascript" src="{{ asset(asset_url) }}"></script>
+            {% endjavascripts %}
         {% endblock %}
         <link rel="icon" type="image/x-icon" href="{{ asset('Logo.png') }}">
         <link rel="stylesheet" type="text/css" href="{{ asset('css/body.css') }}">
