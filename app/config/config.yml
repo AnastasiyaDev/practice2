@@ -54,13 +54,13 @@ assetic:
                     - %kernel.root_dir%/../vendor/components/jquery/jquery.min.js
                 output: js/jquery.min.js
             jquery-ui:
-                            inputs:
-                                - %kernel.root_dir%/../vendor/components/jqueryui/jquery-ui.min.js
-                            output: js/jquery-ui.min.js
+                inputs:
+                    - %kernel.root_dir%/../vendor/components/jqueryui/jquery-ui.min.js
+                output: js/jquery-ui.min.js
             cupertino-css:
-                                        inputs:
-                                            - %kernel.root_dir%/../vendor/components/jqueryui//themes/cupertino/jquery-ui.min.css
-                                        output: css/jquery-ui.min.css
+                inputs:
+                    - %kernel.root_dir%/../vendor/components/jqueryui//themes/cupertino/jquery-ui.min.css
+                output: css/jquery-ui.min.css
 
 
 # Doctrine Configuration
