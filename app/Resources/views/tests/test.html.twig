@@ -18,13 +18,9 @@
             <p>{{ test.description }}</p>
             {% if is_granted('ROLE_ADMIN') %}
                 <span>
-                    <a href={{ path('delTest', {'id':test.id}) }}>
-                    <button id="del-d" class="red-button" type="button" class="al-center" tabindex="">Удалить</button>
-                    </a>
-
+                    <a href={{ path('delTest', {'id':test.id}) }}><div class="fl-left red-button" id="del-test" formnovalidate>Удалить</div></a>
                     <button id="edit-des" class="blue-button" type="button" class="al-center" tabindex="">Редактировать</button>
                     <button id="save-d" class="blue-button fl-right" type="button" class="al-center" tabindex="">Сохранить</button>
-
                 </span>
                 {% for company in test.companies %}
                 <p>{{ company.name }}</p>
@@ -117,7 +113,7 @@
 
             $(document).ready(function () {
 
-                $('document').append('#AddQuestionForm');
+                $('#AddQuestionForm').append('#AddQuestionForm');
                 $('#AddQuestionForm').hide();
                 $('#add-q').click(function () {
                     $('#AddQuestionForm').show();
@@ -125,6 +121,23 @@
                 $('#cancel-q').click(function () {
                     $('#AddQuestionForm').hide();
                 });
+
+//                var numAns = 0;
+//                $('#add-q').click(function (){
+//                    $('#AddQuestionForm').append('#AddQuestionForm');
+//
+//                    numAns++;
+//
+//                });
+                $('#add-q').click = function(event) {
+                    var target = event.target;
+                    var id = target.getAttribute('#AddQuestionForm');
+                    if (!id) return;
+                    var elem = document.getElementById(id);
+                    elem.hidden = !elem.hidden;
+                };
+
+
             });
 
         </script>

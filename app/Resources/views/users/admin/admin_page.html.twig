@@ -24,7 +24,12 @@
                                 <p>{{ test.name }}</p>
                                 <span>{{ test.description }}</span>
                             </a>
-                            <a class="del" href={{ path('delTest', {'id':test.id}) }}></a>
+
+
+                            {#<a class="del" href={{ path('delTest', {'id':test.id}) }}></a>#}
+                            <a class="del" id="{{ test.id }}" onclick="setId({{test.id}})"></a>
+
+
                         </li>
                     {% endfor %}
                         <li class="sub">
@@ -47,6 +52,45 @@
                 $( "#tabs" ).tabs();
             });
         </script>
+
+        <script>
+
+
+            function ask(question, yes, no) {
+                if (confirm(question)) {
+                    yes();
+                }
+                else no();
+            }
+            function showOk() {
+
+
+
+                {#$(location).attr('href','{{ path("delTest", {"id":'#}
+                {#+ids#}
+                {#+'}) }}');#}
+
+//                alert(ids);
+
+            }
+            function showCancel() {
+//                                    alert("Вы отменили выполнение.");
+            }
+
+            function setId(ids){
+                this.ids = ids;
+                ask("Вы действительно хотите удалить тест?", showOk, showCancel);
+            }
+
+            {#$('.del').click(function(){#}
+                {#&#123;&#35;var id  = {{ test.id }};&#35;&#125;#}
+{#//                                    ask("Вы действительно хотите удалить тест?", showOk, showCancel);#}
+                {#alert({{ test.id }});#}
+            {#});#}
+
+        </script>
+
+
 
 
 
