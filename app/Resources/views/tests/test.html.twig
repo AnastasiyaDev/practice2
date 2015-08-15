@@ -78,18 +78,6 @@
                         <label for="text-q-{{ NumberQ  }}">Текст вопроса: </label>
                         <textarea id="text-q-{{ NumberQ  }}" name="_description" tabindex="1"></textarea>
 
-                        {#<div class="fl-left add-a-box">#}
-
-                             {#<label for="text-a">Ответ: </label>#}
-                             {#<input id="text-a" type="text" name="_answer[0][content]" size="8" tabindex="2" pattern="[a-zA-Z0-9_-\t]+">#}
-
-                             {#<span class="spn0">#}
-                                 {#<label for="text-p">Баллы за ответ: </label>#}
-                                 {#<input id="text-p" type="text" name="_answer[0][rating]" size="2" tabindex="3" pattern="[0-9]+">#}
-                             {#</span>#}
-                             {#<div id="cancel-a" class="vert-align-m cnl"></div>#}
-                       {#</div>#}
-
                     </div>
 
                     <div class="fl-right butblock">
@@ -135,6 +123,7 @@
             {#});#}
 
         {#</script>#}
+
         <script type="text/javascript">
             $(document).ready(function () {
                 $('document').append('#AddQuestionForm');

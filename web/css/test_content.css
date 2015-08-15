@@ -11,9 +11,10 @@ h3{
 	font-weight: normal;
 	margin: 10px 0px 10px 0px;
 }
+
 .quest-box{
-	width: inherit;
-	/*height: 120px;*/
+	/*width: inherit;*/
+	height: 120px;
 }
 .quest-number{
 	width: 48px;
@@ -95,5 +96,4 @@ a #input{
 	outline: none;
 }
 #add-q{
-	margin-top: 15px;
 }
