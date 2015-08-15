@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Explanation;
+use AppBundle\Entity\Image;
 use AppBundle\Entity\Result;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -110,9 +111,37 @@ class TestController extends Controller
      * @Security("has_role('ROLE_ADMIN')")
      * @Route("/test", name="testNewForm")
      */
-    public function newTestFormAction() {
+    public function newTestFormAction(Request $request) {
+
+        $em = $this->getDoctrine()->getManager();
+
+        $test = new Test();
+        $testForm = $this->createFormBuilder($test)
+            ->add('name', null, array('required' => true ))
+            ->add('description', 'textarea')
+            ->add('companies','entity',array('class' =>'AppBundle\Entity\Company',
+                'property' => 'name',
+                'multiple' => 'true',
+                ))
+            ->getForm();
+
+        if ($request->isMethod('POST')) {
+            $testForm->submit($request);
+
+            if ($testForm->isValid()) {
+                foreach ($testForm->get('companies')->getData() as $company) {
+                    $company->addTest($test);
+                    $em->persist($company);
+                }
+                $em->persist($test);
+                $em->flush();
+                return $this->redirectToRoute('aboutTestpage', array('id' => $test->getId()));
+            }
+        }
+
         return $this->render(':tests:new_test.html.twig',array(
-            'companies' => $this->getDoctrine()->getRepository('AppBundle:Company')->findAll()
+            'companies' => $this->getDoctrine()->getRepository('AppBundle:Company')->findAll(),
+            'testForm' => $testForm->createView(),
         ));
     }
 
