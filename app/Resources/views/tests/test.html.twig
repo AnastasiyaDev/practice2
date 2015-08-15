@@ -109,37 +109,43 @@
 
         {#----------------------------------------Start Add question-----------------------------------------------#}
 
+        {#<script type="text/javascript">#}
+
+            {#$(document).ready(function () {#}
+
+                {#$('#AddQuestionForm').append('#AddQuestionForm');#}
+                {#$('#AddQuestionForm').hide();#}
+                {#$('#add-q').click(function () {#}
+                    {#$('#AddQuestionForm').show();#}
+                {#});#}
+                {#$('#cancel-q').click(function () {#}
+                    {#$('#AddQuestionForm').hide();#}
+                {#});#}
+
+{#//                var numAns = 0;#}
+{#//                $('#add-q').click(function (){#}
+{#//                    $('#AddQuestionForm').append('#AddQuestionForm');#}
+{#//#}
+{#//                    numAns++;#}
+{#//#}
+{#//                });#}
+
+
+
+            {#});#}
+
+        {#</script>#}
         <script type="text/javascript">
-
             $(document).ready(function () {
-
-                $('#AddQuestionForm').append('#AddQuestionForm');
+                $('document').append('#AddQuestionForm');
                 $('#AddQuestionForm').hide();
                 $('#add-q').click(function () {
                     $('#AddQuestionForm').show();
-                });
+                })
                 $('#cancel-q').click(function () {
                     $('#AddQuestionForm').hide();
                 });
-
-//                var numAns = 0;
-//                $('#add-q').click(function (){
-//                    $('#AddQuestionForm').append('#AddQuestionForm');
-//
-//                    numAns++;
-//
-//                });
-                $('#add-q').click = function(event) {
-                    var target = event.target;
-                    var id = target.getAttribute('#AddQuestionForm');
-                    if (!id) return;
-                    var elem = document.getElementById(id);
-                    elem.hidden = !elem.hidden;
-                };
-
-
             });
-
         </script>
 
         {#----------------------------------------Start Add/cancel answer-----------------------------------------------#}
@@ -238,9 +244,9 @@
 
         </script>
 
-    {% if is_granted('ROLE_ADMIN') %}
-        <div><a href={{ path('testEditForm',{ 'id':test.id} ) }}>+ ДОБАВИТЬ ОПИСАНИЕ РЕЗУЛЬТАТА</a></div>
-    {% endif %}
+    {#{% if is_granted('ROLE_ADMIN') %}#}
+        {#<div><a href={{ path('testEditForm',{ 'id':test.id} ) }}>+ ДОБАВИТЬ ОПИСАНИЕ РЕЗУЛЬТАТА</a></div>#}
+    {#{% endif %}#}
 
         {% if answers is defined %}
             {% for answer in answers %}
