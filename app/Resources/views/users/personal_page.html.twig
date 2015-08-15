@@ -5,7 +5,6 @@
     {{ parent() }}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/header.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/personal_page_content.css') }}">
-    <script type="text/javascript" src="{{ asset('js/jquery-1.11.3.min.js') }}"></script>
 {% endblock %}
 {% block body%}
     <body>
@@ -16,7 +15,19 @@
 
         <div id="personal">
             <div id="name">{{ user.firstName }} {{ user.secondName }}</div>
-            <div id="nGroup">{{ user.groupName }}</div>
+            {% if user.department.name != 'FakeDepartment' %}
+            <div id="nGroup">{{ user.department.name }}</div>
+            {% endif %}
+            {% if is_granted('ROLE_ADMIN') %}
+                <span>
+                    <a href={{ path('delUser', {'id':user.id}) }}>
+                        <button id="del-d" class="red-button" type="button" class="al-center" tabindex="">Удалить</button>
+                    </a>
+                    <a href={{ path('editUserForm', {'id':user.id}) }}>
+                        <button id="edit-des" class="blue-button" type="button" class="al-center" tabindex="">Редактировать</button>
+                    </a>
+                </span>
+            {% endif %}
         </div>
 
 

@@ -79,6 +79,7 @@ class TestController extends Controller
             ->find($id);
 
         $user = $this->getUser();
+        $em = $this->getDoctrine()->getManager();
 
         $user->addTest($test);
         foreach($request->get('_answerArray') as $answer) {
@@ -88,21 +89,18 @@ class TestController extends Controller
         $result->setTest($test);
         $result->setUser($user);
         $result->setRating($this->get('calculate')->calculateRating($user,$test));
-        $explanation = $this->get('calculate')->findExplanation($result->getRating(),$test);
-        $result->setExplanation($explanation);
+        if (!$test->getExplanation()->isEmpty()) {
+            $explanation = $this->get('calculate')->findExplanation($result->getRating(),$test);
+            $result->setExplanation($explanation);
+            $explanation->addResult($result);
+
+        }
         $result->setDate(new \DateTime(date('d.m.Y')));
 
         $test->addResult($result);
         $user->addResult($result);
-        $explanation->addResult($result);
 
-
-
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($explanation);
-        $em->persist($result);
         $em->persist($test);
-        $em->persist($user);
         $em->flush();
 
         return $this->redirectToRoute('userTest', array('id' => $user->getId(), 'testId' => $test->getId()));
@@ -113,7 +111,9 @@ class TestController extends Controller
      * @Route("/test", name="testNewForm")
      */
     public function newTestFormAction() {
-        return $this->render(':tests:new_test.html.twig');
+        return $this->render(':tests:new_test.html.twig',array(
+            'companies' => $this->getDoctrine()->getRepository('AppBundle:Company')->findAll()
+        ));
     }
 
     /**
@@ -126,6 +126,9 @@ class TestController extends Controller
 
         $test->setName($request->get('_name'));
         $test->setDescription($request->get('_description'));
+        $company = $this->getDoctrine()->getRepository('AppBundle:Company')->find($request->get('_company'));
+        $test->addCompany($company);
+        $company->addTest($test);
 
         $em = $this->getDoctrine()->getManager();
 
@@ -138,13 +141,18 @@ class TestController extends Controller
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/test/id{id}/del", name="testDel")
+     * @Route("/test/id{id}/del", name="delTest")
      */
     public function delTestAction($id) {
 
         $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($id);
 
         $em = $this->getDoctrine()->getManager();
+
+        foreach ($test->getCompanies() as $company) {
+            $company->removeTest($test);
+            $em->persist($company);
+        }
 
         $em->remove($test);
         $em->flush();
@@ -207,12 +215,9 @@ class TestController extends Controller
                 $answer->setRating($ans[$i]['rating']);
                 $answer->setQuestion($quest);
                 $quest->addAnswer($answer);
-                $em->persist($answer);
             }else continue;
         }
 
-        $em->persist($test);
-        $em->persist($quest);
         $em->flush();
 
 
@@ -240,7 +245,6 @@ class TestController extends Controller
         for ($i=0; $i<count($ans);$i++) {
             $answer->setContent($ans[$i]['content']);
             $answer->setRating($ans[$i]['rating']);
-            $em->persist($answer);
         }
 
         if(count($ans)>count($questionAns)) {
@@ -250,7 +254,6 @@ class TestController extends Controller
                 $answer->setRating($ans[$i]['rating']);
                 $answer->setQuestion($question);
                 $question->addAnswer($answer);
-                $em->persist($answer);
             }
         }
 

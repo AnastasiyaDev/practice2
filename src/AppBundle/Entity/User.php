@@ -41,12 +41,13 @@ Class User implements UserInterface, \Serializable
     private $secondName;
 
     /**
-     * @ORM\Column(type="string", length=10)
+     * @ORM\ManyToOne(targetEntity="Department",inversedBy="users")
+     * @ORM\JoinColumn(name="department_id",referencedColumnName="id")
      */
-    private $groupName;
+    private $department;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Test")
+     * @ORM\ManyToMany(targetEntity="Test", inversedBy="users")
      * @ORM\JoinTable(name="user_complete_test",
      * joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      * inverseJoinColumns={@ORM\JoinColumn(name="test_id", referencedColumnName="id")})
@@ -54,7 +55,7 @@ Class User implements UserInterface, \Serializable
     private $tests;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Answer")
+     * @ORM\ManyToMany(targetEntity="Answer",inversedBy="users")
      * @ORM\JoinTable(name="user_answer",
      * joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      * inverseJoinColumns={@ORM\JoinColumn(name="answer_id", referencedColumnName="id")})
@@ -171,29 +172,6 @@ Class User implements UserInterface, \Serializable
     public function getSecondName()
     {
         return $this->secondName;
-    }
-
-    /**
-     * Set groupName
-     *
-     * @param string $groupName
-     * @return User
-     */
-    public function setGroupName($groupName)
-    {
-        $this->groupName = $groupName;
-
-        return $this;
-    }
-
-    /**
-     * Get groupName
-     *
-     * @return string 
-     */
-    public function getGroupName()
-    {
-        return $this->groupName;
     }
 
     /**
@@ -395,5 +373,29 @@ Class User implements UserInterface, \Serializable
     public function getResults()
     {
         return $this->results;
+    }
+
+
+    /**
+     * Set department
+     *
+     * @param \AppBundle\Entity\Department $department
+     * @return User
+     */
+    public function setDepartment(\AppBundle\Entity\Department $department = null)
+    {
+        $this->department = $department;
+
+        return $this;
+    }
+
+    /**
+     * Get department
+     *
+     * @return \AppBundle\Entity\Department 
+     */
+    public function getDepartment()
+    {
+        return $this->department;
     }
 }

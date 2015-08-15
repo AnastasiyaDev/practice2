@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Company;
+use AppBundle\Entity\Department;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Response;
@@ -49,19 +51,34 @@ class UserController extends Controller
 
         $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
 
+        $findTests = function($source){
+            foreach ($source->getTests()->getValues() as $test)
+            {
+                $TestIds[] = $test->getId();
+            }
+            return $TestIds;
+        };
+
         if (!$user->getTests()->isEmpty())
         {
-            $arrayOfAlreadyUsedIds = null;$i = 0;
-            foreach ($user->getTests()->getValues() as $test)
-            {
-                $arrayOfAlreadyUsedIds[$i++] = $test->getId();
-            }
             $q = $this->getDoctrine()->getManager()->createQuery(
-                'SELECT t FROM AppBundle:Test t WHERE t.id NOT IN (:test)'
-            )->setParameter('test',$arrayOfAlreadyUsedIds);
+                'SELECT t FROM AppBundle:Test t WHERE t.id NOT IN (:test) AND ( t.id IN (:generalTest) OR t.id IN (:companyTest))'
+            )->setParameters( array(
+                'test' => $findTests($user),
+                'generalTest' => $findTests($this->getDoctrine()->getRepository('AppBundle:Company')
+                                 ->findOneBy(array('name' => 'FakeCompany'))),
+                'companyTest' => $findTests($user->getDepartment()->getCompany())
+            ));
             $tests = $q->getResult();
         } else
-            $tests = $this->getDoctrine()->getRepository('AppBundle:Test')->findAll();
+            $q = $this->getDoctrine()->getManager()->createQuery(
+                'SELECT t FROM AppBundle:Test t WHERE t.id IN (:generalTest) OR t.id IN (:companyTest)'
+            )->setParameters( array(
+                'generalTest' => $findTests($this->getDoctrine()->getRepository('AppBundle:Company')
+                    ->findOneBy(array('name' => 'FakeCompany'))),
+                'companyTest' => $findTests($user->getDepartment()->getCompany())
+            ));
+            $tests = $q->getResult();
 
         return $this->render('users/personal_page.html.twig', array('user' => $user,
             'tests' => $tests));
@@ -103,7 +120,6 @@ class UserController extends Controller
     public function registrationFormAction()
     {
         return $this->render(':users:registration.html.twig');
-
     }
 
     /**
@@ -124,7 +140,11 @@ class UserController extends Controller
         $user->setPassword($encoded);
         $user->setFirstName($request->get('_firstName'));
         $user->setSecondName($request->get('_secondName'));
-        $user->setGroupName($request->get('_groupName'));
+
+        if(!empty($request->get('_department'))) {
+            $user->setDepartment($this->getDoctrine()->getRepository('AppBundle:Department')->find($request->get('_department')));
+        }else
+            $user->setDepartment($this->getDoctrine()->getRepository('AppBundle:Department')->findOneBy(array('name' => 'FakeCompany')));
         $user->setRoles('ROLE_USER');
 
         $em = $this->getDoctrine()->getManager();
@@ -137,10 +157,14 @@ class UserController extends Controller
             return $this->render(':users:registration.html.twig', array('error' => $error));
         }
 
+        if ($this->isGranted('ROLE_ADMIN')) {
+            return $this->showUserAction($user->getId());
+        }
+
         $token = new UsernamePasswordToken($user, $user->getPassword(), 'database_users',$user->getRoles() );
         $this->get('security.token_storage')->setToken($token);
 
-        return $this->indexAction();
+        return $this->redirectToRoute('userPage',array('id' => $user->getId()));
     }
 
 

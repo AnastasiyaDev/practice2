@@ -19,8 +19,7 @@ class AnsCalculate
                 return $explanation;
             }
         }
-        return new Explanation();
-
+        return null;
     }
 
     /**

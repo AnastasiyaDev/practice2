@@ -4,7 +4,6 @@
     {{ parent() }}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/header.css') }}">
     <link rel="stylesheet" type="text/css" href="{{ asset('css/personal_page_content.css') }}">
-    <script type="text/javascript" src="{{ asset('js/jquery-1.11.3.min.js') }}"></script>
 {% endblock %}
 {% block body%}
     <body>
@@ -13,9 +12,9 @@
     <div class="content marg-auto clearfix ">
 
         <ul class="main-menu">
-            {% for user in users %}
-                <li class="sub"><a href={{ path('userPage',{ 'id':user.id}) }}>
-                        <p>{{ user.groupName }}</p>
+            {% for department in departments %}
+                <li class="sub"><a href=>
+                        <p>{{ department.name }}</p>
                     </a></li>
             {% endfor %}
         </ul>

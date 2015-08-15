@@ -8,20 +8,8 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Entity
  * @ORM\Table(name="tests")
  */
-Class Test
+Class Test extends NamedEntity
 {
-    /**
-     * @ORM\Id
-     * @ORM\Column(type="integer")
-     * @ORM\GeneratedValue(strategy="AUTO")
-     */
-    private $id;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $name;
-
     /**
      * @ORM\Column(type="text")
      */
@@ -48,37 +36,10 @@ Class Test
     private $results;
 
     /**
-     * Get id
-     *
-     * @return integer 
+     * @ORM\ManyToMany(targetEntity="Company",mappedBy="tests")
      */
-    public function getId()
-    {
-        return $this->id;
-    }
+    private $companies;
 
-    /**
-     * Set name
-     *
-     * @param string $name
-     * @return Test
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-
-        return $this;
-    }
-
-    /**
-     * Get name
-     *
-     * @return string 
-     */
-    public function getName()
-    {
-        return $this->name;
-    }
 
     /**
      * Set description
@@ -240,5 +201,38 @@ Class Test
     public function getResults()
     {
         return $this->results;
+    }
+
+    /**
+     * Add companies
+     *
+     * @param \AppBundle\Entity\Company $companies
+     * @return Test
+     */
+    public function addCompany(\AppBundle\Entity\Company $companies)
+    {
+        $this->companies[] = $companies;
+
+        return $this;
+    }
+
+    /**
+     * Remove companies
+     *
+     * @param \AppBundle\Entity\Company $companies
+     */
+    public function removeCompany(\AppBundle\Entity\Company $companies)
+    {
+        $this->companies->removeElement($companies);
+    }
+
+    /**
+     * Get companies
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getCompanies()
+    {
+        return $this->companies;
     }
 }

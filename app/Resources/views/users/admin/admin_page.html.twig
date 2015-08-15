@@ -3,7 +3,6 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/header.css') }}">
-    <script type="text/javascript" src="{{ asset('js/jquery-1.11.3.min.js') }}"></script>
 {% endblock %}
 {% block body%}
     <body>
@@ -20,8 +19,7 @@
 
                             <p>{{ test.name }}</p>
                             <span>{{ test.description }}</span>
-                            <span> <a href={{ path('testEditForm', {'id':test.id}) }}>РЕДАКТРИРОВАТЬ</a>
-                                   <a href={{ path('testDel', {'id':test.id}) }}>УДАЛИТЬ</a> </span>
+                            <span><a href={{ path('delTest', {'id':test.id}) }}>УДАЛИТЬ</a></span>
                         </a>
                     </li>
                 {% endfor %}
@@ -42,6 +40,11 @@
                             <p>Список пользователей по группам</p></a>
                     </li>
                 </ul>
+                <ul>
+                    <li class="sub-menu"><a href={{ path('addUserForm') }}>
+                            <p>+ Добавить пользователя</p></a>
+                    </li>
+                </ul>
             </li>
         </ul>
 
@@ -58,12 +61,6 @@
 
         </script>
     </div>
-
-    <script type="text/javascript">
-        var today = new Date();
-        // alert( today.toLocaleString());
-    </script>
-
 
     </body>
 {% endblock %}
