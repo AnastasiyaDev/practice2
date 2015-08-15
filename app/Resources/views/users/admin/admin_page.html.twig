@@ -10,56 +10,46 @@
 
     <div class="content marg-auto clearfix ">
 
-    <ul class="main-menu">
-        <li><a href="#0">Тесты</a>
+
+        <div id="tabs">
             <ul>
-                {% for test in tests %}
-                    <li class="sub-menu">
-                        <a  href={{ path('aboutTestpage',{'id':test.id}) }}>
-
-                            <p>{{ test.name }}</p>
-                            <span>{{ test.description }}</span>
-                            <span><a href={{ path('delTest', {'id':test.id}) }}>УДАЛИТЬ</a></span>
-                        </a>
-                    </li>
-                {% endfor %}
-                <a href={{ path('testNewForm') }}> + Новый тест</a>
+                <li><a href="#tabs-1">Тесты</a></li>
+                <li><a href="#tabs-2">Пользователи</a></li>
             </ul>
-        </li>
-    </ul>
-
-        <ul class="main-menu">
-            <li><a href="#1">Пользователи</a>
-                <ul>
-                    <li class="sub-menu"><a href={{ path('usersList') }}>
-                            <p>Список всех пользователей</p></a>
-                    </li>
+            <div id="tabs-1">
+                <ul class="main-menu">
+                    {% for test in tests %}
+                        <li class="sub clear-fix">
+                            <a  href={{ path('aboutTestpage',{'id':test.id}) }}>
+                                <p>{{ test.name }}</p>
+                                <span>{{ test.description }}</span>
+                            </a>
+                            <a class="del" href={{ path('delTest', {'id':test.id}) }}></a>
+                        </li>
+                    {% endfor %}
+                        <li class="sub">
+                            <a href={{ path('testNewForm') }}> + Новый тест</a>
+                        </li>
                 </ul>
-                <ul>
-                    <li class="sub-menu"><a href={{ path('groupList') }}>
-                            <p>Список пользователей по группам</p></a>
-                    </li>
+            </div>
+            <div id="tabs-2">
+                <ul class="main-menu">
+                    <li class="sub"><a href={{ path('usersList') }}><p>Список всех пользователей</p></a></li>
+                    <li class="sub"><a href={{ path('groupList') }}><p>Список пользователей по группам</p></a></li>
+                    <li class="sub"><a href={{ path('addUserForm') }}><p>+ Добавить пользователя</p></a></li>
                 </ul>
-                <ul>
-                    <li class="sub-menu"><a href={{ path('addUserForm') }}>
-                            <p>+ Добавить пользователя</p></a>
-                    </li>
-                </ul>
-            </li>
-        </ul>
+            </div>
+        </div>
 
-        <script type="text/javascript">
 
-            $(document).ready(function () {
-
-                $('li').click(function (event) {
-                    $(this).parent().find("li ul:visible").slideUp()
-                    if($(this).children("ul").is(":hidden"))$(this).children("ul").slideDown() ;
-                    event.stopPropagation();
-                });
+        <script>
+            $(function() {
+                $( "#tabs" ).tabs();
             });
-
         </script>
+
+
+
     </div>
 
     </body>
