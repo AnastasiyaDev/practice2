@@ -72,6 +72,10 @@ a{
     font-weight: normal;
     text-align: center;
 }
+a > .blue-button,a > .red-button, a > .green-button{
+    height: 15px;
+    padding: 2px 0px; !important;
+}
 button,button::-moz-focus-inner,
 input[type="reset"]::-moz-focus-inner,
 input[type="button"]::-moz-focus-inner,

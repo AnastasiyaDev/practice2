@@ -4,10 +4,15 @@
         <meta charset="UTF-8" />
         <title>{% block title %}Информационно-диагностическая система{% endblock %}</title>
         {% block stylesheets %}
+            {% stylesheets 'css/jquery-ui.min.css' filter='cssrewrite' %}
+                <link rel="stylesheet" href="{{ asset(asset_url) }}">
+            {% endstylesheets %}
             <link rel="stylesheet" type="text/css" href="{{ asset('css/body.css') }}">
         {% endblock %}
         {% block javascripts %}
-            {% javascripts 'js/jquery.min.js' %}
+            {% javascripts
+            'js/jquery.min.js'
+            'js/jquery-ui.min.js'%}
             <script type="text/javascript" src="{{ asset(asset_url) }}"></script>
             {% endjavascripts %}
         {% endblock %}
@@ -17,4 +22,5 @@
     <body>
         {% block body %}{% endblock %}
     </body>
+
 </html>

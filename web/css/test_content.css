@@ -1,7 +1,10 @@
-#lvl, .modalDialogDes{
+.lvl, .modalDialogDes{
 	background-color: #EFEFEF;
 	border-radius: 0.5em/0.5em;
 	padding: 5px 10px 5px 10px;
+}
+#del-test{
+	margin-right: 5px;
 }
 h3{
 	font-size: 20px;
