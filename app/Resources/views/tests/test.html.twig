@@ -214,12 +214,12 @@
         {% if is_granted('ROLE_ADMIN') %}
             <div class="content marg-auto clearfix">
                 {% for explanation in test.explanation %}
-                    <div class="lvl">
+                    <div class="content-des-res">
                         <h3>Пояснение {{ loop.index }}</h3>
                         <p>{{ explanation.description }}</p>
                         <p>Минимальный рейтинг:{{ explanation.MinRating }}</p>
                         <p>Максимальный рейтинг:{{ explanation.MaxRating }}</p>
-                        <p><a href="{{ path('delExplanation', {'id':test.id, 'idExplanation': explanation.id}) }}">УДАЛИТЬ</a></p>
+                        <a class="del-img" href="{{ path('delExplanation', {'id':test.id, 'idExplanation': explanation.id}) }}"></a>
                     </div>
                 {% endfor %}
             </div>
@@ -233,7 +233,7 @@
             {% set NumberDes  = NumberDes + 1 %}
             <div class="clearfix description-result-box description-result-box-{{ NumberDes }}">
 
-                 <div class="fl-left width-410" id="content-des-res">
+                 <div class="fl-left width-410 content-des-res">
 
 
                      <label for="description-res-form-{{ NumberDes }}" class="disp-block">Описание: </label>
@@ -272,7 +272,6 @@
 
                 $('#exit-on-desct-res').click(function () {
                     $('#AddDescriptionResult')[0].reset();
-//                    $('#content-des-res').remove();
                     $('#AddDescriptionResult').hide();
                 });
             });

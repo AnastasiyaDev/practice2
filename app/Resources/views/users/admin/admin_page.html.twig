@@ -19,8 +19,8 @@
             <div id="tabs-1">
                 <ul class="main-menu">
                     {% for test in tests %}
-                        <li class="sub clear-fix">
-                            <a  href={{ path('aboutTestpage',{'id':test.id}) }}>
+                        <li class="sub clearfix position-rel">
+                            <a  class="disp-block" href={{ path('aboutTestpage',{'id':test.id}) }}>
                                 <p>{{ test.name }}</p>
                                 <span>{{ test.description }}</span>
                             </a>

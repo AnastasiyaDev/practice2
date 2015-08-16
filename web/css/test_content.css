@@ -26,7 +26,7 @@ h3{
 .quest-number p{
 	margin-top: 15.5px;
 }
-.quest-number, .question, .description-result-box{
+.quest-number, .question, .description-result-box, .content-des-res{
 	background-color: #fff;
 }
 .question{
@@ -102,9 +102,11 @@ a #input{
 	margin-top: 20px;
 	margin-bottom: 20px;
 }
-#content-des-res{
+.content-des-res{
 	padding: 5px;
+	position: relative;
 }
 #add-description{
 	width: auto !important;
 }
+
