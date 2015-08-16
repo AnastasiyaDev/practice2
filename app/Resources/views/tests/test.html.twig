@@ -52,8 +52,9 @@
                     </li>
                     {% endfor %}
 
-                    {% if is_granted('ROLE_ADMIN') %}
-                    <a class="del-img" href={{ path('delQuestion',{'testId':test.id,'id':question.id}) }}></a>
+                    {% if is_granted('ROLE_ADMIN') %} {#---------------УДАЛЕНИЕ/РЕДАКЦИЯ ВОПРОСА------------------#}
+                        <a class="del-img" href={{ path('delQuestion',{'testId':test.id,'id':question.id}) }}></a>
+                        <a class="edit-img" href={{ path('editQuestion',{'testId':test.id,'id':question.id}) }}></a>
                     {% endif %}
                 </div>
             </ul>
@@ -219,7 +220,8 @@
                             Максимальный рейтинг:  <b>{{ explanation.MaxRating }}</b>
                         </span>
 
-                        <a class="del-img" href="{{ path('delExplanation', {'id':test.id, 'idExplanation': explanation.id}) }}"></a>
+                        <a class="del-img"  href={{ path('delExplanation', {'id':test.id, 'idExplanation': explanation.id}) }}></a>
+                        <a class="edit-img" href={{ path('editExplanation',{'id':test.id, 'idExplanation': explanation.id}) }}></a>
                     </div>
                 {% endfor %}
             </div>
