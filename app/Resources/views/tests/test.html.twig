@@ -19,8 +19,8 @@
             {% if is_granted('ROLE_ADMIN') %}
                 <span>
                     <a href={{ path('delTest', {'id':test.id}) }}><div class="fl-left red-button" id="del-test" formnovalidate>Удалить</div></a>
-                    <button id="edit-des" class="blue-button" type="button" class="al-center" tabindex="">Редактировать</button>
-                    <button id="save-d" class="blue-button fl-right" type="button" class="al-center" tabindex="">Сохранить</button>
+                    <button id="edit-des" class="blue-button " type="button" tabindex="">Редактировать</button>
+                    <button id="save-d" class="blue-button fl-right " type="button" tabindex="">Сохранить</button>
                 </span>
                 {% for company in test.companies %}
                 <p>{{ company.name }}</p>
@@ -35,33 +35,53 @@
 
         {% for question in test.questions %}
         <div class="quest-box clearfix quest-box-{{ loop.index }}">
-            <div class="quest-number fl-left al-center vert-align-m"><p class="vert-align-m mar-pad-0 font-s-14">{{ loop.index }}</p></div>
-            <ul class="question fl-right mar-pad-0 position-rel">
+            <div class="quest-number quest-number-{{ question.id }} fl-left al-center vert-align-m"><p class="vert-align-m mar-pad-0 font-s-14">{{ loop.index }}</p></div>
+            <ul class="question question-{{ question.id }} fl-right mar-pad-0 position-rel">
                 <h4>{{ question.content }}</h4>
                 <p class="mar-pad-0">выберите один из вариантов:</p>
                 <br>
                 <div class="al-center">
                     {% for answer in question.answers %}
                     <li>
-                        <label for="Q{{ answer.id }}">{% if not is_granted('ROLE_ADMIN') %}
-                            <input type="radio" id="Q{{ answer.id }}" value="{{ answer.id }}" name="_answerArray[{{ answer.question.id }}]" required>{% endif %}
-                            <span>{{ answer.content }}{% if is_granted('ROLE_ADMIN') %}[{{ answer.rating }}] {% endif %}</span>
+                        <label for="Q{{ answer.id }}">
+                            {% if not is_granted('ROLE_ADMIN') %}
+                                <input onclick=" giveIdNameSpace({{ question.id }}) " type="radio" id="Q{{ answer.id }}" value="{{ answer.id }}" name="_answerArray[{{ answer.question.id }}]" required>
+                            {% endif %}
+                                <span>{{ answer.content }}{% if is_granted('ROLE_ADMIN') %}[{{ answer.rating }}]{% endif %}</span>
                         </label>
                     </li>
-
                     {% endfor %}
+
                     {% if is_granted('ROLE_ADMIN') %}
                     <a class="del-img" href={{ path('delQuestion',{'testId':test.id,'id':question.id}) }}></a>
                     {% endif %}
                 </div>
             </ul>
         </div>
-            {% endfor %}
+        {% endfor %}
 
-            {% if not is_granted('ROLE_ADMIN') %}
-                <button type="submit" class="fl-right al-center red-button" id="end">Завершить</button>
-            {% endif %}
+                    {% if not is_granted('ROLE_ADMIN') %}
+                        <button type="submit" class="fl-right al-center red-button" id="end-test">Завершить</button>
+                    {% endif %}
         </form>
+
+        {#----------------------------------------Start border_color----------------------------------#}
+
+        <script type="text/javascript">
+
+
+            function giveIdNameSpace(idNameSpace){
+
+                $('.question-'+idNameSpace).css({'border':'1px solid #00FF00'}) &&
+                $('.quest-number-'+idNameSpace).css({'background-color':'#00FF00', 'color': '#00FF00'});
+
+            }
+
+
+        </script>
+
+        {#----------border_color-------border_color-------border_color-------border_color-------border_color-------#}
+
 
         {#-------------------------------- start Add form_question ---------------------------------------#}
 
@@ -125,7 +145,7 @@
             $(document).ready(function () {
                 var numAns = 0;
                 $('#add-ans').click(function (){
-                    $('#add-content').append(' <div class="fl-left add-a-box add-a-box-'+numAns+'">'
+                    $('#add-content').append(' <div class="fl-left add-a-box" id="add-a-box-'+numAns+'">'
                         +'<label for="text-a-'+numAns+'">Ответ: <//label>'
                         +'<input id="text-a-'+numAns+'" type="text" name="_answer['+numAns+'][content]" size="8" tabindex="2" spellcheck="true" required pattern="[а-яА-ЯёЁa-zA-Z-/t]+">'
                         +'<span class="spn0 spn0-'+numAns+'">'+' <label for="text-p-'+numAns+'">Баллы за ответ: <//label>'
@@ -136,20 +156,11 @@
                     numAns++;
 
                 });
-
-
-
             });
 
             function giveId(ids){
-                var nameClass = "add-a-box-'+numAns+'";
-                var newName = nameClass.replace('+numAns+',ids);
-                $('#add-content').find('div:first-child').attr('class',newName);
-                $('#add-content').find('div:first-child').remove();
-
-
+                $('#add-a-box-'+ids).remove();     //I hate this line!!1111!1!!
             };
-
 
 
         </script>
@@ -194,21 +205,7 @@
 
 
 
-        {#----------------------------------------Start border_color----------------------------------#}
 
-        <script type="text/javascript">
-
-            $(document).ready(function () {
-
-                $('input[type="radio"]').click(function (event) {
-                    $('.question').css({'border':'1px solid #00FF00'}) &&
-                    $('.quest-number').css({'background-color':'#00FF00', 'color': '#00FF00'});
-                });
-            });
-
-        </script>
-
-        {#----------border_color-------border_color-------border_color-------border_color-------border_color-------#}
 
 
         {% if is_granted('ROLE_ADMIN') %}
