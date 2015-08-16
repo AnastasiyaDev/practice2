@@ -13,7 +13,7 @@
                 <div id="err" class="al-center">{{ error }}</div>
             {% endif %}
 
-            <form id="newTestForm" autocomplete="off" action="{{ path('testNew') }}" method="post" name="registrationForm">
+            <form id="newTestForm" autocomplete="off" action="{{ path('testNewForm') }}" method="post" name="registrationForm" {{ form_enctype(uploadForm) }}>
 
                 <div class="al-center wid_202 marg-auto">
                     <div><label for="name-field" class="lab">Имя: </label></div>
@@ -23,6 +23,10 @@
                 <div class="al-center wid_202 marg-auto">
                     <div><label for="name-field" class="lab">Описание: </label></div>
                     <textarea id="description-field" name="_description"  tabindex="1" required></textarea>
+                </div>
+
+                <div class="al-center wid_202 marg-auto mar-top-20">
+                    {{ form_widget(uploadForm) }}
                 </div>
 
                 <select name="_company">
@@ -39,6 +43,22 @@
 
 
             </form>
+
+            {#<form id="newTestForm" autocomplete="off" action="{{ path('testNewForm') }}" method="post" name="registrationForm">#}
+
+                {#<div class="al-center wid_202 marg-auto mar-top-20">#}
+                    {#{{ form_widget(testForm) }}#}
+                {#</div>#}
+
+            {#<div class="al-center wid_202 marg-auto mar-top-20">#}
+            {#<a href={{ path('_welcome') }}><div class="fl-left al-center" id="input">Назад</div></a>#}
+            {#<button type="submit" class="fl-right al-center" id="create" tabindex="7">Создать</button>#}
+            {#</div>#}
+
+            {#</form>#}
+
+
+
         </div>
     </div>
 

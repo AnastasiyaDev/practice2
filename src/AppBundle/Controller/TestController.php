@@ -3,6 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Explanation;
+use AppBundle\Entity\Image;
 use AppBundle\Entity\Result;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
@@ -110,9 +111,48 @@ class TestController extends Controller
      * @Security("has_role('ROLE_ADMIN')")
      * @Route("/test", name="testNewForm")
      */
-    public function newTestFormAction() {
+    public function newTestFormAction(Request $request)
+    {
+
+        $image = new Image();
+        $form = $this->createFormBuilder($image)
+            ->add('file')
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+
+            $test = new Test();
+
+            $test->setName($request->get('_name'));
+            $test->setDescription($request->get('_description'));
+            $company = $this->getDoctrine()->getRepository('AppBundle:Company')->find($request->get('_company'));
+            $test->addCompany($company);
+            $company->addTest($test);
+
+            if (!$form->get('file')->isEmpty()) {
+                $test->setImage($image);
+                $image->setPath($test->getId().'/'.$form->get('file')->getData()->getClientOriginalName());
+                $em->persist($image);
+                $em->persist($test);
+                $em->flush();
+                $image->upload($test->getId());
+                $image->setPath($test->getId().'/'.$form->get('file')->getData()->getClientOriginalName());
+                $em->persist($image);
+                $em->flush();
+                return $this->redirectToRoute('aboutTestpage', array('id' => $test->getId()));
+            }
+
+            $em->persist($test);
+            $em->flush();
+            return $this->redirectToRoute('aboutTestpage', array('id' => $test->getId()));
+        }
+
         return $this->render(':tests:new_test.html.twig',array(
-            'companies' => $this->getDoctrine()->getRepository('AppBundle:Company')->findAll()
+            'companies' => $this->getDoctrine()->getRepository('AppBundle:Company')->findAll(),
+            'uploadForm' => $form->createView()
         ));
     }
 
@@ -153,6 +193,8 @@ class TestController extends Controller
             $company->removeTest($test);
             $em->persist($company);
         }
+
+        $test->removeImages();
 
         $em->remove($test);
         $em->flush();

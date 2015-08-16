@@ -1,0 +1,37 @@
+{% extends '::base.html.twig' %}
+
+{% block title %} Новый тест | {{ parent() }}{% endblock %}
+{% block body%}
+    <body>
+    <div align="center">
+
+        <div class="form_content clearfix">
+
+            <div class="marg-auto" id="logo"></div>
+
+            {% if error is defined %}
+                <div id="err" class="al-center">{{ error }}</div>
+            {% endif %}
+
+
+
+            <form id="newTestForm" autocomplete="off" action="{{ path('testUpload') }}" method="post" name="registrationForm" {{ form_enctype(fileForm) }}>
+
+                <div class="al-center wid_202 marg-auto mar-top-20">
+                    {{ form_widget(fileForm) }}
+                </div>
+
+                <div class="al-center wid_202 marg-auto mar-top-20">
+                    <a href={{ path('_welcome') }}><div class="fl-left al-center" id="input">Назад</div></a>
+                    <button type="submit" class="fl-right al-center" id="create" tabindex="7">Создать</button>
+                </div>
+
+            </form>
+
+
+        </div>
+    </div>
+
+
+    </body>
+{% endblock %}

@@ -15,7 +15,9 @@
         <div class="lvl">
             <h3>{{ test.name }}</h3>
             <p>{{ test.description }}</p>
-
+            {% if test.image is not empty %}
+                <img src="{{ test.image.webPath }}" align="right" width="100" height="80" />
+            {% endif %}
 
             {% if is_granted('ROLE_ADMIN') %}
                 <a href={{ path('testpage', {'id':test.id}) }}><div class="blue-button" id="edit-test">Редактировать тест</div></a>
@@ -36,26 +38,26 @@
             {% if results is not empty %}
 
                 <table class="simple-little-table" cellspacing='0'>
-                <tr>
-                    <th>Пользователь</th>
-                    <th>Результат</th>
-                    <th>Описание результата</th>
-                    <th>Дата прохождения</th>
-                </tr>
-
-
-                {% for result in results %}
                     <tr>
-                        <td>{{ result.user.firstName }} {{  result.user.secondName }}</td>
-                        <td>{{ result.rating }}</td>
-                        {% if result.explanation is not empty %}
-                            <td>{{ result.explanation.description }}</td>
-                        {% elseif result.explanation is empty%}
-                            <td></td>
-                        {% endif %}
-                        <td>{{ result.date|date("d.m.Y") }}</td>
+                        <th>Пользователь</th>
+                        <th>Результат</th>
+                        <th>Описание результата</th>
+                        <th>Дата прохождения</th>
                     </tr>
-                {% endfor %}
+
+
+                    {% for result in results %}
+                        <tr>
+                            <td>{{ result.user.firstName }} {{  result.user.secondName }}</td>
+                            <td>{{ result.rating }}</td>
+                            {% if result.explanation is not empty %}
+                                <td>{{ result.explanation.description }}</td>
+                            {% elseif result.explanation is empty%}
+                                <td></td>
+                            {% endif %}
+                            <td>{{ result.date|date("d.m.Y") }}</td>
+                        </tr>
+                    {% endfor %}
 
                 </table>
 
