@@ -11,9 +11,8 @@ h3{
 	font-weight: normal;
 	margin: 10px 0px 10px 0px;
 }
-
 .quest-box{
-	/*width: inherit;*/
+	width: inherit;
 	height: 120px;
 }
 .quest-number{
@@ -27,7 +26,7 @@ h3{
 .quest-number p{
 	margin-top: 15.5px;
 }
-.quest-number, .question{
+.quest-number, .question, .description-result-box{
 	background-color: #fff;
 }
 .question{
@@ -86,14 +85,21 @@ a #input{
 #input, #create{
 	margin-top: 5px;
 }
-#cancel-a{
-	background: url("../images/trigleOpen.png") no-repeat;
-	background-size: 100% 100%;
-	width: 17px;
-	height: 17px;
+.cnl{
+	background: url("../images/button/ui-icons_222222_256x240.png") no-repeat -177px -98px;
+	width: 15px;
+	height: 15px;
 	display: inline-block;
-	margin: 0px 4px 4px 4px;
+	margin: 0px 5px 6px 5px;
 	outline: none;
 }
+.cnl:hover, .cnl:active{
+	background: url("../images/button/ui-icons_2694e8_256x240.png") no-repeat -177px -98px;
+}
 #add-q{
+}
+.description-result-box{
+	margin-top: 20px;
+	margin-bottom: 20px;
+
 }

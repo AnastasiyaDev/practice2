@@ -42,7 +42,8 @@
                 <br>
                 <div class="al-center">
                     {% for answer in question.answers %}
-                    <li><label for="Q{{ answer.id }}">{% if not is_granted('ROLE_ADMIN') %}
+                    <li>
+                        <label for="Q{{ answer.id }}">{% if not is_granted('ROLE_ADMIN') %}
                             <input type="radio" id="Q{{ answer.id }}" value="{{ answer.id }}" name="_answerArray[{{ answer.question.id }}]" required>{% endif %}
                             <span>{{ answer.content }}{% if is_granted('ROLE_ADMIN') %}[{{ answer.rating }}] {% endif %}</span>
                         </label>
@@ -70,7 +71,10 @@
             {% set NumberQ  = NumberQ + 1 %}
 
             <div class="quest-box quest-box-{{ NumberQ }}">
-                <div class="quest-number fl-left al-center vert-align-m"><p class="vert-align-m mar-pad-0 font-s-14">{{ NumberQ }}</p></div>
+                <div class="quest-number fl-left al-center vert-align-m">
+                    <p class="vert-align-m mar-pad-0 font-s-14">{{ NumberQ }}</p>
+                </div>
+
                 <div class="question fl-right mar-pad-0 clear-fix">
 
                     <div class="fl-left width-410" id="add-content">
@@ -85,8 +89,6 @@
                         <button id="add-ans" class="green-button" type="button" tabindex="">Добавить ответ</button>
                         <button id="save" class="blue-button" type="submit" tabindex="">Сохранить</button>
                     </div>
-
-
                 </div>
             </div>
         </form>
@@ -97,32 +99,6 @@
 
         {#----------------------------------------Start Add question-----------------------------------------------#}
 
-        {#<script type="text/javascript">#}
-
-            {#$(document).ready(function () {#}
-
-                {#$('#AddQuestionForm').append('#AddQuestionForm');#}
-                {#$('#AddQuestionForm').hide();#}
-                {#$('#add-q').click(function () {#}
-                    {#$('#AddQuestionForm').show();#}
-                {#});#}
-                {#$('#cancel-q').click(function () {#}
-                    {#$('#AddQuestionForm').hide();#}
-                {#});#}
-
-{#//                var numAns = 0;#}
-{#//                $('#add-q').click(function (){#}
-{#//                    $('#AddQuestionForm').append('#AddQuestionForm');#}
-{#//#}
-{#//                    numAns++;#}
-{#//#}
-{#//                });#}
-
-
-
-            {#});#}
-
-        {#</script>#}
 
         <script type="text/javascript">
             $(document).ready(function () {
@@ -130,12 +106,16 @@
                 $('#AddQuestionForm').hide();
                 $('#add-q').click(function () {
                     $('#AddQuestionForm').show();
-                })
+                });
+
                 $('#cancel-q').click(function () {
+                    $('#AddQuestionForm')[0].reset();
+                    $('.add-a-box').remove();
                     $('#AddQuestionForm').hide();
                 });
             });
         </script>
+
 
         {#----------------------------------------Start Add/cancel answer-----------------------------------------------#}
 
@@ -150,18 +130,26 @@
                         +'<span class="spn0 spn0-'+numAns+'">'+' <label for="text-p-'+numAns+'">Баллы за ответ: <//label>'
                         +'<input id="text-p-'+numAns+'" type="text" name="_answer['+numAns+'][rating]" size="2" tabindex="3" pattern="[0-9]+">'
                             +'<//span>'
-                            +'<div id="cancel-a" class="vert-align-m cnl cnl-'+numAns+'">'+'<//div>'
+                            +'<div id="cancel-a-'+numAns+'" onclick="giveId('+numAns+')" class="vert-align-m cnl cnl-'+numAns+'">'+'<//div>'
                             +'<//div>');
-
-                    $('.cnl-'+numAns+'').bind('click', function(){
-                        alert('Вы нажали на элемент-'+numAns+'');
-
-                    });
-
                     numAns++;
 
                 });
+
+
+
             });
+
+            function giveId(ids){
+                var nameClass = "add-a-box-'+numAns+'";
+                var newName = nameClass.replace('+numAns+',ids);
+                $('#add-content').find('div:first-child').attr('class',newName);
+                $('#add-content').find('div:first-child').remove();
+
+
+            };
+
+
 
         </script>
 
@@ -174,7 +162,7 @@
 
                  <div class="al-center">
                      <label for="name-field-in-form-des" class="lab">Имя: </label>
-                     <input type="text" id="name-field-in-form-des" name="_name" value={{ test.name }}  tabindex="1" required>
+                     <input type="text" id="name-field-in-form-des" name="_name" value="{{ test.name }}"  tabindex="1" required>
                  </div>
 
                  <div class="al-center">
@@ -233,9 +221,68 @@
 
         </script>
 
-    {#{% if is_granted('ROLE_ADMIN') %}#}
-        {#<div><a href={{ path('testEditForm',{ 'id':test.id} ) }}>+ ДОБАВИТЬ ОПИСАНИЕ РЕЗУЛЬТАТА</a></div>#}
-    {#{% endif %}#}
+        {#----------------------------------Start DescriptionResultForm-------------------------------------------------#}
+        {% set NumberDes = test.explanation|length %}
+        <form id="AddDescriptionResult" autocomplete="off" action="{{ path('addExplanation', {'id': test.id}) }}" method="post" name="AddDescriptionResult">
+
+
+            {% set NumberDes  = NumberDes + 1 %}
+            <div class="clear-fix description-result-box description-result-box-{{ NumberDes }}">
+
+                 <div class="fl-left" id="content-des-res">
+
+                    <div class="">
+                        <label for="description-field-in-des-res-form" class="lab">Описание: </label>
+                        <textarea id="description-field-in-des-res-form" name="_description"   tabindex="1" required></textarea>
+                    </div>
+
+                    <div class="">
+                        <label for="name-field" class="lab">Минимальное количество баллов: </label>
+                        <input type="text" id="name-field" name="_minRating"  tabindex="1" required>
+                    </div>
+
+                    <div class="">
+                        <label for="name-field" class="lab">Максимальное количество баллов: </label>
+                        <input type="text" id="name-field" name="_maxRating"  tabindex="1" required>
+                    </div>
+
+                 </div>
+
+                 <div class="fl-right butblock">
+                     <button type="button" class="fl-left al-center red-button" id="exit-on-desct-res" tabindex="">Отмена</button>
+                     <button type="submit" class="fl-right al-center blue-button" id="save-desct-res" tabindex="">Сохранить</button>
+                 </div>
+
+            </div>
+
+
+        </form>
+
+    {% if is_granted('ROLE_ADMIN') %}
+        <button id="add-description" class="green-button" type="button" class="al-center" tabindex="">Добавить описание</button>
+    {% endif %}
+
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $('document').append('#AddDescriptionResult');
+                $('#AddDescriptionResult').hide();
+                $('#add-description').click(function () {
+                    $('#AddDescriptionResult').show();
+                });
+
+                $('#exit-on-desct-res').click(function () {
+                    $('#AddDescriptionResult')[0].reset();
+//                    $('.add-a-box').remove();
+                    $('#AddDescriptionResult').hide();
+                });
+            });
+        </script>
+
+
+
+
+
+
 
         {% if answers is defined %}
             {% for answer in answers %}
