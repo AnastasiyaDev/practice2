@@ -270,7 +270,10 @@ Class Test extends NamedEntity
      */
     public function removeImages()
     {
-        $this->image->removeUpload();
-        rmdir(__DIR__.'/../../../web/images/tests/'.$this->getId());
+        if (!$this->image === null) {
+            $this->image->removeUpload();
+            rmdir(__DIR__.'/../../../web/images/tests/'.$this->getId());
+        }
+        return;
     }
 }

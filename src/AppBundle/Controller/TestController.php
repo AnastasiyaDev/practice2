@@ -203,16 +203,6 @@ class TestController extends Controller
 
     }
 
-    /**
-     * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/test/id{id}/explanationForm", name="testEditForm")
-     */
-    public function editTestFormAction($id) {
-
-        $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($id);
-
-        return $this->render('tests/edit_test.html.twig', array('test' => $test));
-    }
 
     /**
      * @Security("has_role('ROLE_ADMIN')")

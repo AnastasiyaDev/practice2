@@ -142,45 +142,6 @@ class AdminController extends Controller
         return $this->redirectToRoute('adminPage');
     }
 
-    /**
-     * @Route("/testUpload",name="testUpload")
-     */
-    public function uploadAction(Request $request)
-    {
-        $image = new Image();
-        $form = $this->createFormBuilder($image)
-            ->add('file')
-            ->getForm();
-
-        $form->handleRequest($request);
-
-        if ($form->isValid()) {
-            $em = $this->getDoctrine()->getManager();
-
-            $image->upload();
-
-            $em->persist($image);
-            $em->flush();
-
-            return new Response('test');
-        }
-
-
-
-        return $this->render('new.html.twig', array(
-            'fileForm' => $form->createView(),
-        ));
-    }
-
-    /**
-     * @Route("/lol",name="lol")
-     */
-    public function lolAction()
-    {
-        return $this->render('default/index.html.twig', array(
-            'images' => $this->getDoctrine()->getRepository('AppBundle:Image')->findAll()
-        ));
-    }
 
 
 
