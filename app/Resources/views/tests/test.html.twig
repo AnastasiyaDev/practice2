@@ -34,7 +34,7 @@
         <form id="questionForm" action="{{ path('testCompete', {'id':test.id}) }}" method="post" name="questionForm">
 
         {% for question in test.questions %}
-        <div class="quest-box quest-box-{{ loop.index }}">
+        <div class="quest-box clearfix quest-box-{{ loop.index }}">
             <div class="quest-number fl-left al-center vert-align-m"><p class="vert-align-m mar-pad-0 font-s-14">{{ loop.index }}</p></div>
             <ul class="question fl-right mar-pad-0">
                 <h4>{{ question.content }}</h4>
@@ -70,12 +70,12 @@
 
             {% set NumberQ  = NumberQ + 1 %}
 
-            <div class="quest-box quest-box-{{ NumberQ }}">
+            <div class="clearfix quest-box quest-box-{{ NumberQ }}">
                 <div class="quest-number fl-left al-center vert-align-m">
                     <p class="vert-align-m mar-pad-0 font-s-14">{{ NumberQ }}</p>
                 </div>
 
-                <div class="question fl-right mar-pad-0 clear-fix">
+                <div class="question fl-right mar-pad-0 clearfix">
 
                     <div class="fl-left width-410" id="add-content">
 
@@ -89,6 +89,7 @@
                         <button id="add-ans" class="green-button" type="button" tabindex="">Добавить ответ</button>
                         <button id="save" class="blue-button" type="submit" tabindex="">Сохранить</button>
                     </div>
+
                 </div>
             </div>
         </form>
@@ -227,24 +228,19 @@
 
 
             {% set NumberDes  = NumberDes + 1 %}
-            <div class="clear-fix description-result-box description-result-box-{{ NumberDes }}">
+            <div class="clearfix description-result-box description-result-box-{{ NumberDes }}">
 
-                 <div class="fl-left" id="content-des-res">
+                 <div class="fl-left width-410" id="content-des-res">
 
-                    <div class="">
-                        <label for="description-field-in-des-res-form" class="lab">Описание: </label>
-                        <textarea id="description-field-in-des-res-form" name="_description"   tabindex="1" required></textarea>
-                    </div>
 
-                    <div class="">
-                        <label for="name-field" class="lab">Минимальное количество баллов: </label>
-                        <input type="text" id="name-field" name="_minRating"  tabindex="1" required>
-                    </div>
+                     <label for="description-res-form-{{ NumberDes }}" class="disp-block">Описание: </label>
+                     <textarea id="description-res-form-{{ NumberDes }}" name="_description"   tabindex="1" required></textarea>
 
-                    <div class="">
-                        <label for="name-field" class="lab">Максимальное количество баллов: </label>
-                        <input type="text" id="name-field" name="_maxRating"  tabindex="1" required>
-                    </div>
+                     <label for="minRating-{{ NumberDes }}" class="lab">Минимальное количество баллов: </label>
+                     <input type="text" id="minRating-{{ NumberDes }}" name="_minRating"  tabindex="2" size="2" required><br>
+
+                     <label for="maxRating-{{ NumberDes }}" class="lab">Максимальное количество баллов: </label>
+                     <input type="text" id="maxRating-{{ NumberDes }}" name="_maxRating"  tabindex="3" size="2" required>
 
                  </div>
 
@@ -252,6 +248,7 @@
                      <button type="button" class="fl-left al-center red-button" id="exit-on-desct-res" tabindex="">Отмена</button>
                      <button type="submit" class="fl-right al-center blue-button" id="save-desct-res" tabindex="">Сохранить</button>
                  </div>
+
 
             </div>
 

@@ -13,7 +13,7 @@ h3{
 }
 .quest-box{
 	width: inherit;
-	height: 120px;
+	min-height: 120px;
 }
 .quest-number{
 	width: 48px;
@@ -52,7 +52,7 @@ h3{
 	margin: 0px 0px 20px 0px !important;
 }
 textarea{
-	resize: none;
+	resize: vertical;
 	width: 400px;
 }
 .butblock{
@@ -101,5 +101,10 @@ a #input{
 .description-result-box{
 	margin-top: 20px;
 	margin-bottom: 20px;
-
+}
+#content-des-res{
+	padding: 5px;
+}
+#add-description{
+	width: auto !important;
 }
