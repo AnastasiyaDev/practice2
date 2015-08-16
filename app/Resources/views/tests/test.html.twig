@@ -80,7 +80,7 @@
                     <div class="fl-left width-410" id="add-content">
 
                         <label for="text-q-{{ NumberQ  }}">Текст вопроса: </label>
-                        <textarea id="text-q-{{ NumberQ  }}" name="_description" tabindex="1"></textarea>
+                        <textarea id="text-q-{{ NumberQ  }}" name="_description" tabindex="1" spellcheck="true" required pattern="[а-яА-ЯёЁa-zA-Z-\t]+"></textarea>
 
                     </div>
 
@@ -127,9 +127,9 @@
                 $('#add-ans').click(function (){
                     $('#add-content').append(' <div class="fl-left add-a-box add-a-box-'+numAns+'">'
                         +'<label for="text-a-'+numAns+'">Ответ: <//label>'
-                        +'<input id="text-a-'+numAns+'" type="text" name="_answer['+numAns+'][content]" size="8" tabindex="2" pattern="[a-zA-Z0-9_-/t]+">'
+                        +'<input id="text-a-'+numAns+'" type="text" name="_answer['+numAns+'][content]" size="8" tabindex="2" spellcheck="true" required pattern="[а-яА-ЯёЁa-zA-Z-/t]+">'
                         +'<span class="spn0 spn0-'+numAns+'">'+' <label for="text-p-'+numAns+'">Баллы за ответ: <//label>'
-                        +'<input id="text-p-'+numAns+'" type="text" name="_answer['+numAns+'][rating]" size="2" tabindex="3" pattern="[0-9]+">'
+                        +'<input id="text-p-'+numAns+'" type="text" name="_answer['+numAns+'][rating]" size="2" tabindex="3" required pattern="[0-9]+">'
                             +'<//span>'
                             +'<div id="cancel-a-'+numAns+'" onclick="giveId('+numAns+')" class="vert-align-m cnl cnl-'+numAns+'">'+'<//div>'
                             +'<//div>');
@@ -163,12 +163,12 @@
 
                  <div class="al-center">
                      <label for="name-field-in-form-des" class="lab">Имя: </label>
-                     <input type="text" id="name-field-in-form-des" name="_name" value="{{ test.name }}"  tabindex="1" required>
+                     <input type="text" id="name-field-in-form-des" name="_name" value="{{ test.name }}"  tabindex="1" pattern="[а-яА-ЯёЁa-zA-Z-\t]+" required>
                  </div>
 
                  <div class="al-center">
                      <label for="description-field-in-des-form" class="lab">Описание: </label>
-                     <textarea id="description-field-in-des-form" name="_description" tabindex="2" required>{{ test.description }}</textarea>
+                     <textarea id="description-field-in-des-form" name="_description" tabindex="2" pattern="[а-яА-ЯёЁa-zA-Z-\t]+" required>{{ test.description }}</textarea>
                  </div>
 
 
@@ -194,20 +194,6 @@
 
 
 
-        {% if is_granted('ROLE_ADMIN') %}
-        <div class="content marg-auto clearfix">
-            {% for explanation in test.explanation %}
-            <div class="lvl">
-                <h3>Пояснение {{ loop.index }}</h3>
-                <p>{{ explanation.description }}</p>
-                <p>Минимальный рейтинг:{{ explanation.MinRating }}</p>
-                <p>Максимальный рейтинг:{{ explanation.MaxRating }}</p>
-                <p><a href="{{ path('delExplanation', {'id':test.id, 'idExplanation': explanation.id}) }}">УДАЛИТЬ</a></p>
-            </div>
-            {% endfor %}
-        </div>
-        {% endif %}
-
         {#----------------------------------------Start border_color----------------------------------#}
 
         <script type="text/javascript">
@@ -222,6 +208,23 @@
 
         </script>
 
+        {#----------border_color-------border_color-------border_color-------border_color-------border_color-------#}
+
+
+        {% if is_granted('ROLE_ADMIN') %}
+            <div class="content marg-auto clearfix">
+                {% for explanation in test.explanation %}
+                    <div class="lvl">
+                        <h3>Пояснение {{ loop.index }}</h3>
+                        <p>{{ explanation.description }}</p>
+                        <p>Минимальный рейтинг:{{ explanation.MinRating }}</p>
+                        <p>Максимальный рейтинг:{{ explanation.MaxRating }}</p>
+                        <p><a href="{{ path('delExplanation', {'id':test.id, 'idExplanation': explanation.id}) }}">УДАЛИТЬ</a></p>
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
         {#----------------------------------Start DescriptionResultForm-------------------------------------------------#}
         {% set NumberDes = test.explanation|length %}
         <form id="AddDescriptionResult" autocomplete="off" action="{{ path('addExplanation', {'id': test.id}) }}" method="post" name="AddDescriptionResult">
@@ -234,13 +237,13 @@
 
 
                      <label for="description-res-form-{{ NumberDes }}" class="disp-block">Описание: </label>
-                     <textarea id="description-res-form-{{ NumberDes }}" name="_description"   tabindex="1" required></textarea>
+                     <textarea id="description-res-form-{{ NumberDes }}" name="_description"   tabindex="1" spellcheck="true" pattern="[а-яА-ЯёЁa-zA-Z-\t]+" required ></textarea>
 
                      <label for="minRating-{{ NumberDes }}" class="lab">Минимальное количество баллов: </label>
-                     <input type="text" id="minRating-{{ NumberDes }}" name="_minRating"  tabindex="2" size="2" required><br>
+                     <input type="text" id="minRating-{{ NumberDes }}" name="_minRating"  tabindex="2" size="2" pattern="[0-9]+" required><br>
 
                      <label for="maxRating-{{ NumberDes }}" class="lab">Максимальное количество баллов: </label>
-                     <input type="text" id="maxRating-{{ NumberDes }}" name="_maxRating"  tabindex="3" size="2" required>
+                     <input type="text" id="maxRating-{{ NumberDes }}" name="_maxRating"  tabindex="3" size="2" pattern="[0-9]+" required>
 
                  </div>
 
@@ -269,7 +272,7 @@
 
                 $('#exit-on-desct-res').click(function () {
                     $('#AddDescriptionResult')[0].reset();
-//                    $('.add-a-box').remove();
+//                    $('#content-des-res').remove();
                     $('#AddDescriptionResult').hide();
                 });
             });

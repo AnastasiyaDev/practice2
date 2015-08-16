@@ -93,12 +93,4 @@ li ul {
 .tabs-1 .main-menu .sub a{
     display: block;
 }
-.del {
-    width: 15px;
-    height: 15px;
-    background: url("../images/button/ui-icons_222222_256x240.png") no-repeat -177px -98px;
-    padding: 0 !important;
-}
-.del:hover, .del:active{
-    background: url("../images/button/ui-icons_2694e8_256x240.png") no-repeat -177px -98px !important;
-}
+
