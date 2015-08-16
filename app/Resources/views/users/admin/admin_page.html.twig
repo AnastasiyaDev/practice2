@@ -63,14 +63,8 @@
                 else no();
             }
             function showOk() {
-
-
-
-                {#$(location).attr('href','{{ path("delTest", {"id":'#}
-                {#+ids#}
-                {#+'}) }}');#}
-
-//                alert(ids);
+                var url = '{{ path("delTest", {'id':'testId'}) }}';
+                $(location).attr('href',url.replace("testId", ids));
 
             }
             function showCancel() {

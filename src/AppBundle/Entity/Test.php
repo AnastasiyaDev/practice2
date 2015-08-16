@@ -40,6 +40,12 @@ Class Test extends NamedEntity
      */
     private $companies;
 
+    /**
+     * @ORM\OneToOne(targetEntity="Image", cascade={"all"},orphanRemoval=true)
+     * @ORM\JoinColumn(name="image_id",referencedColumnName="id",nullable=true)
+     */
+    private $image;
+
 
     /**
      * Set description
@@ -234,5 +240,37 @@ Class Test extends NamedEntity
     public function getCompanies()
     {
         return $this->companies;
+    }
+
+    /**
+     * Set image
+     *
+     * @param \AppBundle\Entity\Image $image
+     * @return Test
+     */
+    public function setImage(\AppBundle\Entity\Image $image = null)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return String
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @ORM\PostRemove()
+     */
+    public function removeImages()
+    {
+        $this->image->removeUpload();
+        rmdir(__DIR__.'/../../../web/images/tests/'.$this->getId());
     }
 }
