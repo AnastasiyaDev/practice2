@@ -5,8 +5,12 @@
 }
 #name{
     font-size: 24px;
+    margin-bottom: 10px;
 }
-.main-menu, .sub-menu{
+#personal{
+    margin-bottom: 20px;
+}
+.main-menu{
     list-style:none;
     width: inherit;
     padding:0;
@@ -90,7 +94,5 @@ li ul {
 .ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl {
     border-bottom-left-radius: 0px !important;
 }
-/*.tabs-1 .main-menu .sub a{*/
-    /*display: block;*/
-/*}*/
+
 

@@ -59,7 +59,7 @@
             {% endfor %}
 
             {% if not is_granted('ROLE_ADMIN') %}
-                <button type="submit" class="fl-right al-center" id="end">Завершить</button>
+                <button type="submit" class="fl-right al-center red-button" id="end">Завершить</button>
             {% endif %}
         </form>
 
@@ -212,7 +212,7 @@
 
 
         {% if is_granted('ROLE_ADMIN') %}
-            <div class="content marg-auto clearfix">
+            <div class="dis-content marg-auto clearfix">
                 {% for explanation in test.explanation %}
                     <div class="content-des-res">
                         <h3>Пояснение {{ loop.index }}</h3>

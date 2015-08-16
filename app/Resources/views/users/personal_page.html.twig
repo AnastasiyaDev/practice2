@@ -21,22 +21,28 @@
             {% if is_granted('ROLE_ADMIN') %}
                 <span>
                     <a href={{ path('delUser', {'id':user.id}) }}>
-                        <button id="del-d" class="red-button" type="button" class="al-center" tabindex="">Удалить</button>
+                        <div id="del-d" class="red-button" type="button" class="al-center" tabindex="">Удалить</div>
                     </a>
                     <a href={{ path('editUserForm', {'id':user.id}) }}>
-                        <button id="edit-des" class="blue-button" type="button" class="al-center" tabindex="">Редактировать</button>
+                        <div id="edit-des" class="blue-button" type="button" class="al-center" tabindex="">Редактировать</div>
                     </a>
                 </span>
             {% endif %}
         </div>
 
+{#////////////////////////////USER MENU///////////////////////////////#}
 
-        <ul class="main-menu">
-            <li><a href="#0">Пройденные тесты</a>
-                {% if user.tests is not empty %}
-                    <ul>
+        <div id="tabs">
+            <ul>
+                <li><a href="#tabs-1">Пройденные тесты</a></li>
+                <li><a href="#tabs-2">Тесты</a></li>
+            </ul>
+
+            <div id="tabs-1">
+                    <ul class="main-menu">
+                    {% if user.tests is not empty %}
                         {% for test in user.tests %}
-                            <li class="sub-menu">
+                            <li class="sub ">
                                 <a href={{ path('testpage',{'id':test.id}) }}>
                                     <p>{{ test.name }}</p>
                                     <span>{{ test.description }}
@@ -50,54 +56,39 @@
                                 </a>
                             </li>
                         {% endfor %}
-                    </ul>
+                    {% else %}
+                            <li class="sub">
+                                <span id="prompt">Здесь будут отображаться пройденные тесты</span>
+                            </li>
+                    {% endif %}
+                </ul>
+            </div>
 
-                {% else %}
-                    <ul>
-                        <li class="sub-menu">
-                            <span id="prompt">Здесь будут отображаться пройденные тесты</span>
-                        </li>
-                    </ul>
-                {% endif %}
-
-            </li>
-        </ul>
-
-    {% if not is_granted('ROLE_ADMIN') %}
-        <ul class="main-menu">
-            <li><a href="#1">Тесты</a>
-                {% if tests is not empty %}
-                    <ul>
+            {% if not is_granted('ROLE_ADMIN') %}
+            <div id="tabs-2">
+                <ul class="main-menu">
+                    {% if tests is not empty %}
                         {% for test in tests %}
-                            <li class="sub-menu"><a href={{ path('aboutTestpage',{'id':test.id}) }}>
+                            <li class="sub">
+                                <a href={{ path('aboutTestpage',{'id':test.id}) }}>
                                     <p>{{ test.name }}</p>
                                     <span>{{ test.description }}</span>
-                                </a></li>
+                                </a>
+                            </li>
                         {% endfor %}
-                    </ul>
-                {% else %}
-                    <span>Тестов больше нет</span>
-                {% endif %}
-            </li>
-        </ul>
-    {% endif %}
+                    {% else %}
+                        <span>Тестов больше нет</span>
+                    {% endif %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
 
-        <script type="text/javascript">
-
-            $(document).ready(function () {
-
-                $('li').click(function (event) {
-                    $(this).parent().find("li ul:visible").slideUp()
-                    if($(this).children("ul").is(":hidden"))$(this).children("ul").slideDown() ;
-                    event.stopPropagation();
-                });
+        <script>
+            $(function() {
+                $( "#tabs" ).tabs();
             });
-
         </script>
-
-
-
-
 
 
     </div>

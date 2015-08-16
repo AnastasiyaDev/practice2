@@ -77,7 +77,8 @@ body{
     padding: 0;
 }
 a{
-    outline: none; 
+    outline: none;
+    text-decoration: none;
 }
 .red-button, .blue-button, .green-button{
     font-size: 12px !important;

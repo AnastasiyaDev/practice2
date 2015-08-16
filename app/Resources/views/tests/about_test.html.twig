@@ -17,22 +17,20 @@
             <p>{{ test.description }}</p>
 
 
-            {% if not is_granted('ROLE_ADMIN') %}
-
-                {% block complete %}
-                    <a href={{ path('_welcome') }}test/id{{ test.id }}>
-                        <button class="fl-right al-center" id="begin">Начать тест</button>
-                    </a>
-                {% endblock %}
-
-            {% endif %}
-
             {% if is_granted('ROLE_ADMIN') %}
-                <span>
-                <a id="edit-q" href={{ path('testpage', {'id':test.id}) }}>РЕДАКТРИРОВАТЬ ТЕСТ</a>
-                </span>
+                <a href={{ path('testpage', {'id':test.id}) }}><div class="blue-button" id="edit-test">Редактировать тест</div></a>
             {% endif %}
         </div>
+
+        {% if not is_granted('ROLE_ADMIN') %}
+
+            {% block complete %}
+                <a href={{ path('_welcome') }}test/id{{ test.id }}>
+                    <div class="fl-right al-center blue-button" id="begin">Начать тест</div>
+                </a>
+            {% endblock %}
+
+        {% endif %}
 
         {% if is_granted('ROLE_ADMIN') %}
             {% if results is not empty %}

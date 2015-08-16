@@ -2,9 +2,13 @@
 	background-color: #EFEFEF;
 	border-radius: 0.5em/0.5em;
 	padding: 5px 10px 5px 10px;
+	margin-bottom: 10px;
 }
 #del-test{
 	margin-right: 5px;
+}
+#edit-test{
+	width: 120px !important;
 }
 h3{
 	font-size: 20px;
@@ -98,9 +102,9 @@ a #input{
 }
 #add-q{
 }
-.description-result-box{
-	margin-top: 20px;
-	margin-bottom: 20px;
+
+.dis-content{
+	margin: 10px;
 }
 .content-des-res{
 	padding: 5px;
@@ -109,11 +113,15 @@ a #input{
 #add-description{
 	width: auto !important;
 }
+.description-result-box{
+	margin-top: 20px;
+	margin-bottom: 20px;
+}
 
 
 
 
-/**********************************/
+/********************TABLE**************/
 .simple-little-table {
 	color:#666;
 	font-size:12px;
@@ -198,7 +206,6 @@ a #input{
 	background: -webkit-gradient(linear, left top, left bottom, from(#f2f2f2), to(#f0f0f0));
 	background: -moz-linear-gradient(top,  #f2f2f2,  #f0f0f0);
 }
-
 .simple-little-table a:link {
 	color: #666;
 	font-weight: bold;
@@ -214,3 +221,4 @@ a #input{
 	color: #bd5a35;
 	text-decoration:underline;
 }
+/********************TABLE**************/
