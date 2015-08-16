@@ -17,43 +17,55 @@
             <p>{{ test.description }}</p>
 
 
-        {% if not is_granted('ROLE_ADMIN') %}
+            {% if not is_granted('ROLE_ADMIN') %}
 
-            {% block complete %}
-                <a href={{ path('_welcome') }}test/id{{ test.id }}>
-                    <button class="fl-right al-center" id="begin">Начать тест</button>
-                </a>
-            {% endblock %}
+                {% block complete %}
+                    <a href={{ path('_welcome') }}test/id{{ test.id }}>
+                        <button class="fl-right al-center" id="begin">Начать тест</button>
+                    </a>
+                {% endblock %}
 
-        {% endif %}
+            {% endif %}
+
+            {% if is_granted('ROLE_ADMIN') %}
+                <span>
+                <a id="edit-q" href={{ path('testpage', {'id':test.id}) }}>РЕДАКТРИРОВАТЬ ТЕСТ</a>
+                </span>
+            {% endif %}
+        </div>
 
         {% if is_granted('ROLE_ADMIN') %}
-            <span>
-            <a id="edit-q" href={{ path('testpage', {'id':test.id}) }}>РЕДАКТРИРОВАТЬ ТЕСТ</a>
-            </span>
+            {% if results is not empty %}
 
-        {% endif %}
+                <table class="simple-little-table" cellspacing='0'>
+                <tr>
+                    <th>Пользователь</th>
+                    <th>Результат</th>
+                    <th>Описание результата</th>
+                    <th>Дата прохождения</th>
+                </tr>
 
 
-
-        </div>
-    </div>
-
-    {% if is_granted('ROLE_ADMIN') %}
-        {% if results is not empty %}
-            {% for result in results %}
-                <div><p>{{ result.user.firstName }} {{  result.user.secondName }} | {{ result.rating }} |
+                {% for result in results %}
+                    <tr>
+                        <td>{{ result.user.firstName }} {{  result.user.secondName }}</td>
+                        <td>{{ result.rating }}</td>
                         {% if result.explanation is not empty %}
-                        {{ result.explanation.description }}|
+                            <td>{{ result.explanation.description }}</td>
+                        {% elseif result.explanation is empty%}
+                            <td></td>
                         {% endif %}
-                        {{ result.date|date("d.m.Y") }}  </p></div>
-            {% endfor %}
+                        <td>{{ result.date|date("d.m.Y") }}</td>
+                    </tr>
+                {% endfor %}
+
+                </table>
+
+            {% endif %}
         {% endif %}
-    {% endif %}
 
 
-
-
+    </div>
 
     </body>
 {% endblock %}

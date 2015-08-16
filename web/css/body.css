@@ -33,12 +33,18 @@ body{
 .disp-inline{
     display: inline;
 }
+.disp-inline-block{
+    display: inline-block;
+}
 .fl-left{
     float: left;
 }
 .fl-right{
     float: right;
     margin-right: 0px;
+}
+.width-auto{
+    width: auto;
 }
 /*.page-buffer{
     height: 66px;
@@ -142,7 +148,6 @@ input[type="file"] > input[type="button"]::-moz-focus-inner{
 .del-img:hover, .del-img:active{
     background: url("../images/button/ui-icons_2694e8_256x240.png") no-repeat -177px -98px !important;
 }
-
 
 .width-410{
     width: 410px;
