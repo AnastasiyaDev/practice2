@@ -19,15 +19,15 @@
             <div id="tabs-1">
                 <ul class="main-menu">
                     {% for test in tests %}
-                        <li class="sub clear-fix">
-                            <a  href={{ path('aboutTestpage',{'id':test.id}) }}>
+                        <li class="sub clearfix position-rel">
+                            <a  class="disp-block" href={{ path('aboutTestpage',{'id':test.id}) }}>
                                 <p>{{ test.name }}</p>
                                 <span>{{ test.description }}</span>
                             </a>
 
 
                             {#<a class="del" href={{ path('delTest', {'id':test.id}) }}></a>#}
-                            <a class="del" id="{{ test.id }}" onclick="setId({{test.id}})"></a>
+                            <a class="del-img" id="{{ test.id }}" onclick="setId({{test.id}})"></a>
 
 
                         </li>

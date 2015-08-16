@@ -1,12 +1,17 @@
 header{
-	width: 100%;
+	/*width:auto;*/
+	-webkit-box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 	padding: 0px;
 	margin-bottom: 30px;
 	background-color: #00A0FB;
 	height: 48px;
+	position: relative;
+	z-index: 2;
 }
 .header_content{
-	width: 950px;
+	width: 73%;
 }
 #logo{
 	width: 40px;

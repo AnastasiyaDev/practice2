@@ -5,8 +5,12 @@
 }
 #name{
     font-size: 24px;
+    margin-bottom: 10px;
 }
-.main-menu, .sub-menu{
+#personal{
+    margin-bottom: 20px;
+}
+.main-menu{
     list-style:none;
     width: inherit;
     padding:0;
@@ -68,22 +72,6 @@ li ul {
     padding:0;
     margin:0;
 }
-#bin-logo{
-    background: url("../images/button/bin.png") no-repeat;
-    background-size: 100% 100%;
-}
-#bin-logo:active{
-    background: url("../images/button/binActive.png") no-repeat;
-    background-size: 100% 100%;
-}
-#pen-logo{
-    background: url("../images/button/pen.png") no-repeat;
-    background-size: 100% 100%;
-}
-#pen-logo:active{
-    background: url("../images/button/penActive.png") no-repeat;
-    background-size: 100% 100%;
-}
 .ui-tabs .ui-tabs-panel, .ui-tabs{
     padding: 0 !important;
 }
@@ -91,7 +79,6 @@ li ul {
     background-color: #E6E6E6 !important;
     border: none !important;
 }
-
 #tabs-1 .main-menu .sub:first-child, #tabs-2 .main-menu .sub:first-child{
     border-radius:0em 0em 0em 0em !important;
     border-top: none !important;
@@ -107,15 +94,5 @@ li ul {
 .ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl {
     border-bottom-left-radius: 0px !important;
 }
-.tabs-1 .main-menu .sub a{
-    display: block;
-}
-.del {
-    width: 15px;
-    height: 15px;
-    background: url("../images/button/ui-icons_222222_256x240.png") no-repeat -177px -98px;
-    padding: 0 !important;
-}
-.del:hover, .del:active{
-    background: url("../images/button/ui-icons_2694e8_256x240.png") no-repeat -177px -98px !important;
-}
+
+
