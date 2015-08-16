@@ -36,7 +36,7 @@
         {% for question in test.questions %}
         <div class="quest-box clearfix quest-box-{{ loop.index }}">
             <div class="quest-number fl-left al-center vert-align-m"><p class="vert-align-m mar-pad-0 font-s-14">{{ loop.index }}</p></div>
-            <ul class="question fl-right mar-pad-0">
+            <ul class="question fl-right mar-pad-0 position-rel">
                 <h4>{{ question.content }}</h4>
                 <p class="mar-pad-0">выберите один из вариантов:</p>
                 <br>
@@ -51,7 +51,7 @@
 
                     {% endfor %}
                     {% if is_granted('ROLE_ADMIN') %}
-                    <a href={{ path('delQuestion',{'testId':test.id,'id':question.id}) }}>УДАЛИТЬ</a>
+                    <a class="del-img" href={{ path('delQuestion',{'testId':test.id,'id':question.id}) }}></a>
                     {% endif %}
                 </div>
             </ul>
@@ -95,7 +95,7 @@
         </form>
 
     {% if is_granted('ROLE_ADMIN') %}
-        <button id="add-q"  class="green-button" type="button" class="al-center" tabindex="">Добавить вопрос</button>
+        <button id="add-q"  class="green-button al-center" type="button" tabindex="">Добавить вопрос</button>
     {% endif %}
 
         {#----------------------------------------Start Add question-----------------------------------------------#}
