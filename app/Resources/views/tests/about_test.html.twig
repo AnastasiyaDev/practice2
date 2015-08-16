@@ -13,50 +13,59 @@
 
     <div class="content marg-auto clearfix">
         <div class="lvl">
-            {% if test.image is not empty %}
-            <img src="{{ test.image.webPath }}" align="right" width="100" height="80" />
-            {% endif %}
             <h3>{{ test.name }}</h3>
             <p>{{ test.description }}</p>
+            {% if test.image is not empty %}
+                <img src="{{ test.image.webPath }}" align="right" width="100" height="80" />
+            {% endif %}
 
+            {% if is_granted('ROLE_ADMIN') %}
+                <a href={{ path('testpage', {'id':test.id}) }}><div class="blue-button" id="edit-test">Редактировать тест</div></a>
+            {% endif %}
+        </div>
 
         {% if not is_granted('ROLE_ADMIN') %}
 
             {% block complete %}
                 <a href={{ path('_welcome') }}test/id{{ test.id }}>
-                    <button class="fl-right al-center" id="begin">Начать тест</button>
+                    <div class="fl-right al-center blue-button" id="begin">Начать тест</div>
                 </a>
             {% endblock %}
 
         {% endif %}
 
         {% if is_granted('ROLE_ADMIN') %}
-            <span>
-            <a id="edit-q" href={{ path('testpage', {'id':test.id}) }}>РЕДАКТРИРОВАТЬ ТЕСТ</a>
-            </span>
+            {% if results is not empty %}
 
+                <table class="simple-little-table" cellspacing='0'>
+                    <tr>
+                        <th>Пользователь</th>
+                        <th>Результат</th>
+                        <th>Описание результата</th>
+                        <th>Дата прохождения</th>
+                    </tr>
+
+
+                    {% for result in results %}
+                        <tr>
+                            <td>{{ result.user.firstName }} {{  result.user.secondName }}</td>
+                            <td>{{ result.rating }}</td>
+                            {% if result.explanation is not empty %}
+                                <td>{{ result.explanation.description }}</td>
+                            {% elseif result.explanation is empty%}
+                                <td></td>
+                            {% endif %}
+                            <td>{{ result.date|date("d.m.Y") }}</td>
+                        </tr>
+                    {% endfor %}
+
+                </table>
+
+            {% endif %}
         {% endif %}
 
 
-
-        </div>
     </div>
-
-    {% if is_granted('ROLE_ADMIN') %}
-        {% if results is not empty %}
-            {% for result in results %}
-                <div><p>{{ result.user.firstName }} {{  result.user.secondName }} | {{ result.rating }} |
-                        {% if result.explanation is not empty %}
-                        {{ result.explanation.description }}|
-                        {% endif %}
-                        {{ result.date|date("d.m.Y") }}  </p></div>
-            {% endfor %}
-        {% endif %}
-    {% endif %}
-
-
-
-
 
     </body>
 {% endblock %}
