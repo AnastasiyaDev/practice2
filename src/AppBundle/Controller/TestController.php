@@ -49,7 +49,7 @@ class TestController extends Controller
     /**
      * @Route("/test/id{id}", name="testpage")
      */
-    public function showTestAction($id)
+    public function showTestAction(Request $request, $id)
     {
         $test = $this->getDoctrine()
             ->getRepository('AppBundle:Test')
@@ -63,11 +63,54 @@ class TestController extends Controller
             }
         }
 
+        $image = new Image();
+        $form = $this->createFormBuilder($image)
+            ->add('file','file',array('label' => 'Изображение:'))
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+
+            $quest = new Question();
+            $quest->setContent($request->get('_description'));
+            $quest->setTest($test);
+            $test->addQuestion($quest);
+
+            $ans = ($request->get('_answer'));
+
+            for ($i=0; $i<count($ans);$i++) {
+                if (!empty($ans[$i]['content'])) {
+                    $answer = new Answer();
+                    $answer->setContent($ans[$i]['content']);
+                    $answer->setRating($ans[$i]['rating']);
+                    $answer->setQuestion($quest);
+                    $quest->addAnswer($answer);
+                }else continue;
+            }
+
+            if (!$form->get('file')->isEmpty()) {
+                $quest->setImage($image);
+                $em->persist($test);
+                $em->flush();
+                $image->upload($test->getId().'/'.$quest->getId());
+                $image->setPath($test->getId().'/'.$quest->getId().'/'.$form->get('file')->getData()->getClientOriginalName());
+                $em->persist($image);
+                $em->flush();
+                return $this->render('tests/test.html.twig', array('test' => $test, 'uploadForm' => $form->createView()));
+            }
+
+            $em->persist($test);
+            $em->flush();
+//            return $this->redirectToRoute('testpage', array('id' => $test->getId(), 'uploadForm' => $form->createView()));
+            return $this->render('tests/test.html.twig', array('test' => $test, 'uploadForm' => $form->createView()));
+        }
 
         if(!$test) {
             throw $this->createNotFoundException('No found test for id'.$id);
         }
-        return $this->render('tests/test.html.twig', array('test' => $test));
+        return $this->render('tests/test.html.twig', array('test' => $test, 'uploadForm' => $form->createView()));
     }
 
     /**
@@ -134,8 +177,6 @@ class TestController extends Controller
 
             if (!$form->get('file')->isEmpty()) {
                 $test->setImage($image);
-                $image->setPath($test->getId().'/'.$form->get('file')->getData()->getClientOriginalName());
-                $em->persist($image);
                 $em->persist($test);
                 $em->flush();
                 $image->upload($test->getId());
@@ -306,6 +347,8 @@ class TestController extends Controller
         $test->removeQuestion($question);
 
         $em = $this->getDoctrine()->getManager();
+
+        $question->removeImages();
 
         $em->persist($test);
         $em->remove($question);
