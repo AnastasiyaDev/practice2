@@ -16,12 +16,12 @@ Class Test extends NamedEntity
     private $description;
 
     /**
-     * @ORM\OneToMany(targetEntity="Question",mappedBy="test", cascade={"all"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Question",mappedBy="test", cascade={"all"}, orphanRemoval=true,fetch="LAZY")
      */
     private $questions;
 
     /**
-     * @ORM\OneToMany(targetEntity="Explanation",mappedBy="test", cascade={"all"},orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="Explanation",mappedBy="test", cascade={"all"},orphanRemoval=true,fetch="LAZY")
      */
     private $explanation;
 
@@ -41,7 +41,7 @@ Class Test extends NamedEntity
     private $companies;
 
     /**
-     * @ORM\OneToOne(targetEntity="Image", cascade={"all"},orphanRemoval=true)
+     * @ORM\OneToOne(targetEntity="Image", cascade={"all"},orphanRemoval=true,fetch="LAZY")
      * @ORM\JoinColumn(name="image_id",referencedColumnName="id",nullable=true)
      */
     private $image;

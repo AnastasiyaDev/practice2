@@ -68,7 +68,7 @@ class TestController extends Controller
 
         $image = new Image();
         $form = $this->createFormBuilder($image)
-            ->add('file','file',array('label' => 'Изображение:'))
+            ->add('file','file',array('label' => 'Изображение:','required' => false))
             ->getForm();
 
         $form->handleRequest($request);
@@ -101,12 +101,16 @@ class TestController extends Controller
                 $image->setPath($test->getId().'/'.$quest->getId().'/'.$form->get('file')->getData()->getClientOriginalName());
                 $em->persist($image);
                 $em->flush();
+                $minRating = $this->get('calculate')->calculateMinRating($test);
+                $maxRating = $this->get('calculate')->calculateMaxRating($test);
                 return $this->render('tests/test.html.twig', array('test' => $test, 'uploadForm' => $form->createView(),
                     'maxRating' => $maxRating,'minRating' => $minRating));
             }
 
             $em->persist($test);
             $em->flush();
+            $minRating = $this->get('calculate')->calculateMinRating($test);
+            $maxRating = $this->get('calculate')->calculateMaxRating($test);
             return $this->render('tests/test.html.twig', array('test' => $test, 'uploadForm' => $form->createView(),
                 'maxRating' => $maxRating,'minRating' => $minRating));
         }
@@ -373,6 +377,10 @@ class TestController extends Controller
         $explanation->setDescription($request->get('_description'));
         $explanation->setMinRating($request->get('_minRating'));
         $explanation->setMaxRating($request->get('_maxRating'));
+
+        if ($this->get('calculate')->checkExplanation($test, $explanation)) {
+            return $this->redirectToRoute('testpage', array('id' => $test->getId()));
+        }
 
         $test->addExplanation($explanation);
         $explanation->setTest($test);
