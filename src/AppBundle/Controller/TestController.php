@@ -63,6 +63,9 @@ class TestController extends Controller
             }
         }
 
+        $minRating = $this->get('calculate')->calculateMinRating($test);
+        $maxRating = $this->get('calculate')->calculateMaxRating($test);
+
         $image = new Image();
         $form = $this->createFormBuilder($image)
             ->add('file','file',array('label' => 'Изображение:'))
@@ -98,19 +101,21 @@ class TestController extends Controller
                 $image->setPath($test->getId().'/'.$quest->getId().'/'.$form->get('file')->getData()->getClientOriginalName());
                 $em->persist($image);
                 $em->flush();
-                return $this->render('tests/test.html.twig', array('test' => $test, 'uploadForm' => $form->createView()));
+                return $this->render('tests/test.html.twig', array('test' => $test, 'uploadForm' => $form->createView(),
+                    'maxRating' => $maxRating,'minRating' => $minRating));
             }
 
             $em->persist($test);
             $em->flush();
-//            return $this->redirectToRoute('testpage', array('id' => $test->getId(), 'uploadForm' => $form->createView()));
-            return $this->render('tests/test.html.twig', array('test' => $test, 'uploadForm' => $form->createView()));
+            return $this->render('tests/test.html.twig', array('test' => $test, 'uploadForm' => $form->createView(),
+                'maxRating' => $maxRating,'minRating' => $minRating));
         }
 
         if(!$test) {
             throw $this->createNotFoundException('No found test for id'.$id);
         }
-        return $this->render('tests/test.html.twig', array('test' => $test, 'uploadForm' => $form->createView()));
+        return $this->render('tests/test.html.twig', array('test' => $test, 'uploadForm' => $form->createView(),
+            'maxRating' => $maxRating,'minRating' => $minRating));
     }
 
     /**

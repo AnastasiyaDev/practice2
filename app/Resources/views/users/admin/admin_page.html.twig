@@ -26,9 +26,9 @@
                             </a>
 
 
-                            {#<a class="del" href={{ path('delTest', {'id':test.id}) }}></a>#}
+                            {% if is_granted('ROLE_SUPER_ADMIN') %}
                             <a class="del-img" id="{{ test.id }}" onclick="setId({{test.id}})"></a>
-
+                            {% endif %}
 
                         </li>
                     {% endfor %}
