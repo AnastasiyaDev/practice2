@@ -68,5 +68,20 @@ class AnsCalculate
         return $rating;
     }
 
+    /**
+     * @param Test $test
+     * @param Explanation $explanation
+     * @return boolean
+     */
+    public function checkExplanation(Test $test, Explanation $explanation) {
+        if ($this->findExplanation($explanation->getMinRating(), $test) != null
+            or $this->findExplanation($explanation->getMaxRating(), $test) != null) {
+            return true;
+        }
+        return false;
+    }
+
+
+
 
 }

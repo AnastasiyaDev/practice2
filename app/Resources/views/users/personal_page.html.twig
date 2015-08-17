@@ -47,11 +47,11 @@
                                     <p>{{ test.name }}</p>
                                     <span>{{ test.description }}
                                         {% set rating = 0 %}
-                                        {% for answer in user.answers %}
-                                            {% if answer.question.test.id == test.id %}
-                                                {% set rating = rating + answer.rating  %}
+                                        {% for result in user.results %}
+                                            {% if result.test.id == test.id %}
+                                               | {{ result.rating }}
                                             {% endif %}
-                                        {% endfor %} | {{ rating }}
+                                        {% endfor %}
                                     </span>
                                 </a>
                             </li>
