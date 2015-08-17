@@ -26,7 +26,7 @@ Class Test extends NamedEntity
     private $explanation;
 
     /**
-     * @ORM\ManyToMany(targetEntity="User",mappedBy="tests")
+     * @ORM\ManyToMany(targetEntity="User",mappedBy="tests",fetch="LAZY")
      */
     private $users;
 
@@ -36,7 +36,7 @@ Class Test extends NamedEntity
     private $results;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Company",mappedBy="tests")
+     * @ORM\ManyToMany(targetEntity="Company",mappedBy="tests",fetch="LAZY")
      */
     private $companies;
 

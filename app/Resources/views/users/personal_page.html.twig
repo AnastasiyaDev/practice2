@@ -8,7 +8,8 @@
 {% endblock %}
 {% block body%}
     <body>
-    {% include 'header.html.twig' %}
+    {% if is_granted('ROLE_ADMIN') %} {% include 'header.html.twig' with {'back':path('usersList')} %}
+    {% else %} {% include 'header.html.twig' with {'root':'true'} %}  {% endif %}
 
 
     <div class="content marg-auto clearfix ">

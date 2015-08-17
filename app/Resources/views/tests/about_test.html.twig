@@ -32,7 +32,7 @@
         {% if not is_granted('ROLE_ADMIN') %}
 
             {% block complete %}
-                <a href={{ path('_welcome') }}test/id{{ test.id }}>
+                <a href={{ path('testpage', {'id':test.id}) }}>
                     <div class="fl-right al-center blue-button" id="begin">Начать тест</div>
                 </a>
             {% endblock %}

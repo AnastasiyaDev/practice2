@@ -12,7 +12,7 @@
 
         <ul class="main-menu">
             {% for user in users %}
-                <li class="sub"><a href={{ path('userPage',{ 'id':user.id}) }}>
+                <li class="sub"><a href={{ path('usersPageAdmin',{ 'id':user.id}) }}>
                         <p>{{ user.username }}</p>
                         <span>{{ user.firstName }} {{ user.secondName }}</span>
                     </a></li>
