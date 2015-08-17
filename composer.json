@@ -22,7 +22,8 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "iakumai/sphinxsearch-bundle": "dev-master",
         "components/jquery": "2.1.4",
-        "components/jqueryui": "1.11.*"
+        "components/jqueryui": "1.11.*",
+        "benexile/fancybox": "dev-component"
 
 
     },

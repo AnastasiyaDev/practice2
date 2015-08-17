@@ -59,9 +59,12 @@ assetic:
                 output: js/jquery-ui.min.js
             cupertino-css:
                 inputs:
-                    - %kernel.root_dir%/../vendor/components/jqueryui//themes/cupertino/jquery-ui.min.css
+                    - %kernel.root_dir%/../vendor/components/jqueryui/themes/cupertino/jquery-ui.min.css
                 output: css/jquery-ui.min.css
-
+            fancybox:
+                inputs:
+                    - %kernel.root_dir%/../vendor/benexile/fancybox/source/jquery.fancybox.pack.js
+                output: js/jquery-fancybox.pack.js
 
 # Doctrine Configuration
 doctrine:

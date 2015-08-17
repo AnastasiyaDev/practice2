@@ -292,10 +292,12 @@
                      <textarea id="description-res-form-{{ NumberDes }}" name="_description"   tabindex="1" spellcheck="true" pattern="[а-яА-ЯёЁa-zA-Z-\t]+" required ></textarea>
 
                      <label for="minRating-{{ NumberDes }}" class="lab">Минимальное количество баллов: </label>
-                     <input type="text" id="minRating-{{ NumberDes }}" name="_minRating"  tabindex="2" size="2" pattern="[0-9]+" required><br>
+                     <input type="number" id="minRating-{{ NumberDes }}" name="_minRating"  tabindex="2" size="2" pattern="[0-9]+"
+                            min="{{ minRating }}" max="{{ maxRating }}" required><br>
 
                      <label for="maxRating-{{ NumberDes }}" class="lab">Максимальное количество баллов: </label>
-                     <input type="text" id="maxRating-{{ NumberDes }}" name="_maxRating"  tabindex="3" size="2" pattern="[0-9]+" required>
+                     <input type="number" id="maxRating-{{ NumberDes }}" name="_maxRating"  tabindex="3" size="2" pattern="[0-9]+"
+                            min="{{ minRating }}" max="{{ maxRating }}" required>
 
                  </div>
 

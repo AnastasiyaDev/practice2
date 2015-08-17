@@ -36,5 +36,37 @@ class AnsCalculate
         return $rating;
     }
 
+    /**
+     * @param Test $test
+     * @return int
+     */
+    public function calculateMinRating(Test $test) {
+        $ratingArray = null; $rating = 0;
+        foreach ($test->getQuestions()->getValues() as $question) {
+            foreach ($question->getAnswers()->getValues() as $answer) {
+                $ratingArray[] = $answer->getRating();
+            }
+            $rating += min($ratingArray);
+            $ratingArray = null;
+        }
+        return $rating;
+    }
+
+    /**
+     * @param Test $test
+     * @return int
+     */
+    public function calculateMaxRating(Test $test) {
+        $ratingArray = null; $rating = 0;
+        foreach ($test->getQuestions()->getValues() as $question) {
+            foreach ($question->getAnswers()->getValues() as $answer) {
+                $ratingArray[] = $answer->getRating();
+            }
+            $rating += max($ratingArray);
+            $ratingArray = null;
+        }
+        return $rating;
+    }
+
 
 }

@@ -17,7 +17,7 @@
                 <h3>{{ test.name }}</h3>
                 <p>{{ test.description }}</p>
 
-                {% if is_granted('ROLE_ADMIN') %}
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
                     <a href={{ path('testpage', {'id':test.id}) }}><div class="blue-button" id="edit-test">Редактировать тест</div></a>
                 {% endif %}
             </div>
