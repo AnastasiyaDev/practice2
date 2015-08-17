@@ -46,7 +46,9 @@ class AnsCalculate
             foreach ($question->getAnswers()->getValues() as $answer) {
                 $ratingArray[] = $answer->getRating();
             }
-            $rating += min($ratingArray);
+            if ($ratingArray) {
+                $rating += min($ratingArray);
+            }
             $ratingArray = null;
         }
         return $rating;
@@ -62,7 +64,9 @@ class AnsCalculate
             foreach ($question->getAnswers()->getValues() as $answer) {
                 $ratingArray[] = $answer->getRating();
             }
-            $rating += max($ratingArray);
+            if ($ratingArray) {
+                $rating += max($ratingArray);
+            }
             $ratingArray = null;
         }
         return $rating;

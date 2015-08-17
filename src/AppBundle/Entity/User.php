@@ -41,7 +41,7 @@ Class User implements UserInterface, \Serializable
     private $secondName;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Department",inversedBy="users")
+     * @ORM\ManyToOne(targetEntity="Department",inversedBy="users",fetch="LAZY")
      * @ORM\JoinColumn(name="department_id",referencedColumnName="id")
      */
     private $department;
@@ -55,7 +55,7 @@ Class User implements UserInterface, \Serializable
     private $tests;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Answer",inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="Answer",inversedBy="users",fetch="LAZY")
      * @ORM\JoinTable(name="user_answer",
      * joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      * inverseJoinColumns={@ORM\JoinColumn(name="answer_id", referencedColumnName="id")})

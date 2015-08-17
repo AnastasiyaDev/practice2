@@ -6,7 +6,10 @@
             <div class="fl-left mar-l-35" id="logo"><img src="{{ asset('images/LogoOnHeader.png') }}"></div>
             <div class="fl-left text ">Victim</div>
         </a>
-        <a href=""><div class="fl-left" id="row"><img src="{{ asset('images/row.png') }}"></div></a>
+        {% if root is not defined %}
+        <a href= {% if back is defined %}"{{ back }}" {% else %} "." {% endif %}
+                ><div class="fl-left" id="row"><img src="{{ asset('images/row.png') }}"></div></a>
+        {% endif %}
         <a href={{ path('_logout') }}><div class="fl-right blue-button marg-r-30" id="exit" >Выйти</div></a>
     </div>
 

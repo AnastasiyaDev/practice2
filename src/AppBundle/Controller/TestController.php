@@ -17,7 +17,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
 class TestController extends Controller
 {
     /**
-     * @Route("/test/id{id}/about", name="aboutTestpage")
+     * @Route("/testid{id}", name="aboutTestpage")
      */
     public function indexAction($id)
     {
@@ -47,7 +47,7 @@ class TestController extends Controller
     }
 
     /**
-     * @Route("/test/id{id}", name="testpage")
+     * @Route("/testid{id}/test", name="testpage")
      */
     public function showTestAction(Request $request, $id)
     {

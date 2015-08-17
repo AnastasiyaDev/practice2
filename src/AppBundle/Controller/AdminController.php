@@ -39,6 +39,17 @@ class AdminController extends Controller
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
+     * @Route("/users/id{id}",name="usersPageAdmin")
+     */
+    public function showUsersAction($id)
+    {
+        return $this->render(':users:personal_page.html.twig', array(
+            'user' => $this->getDoctrine()->getRepository('AppBundle:User')->find($id)));
+
+    }
+
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
      * @Route("/group",name="groupList")
      */
     public function showAllGroupAction()

@@ -9,7 +9,7 @@
 {% block body%}
     <body>
 
-    {% include 'header.html.twig' %}
+    {% include 'header.html.twig' with {'back':path('userPage', {'id':user.id})} %}
 
     <div class="content marg-auto clearfix">
 
