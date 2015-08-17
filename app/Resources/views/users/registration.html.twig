@@ -44,18 +44,6 @@
                     <input type="text" id="second-name-field" name="_secondName"  size="37" pattern="[а-яА-ЯёЁa-zA-Z-\t]+" tabindex="5" required>
                  </div>
 
-                 {% if is_granted('ROLE_ADMIN') %}
-                 {#<div class="al-center wid_202 marg-auto mar-bot-30">#}
-                    {#<div><label for="group-field" class="lab">Группа: </label></div>#}
-                    {#<input type="text" id="group-field" name="_groupName" size="37" pattern="[а-яА-ЯёЁa-zA-Z0-9_-]+" tabindex="6" required>#}
-                 {#</div>#}
-                 <select name="_department">
-                    {% for department in departments %}
-                        <option value={{ department.id }}>{{ department.name }}</option>
-                    {% endfor %}
-                 </select>
-                 {% endif %}
-
                 <div class="al-center wid_202 marg-auto mar-top-30">
                     <a href={{ path('_welcome') }}><div class="fl-left blue-button" id="input">Назад</div></a>
                     <button type="submit" class="fl-right red-button" id="registr" tabindex="7">Регистрация</button>

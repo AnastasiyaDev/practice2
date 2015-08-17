@@ -1,4 +1,4 @@
-.lvl, .modalDialogDes, #newTestForm{
+.lvl, .modalDialogDes, #newTestForm, #registrationOfUsersForm{
 	background-color: #EFEFEF;
 	border-radius: 0.5em/0.5em;
 	padding: 5px 10px 5px 10px;
@@ -55,10 +55,10 @@ h3{
 	background-size: 100% 100%;
 	margin: 0px 0px 20px 0px !important;
 }
-#add-conten textarea{
-	resize: vertical;
+#add-content textarea, .content-des-res textarea, modalDialogDes textarea{
 	width: 400px;
 }
+
 .butblock{
 	width: 115px;
 	padding: 5px;

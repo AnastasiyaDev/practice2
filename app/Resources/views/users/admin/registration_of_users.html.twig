@@ -1,0 +1,73 @@
+{% extends '::base.html.twig' %}
+
+{% block title %} Регистрация пользователя | {{ parent() }}{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/header.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/test_content.css') }}">
+{% endblock %}
+{% block body%}
+    <body>
+    {% include 'header.html.twig' %}
+
+
+    <div class="content marg-auto clearfix ">
+
+        {% if error is defined %}
+            <div id="err" class="al-center">{{ error }}</div>
+        {% endif %}
+
+        <form id="registrationOfUsersForm" autocomplete="off" action="{{ path("registrationNew") }}" method="post" name="registrationOfUsersForm">
+
+            <div class="al-center mar-top-15">
+                <div><label for="login-user-field" class="">Логин: </label></div>
+                <input type="text" id="login-user-field" name="_username" pattern="[a-zA-Z0-9_-\t]+" tabindex="1" required>
+            </div>
+
+            <div class="al-center marg-auto">
+                <div><label for="password-user-field-1" class="">Пароль: </label></div>
+                <input type="password" id="password-user-field-1" name="_password" pattern="([a-zA-Z0-9_-]){6,37}" tabindex="2" required>
+            </div>
+
+            <div class="al-center">
+                <div><label for="password-user-field-2" class="">Повторите пароль: </label></div>
+                <input type="password" id="password-user-field-2" name="_password-2" pattern="([a-zA-Z0-9_-]){6,37}" tabindex="3" required>
+            </div>
+
+            <div class="al-center">
+                <div><label for="name-user-field" class="">Имя: </label></div>
+                <input type="text" id="name-user-field" name="_firstName" pattern="[а-яА-ЯёЁa-zA-Z-\t]+" tabindex="4" required>
+            </div>
+
+            <div class="al-center">
+                <div><label for="second-name-user-field" class="">Фамилия: </label></div>
+                <input type="text" id="second-name-user-field" name="_secondName" pattern="[а-яА-ЯёЁa-zA-Z-\t]+" tabindex="5" required>
+            </div>
+
+            {#---------тип пока ты не запилишь всякие пути и доступы нераскомменчивай--------#}
+
+            {#{% if is_granted('ROLE_ADMIN') %}#}
+            <div class="al-center marg-auto mar-top-15">
+                <select name="_department">
+                    {#{% for department in departments %}#}
+                    <option></option>
+                        {#<option value={{ department.id }}>{{ department.name }}</option>#}
+                    {#{% endfor %}#}
+                </select>
+            </div>
+            {#{% endif %}#}
+
+            <div class="mar-top-30 clearfix">
+                <a href={{ path('_welcome') }}><div class="fl-left red-button" id="back-">Отмена</div></a>
+                <button type="submit" class="fl-right blue-button" id="reg-of-u" tabindex="6">Создать</button>
+            </div>
+        </form>
+
+
+
+
+
+    </div>
+
+    </body>
+{% endblock %}

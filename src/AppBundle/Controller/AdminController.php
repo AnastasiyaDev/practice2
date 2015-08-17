@@ -153,6 +153,15 @@ class AdminController extends Controller
         return $this->redirectToRoute('adminPage');
     }
 
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Route("/users/new",name="newUser")
+     */
+    public function newUserAction()
+    {
+        return $this->render('users/admin/registration_of_users.html.twig');
+    }
+
 
 
 

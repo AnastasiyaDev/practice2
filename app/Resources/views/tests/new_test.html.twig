@@ -9,7 +9,7 @@
 {% block body%}
     <body>
 
-    {% include 'header.html.twig' with {'root':'true'} %}
+    {% include 'header.html.twig' %}
 
     <div class="content marg-auto clearfix">
 
@@ -20,21 +20,21 @@
 
             <form id="newTestForm" autocomplete="off" action="{{ path('testNewForm') }}" method="post" name="registrationForm" {{ form_enctype(uploadForm) }}>
 
-                <div class="al-center marg-auto mar-top-15">
-                    <div><label for="new-test-name-field" class="lab">Имя: </label></div>
+                <div class="al-center mar-top-15">
+                    <div><label for="new-test-name-field" class="">Имя: </label></div>
                     <input type="text" id="new-test-name-field" name="_name"  tabindex="1" required>
                 </div>
 
-                <div class="al-center marg-auto">
-                    <div><label for="description-new-test-field" class="lab">Описание: </label></div>
+                <div class="al-center">
+                    <div><label for="description-new-test-field" class="">Описание: </label></div>
                     <textarea id="description-new-test-field" name="_description"  tabindex="2" required></textarea>
                 </div>
 
-                <div class="al-center marg-auto mar-top-15">
+                <div class="al-center mar-top-15">
                     {{ form_widget(uploadForm) }}
                 </div>
 
-                <div class="al-center marg-auto mar-top-15">
+                <div class="al-center mar-top-15">
                     <select name="_company">
                         {% for company in companies %}
                             <option value={{ company.id }}>{{ company.name }}</option>
@@ -43,8 +43,8 @@
                 </div>
 
                 <div class="mar-top-30 clearfix">
-                    <a href={{ path('_welcome') }}><div class="fl-left blue-button" id="back">Назад</div></a>
-                    <button type="submit" class="fl-right red-button" id="create-test" tabindex="3">Создать</button>
+                    <a href={{ path('_welcome') }}><div class="fl-left red-button">Отмена</div></a>
+                    <button type="submit" class="fl-right blue-button" tabindex="3">Создать</button>
                 </div>
 
 
