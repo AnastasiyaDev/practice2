@@ -144,7 +144,7 @@ input[type="file"] > input[type="button"]::-moz-focus-inner{
     display: block;
     position: absolute;
     top: 10px;
-    right: 10px;
+    right: 5px;
 }
 .del-img:hover, .del-img:active{
     background: url("../images/button/ui-icons_2694e8_256x240.png") no-repeat -177px -98px !important;
@@ -157,7 +157,7 @@ input[type="file"] > input[type="button"]::-moz-focus-inner{
     display: block;
     position: absolute;
     top: 35px;
-    right: 10px;
+    right: 5px;
 }
 .edit-img:hover, .edit-img:active{
     background: url("../images/button/ui-icons_2694e8_256x240.png") no-repeat -65px -113px !important;
@@ -177,6 +177,9 @@ input[type="file"] > input[type="button"]::-moz-focus-inner{
 }
 .mar-top-30{
     margin-top: 30px;
+}
+.mar-top-15{
+    margin-top: 15px;
 }
 .wid_202{
     width: 240px;

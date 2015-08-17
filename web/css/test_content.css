@@ -1,4 +1,4 @@
-.lvl, .modalDialogDes{
+.lvl, .modalDialogDes, #newTestForm{
 	background-color: #EFEFEF;
 	border-radius: 0.5em/0.5em;
 	padding: 5px 10px 5px 10px;
@@ -55,7 +55,7 @@ h3{
 	background-size: 100% 100%;
 	margin: 0px 0px 20px 0px !important;
 }
-textarea{
+#add-conten textarea{
 	resize: vertical;
 	width: 400px;
 }
@@ -119,21 +119,9 @@ a #input{
 
 }
 .fancy-img{
-	top: 10px;
-	right: 30px;
+	margin-top: 10px;
+	margin-right: 23px !important;
 }
-/*.img-in-form:active{*/
-	/*display: block;*/
-	/*position: fixed;*/
-	/*top: 0;*/
-	/*right: 0;*/
-	/*bottom: 0;*/
-	/*left: 0;*/
-	/*background: rgba(0,0,0,0.7);*/
-	/*z-index: 99999;*/
-
-/*}*/
-
 
 
 /********************TABLE**************/
@@ -237,3 +225,7 @@ a #input{
 	text-decoration:underline;
 }
 /********************TABLE**************/
+/*------------------------------for new_test---------------------*/
+#description-new-test-field{
+	width: 300px;
+}

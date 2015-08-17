@@ -1,13 +1,18 @@
 {% extends '::base.html.twig' %}
 
 {% block title %} Новый тест | {{ parent() }}{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/header.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/test_content.css') }}">
+{% endblock %}
 {% block body%}
     <body>
-    <div align="center">
 
-        <div class="form_content clearfix">
+    {% include 'header.html.twig' with {'root':'true'} %}
 
-            <div class="marg-auto" id="logo"></div>
+    <div class="content marg-auto clearfix">
+
 
             {% if error is defined %}
                 <div id="err" class="al-center">{{ error }}</div>
@@ -15,52 +20,36 @@
 
             <form id="newTestForm" autocomplete="off" action="{{ path('testNewForm') }}" method="post" name="registrationForm" {{ form_enctype(uploadForm) }}>
 
-                <div class="al-center wid_202 marg-auto">
-                    <div><label for="name-field" class="lab">Имя: </label></div>
-                    <input type="text" id="name-field" name="_name"  tabindex="1" required>
+                <div class="al-center marg-auto mar-top-15">
+                    <div><label for="new-test-name-field" class="lab">Имя: </label></div>
+                    <input type="text" id="new-test-name-field" name="_name"  tabindex="1" required>
                 </div>
 
-                <div class="al-center wid_202 marg-auto">
-                    <div><label for="name-field" class="lab">Описание: </label></div>
-                    <textarea id="description-field" name="_description"  tabindex="1" required></textarea>
+                <div class="al-center marg-auto">
+                    <div><label for="description-new-test-field" class="lab">Описание: </label></div>
+                    <textarea id="description-new-test-field" name="_description"  tabindex="2" required></textarea>
                 </div>
 
-                <div class="al-center wid_202 marg-auto mar-top-20">
+                <div class="al-center marg-auto mar-top-15">
                     {{ form_widget(uploadForm) }}
                 </div>
 
-                <select name="_company">
-                    {% for company in companies %}
-                        <option value={{ company.id }}>{{ company.name }}</option>
-                    {% endfor %}
-                </select>
+                <div class="al-center marg-auto mar-top-15">
+                    <select name="_company">
+                        {% for company in companies %}
+                            <option value={{ company.id }}>{{ company.name }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
 
-
-                <div class="al-center wid_202 marg-auto mar-top-20">
-                    <a href={{ path('_welcome') }}><div class="fl-left al-center" id="input">Назад</div></a>
-                    <button type="submit" class="fl-right al-center" id="create" tabindex="7">Создать</button>
+                <div class="mar-top-30 clearfix">
+                    <a href={{ path('_welcome') }}><div class="fl-left blue-button" id="back">Назад</div></a>
+                    <button type="submit" class="fl-right red-button" id="create-test" tabindex="3">Создать</button>
                 </div>
 
 
             </form>
-
-            {#<form id="newTestForm" autocomplete="off" action="{{ path('testNewForm') }}" method="post" name="registrationForm">#}
-
-                {#<div class="al-center wid_202 marg-auto mar-top-20">#}
-                    {#{{ form_widget(testForm) }}#}
-                {#</div>#}
-
-            {#<div class="al-center wid_202 marg-auto mar-top-20">#}
-            {#<a href={{ path('_welcome') }}><div class="fl-left al-center" id="input">Назад</div></a>#}
-            {#<button type="submit" class="fl-right al-center" id="create" tabindex="7">Создать</button>#}
-            {#</div>#}
-
-            {#</form>#}
-
-
-
         </div>
-    </div>
 
 
     </body>

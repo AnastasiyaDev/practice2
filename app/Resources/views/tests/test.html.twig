@@ -36,9 +36,10 @@
         {% for question in test.questions %}
         <div class="quest-box clearfix quest-box-{{ loop.index }}">
             <div class="quest-number quest-number-{{ question.id }} fl-left al-center vert-align-m"><p class="vert-align-m mar-pad-0 font-s-14">{{ loop.index }}</p></div>
-            <ul class="question question-{{ question.id }} fl-right mar-pad-0 position-rel">
+            <ul class="question question-{{ question.id }} fl-right mar-pad-0 position-rel clearfix">
+                <div class="fl-left width-410">
                 <h4>{{ question.content }}</h4>
-                <p class="mar-pad-0">выберите один из вариантов:</p>
+                <p class="mar-pad-0">выберите один из вариантов:<br>(нажмите на картинке для ее увеличения)</p>
                 <br>
                 <div class="al-center">
                     {% for answer in question.answers %}
@@ -52,15 +53,21 @@
                     </li>
                     {% endfor %}
 
-                    {% if question.image is not empty %}{#-----------------------ADD IMAGE------------------------#}
-                        <a href="{{ question.image.webPath }}" class="fancy-img position-abs"><img class="img-in-form" src="{{ question.image.webPath }}" alt="Изображение"></a>
-                    {% endif %}
+
 
                     {% if is_granted('ROLE_ADMIN') %} {#---------------УДАЛЕНИЕ/РЕДАКЦИЯ ВОПРОСА------------------#}
                         <a class="del-img" href={{ path('delQuestion',{'testId':test.id,'id':question.id}) }}></a>
                         <a class="edit-img" href={{ path('editQuestion',{'testId':test.id,'id':question.id}) }}></a>
                     {% endif %}
                 </div>
+
+        </div>
+                {% if question.image is not empty %}{#-----------------------ADD IMAGE------------------------#}
+                    <a href="{{ question.image.webPath }}" class="fancy-img fl-right"><img class="img-in-form" src="{{ question.image.webPath }}" alt="Изображение"></a>
+                {% endif %}
+
+
+
             </ul>
         </div>
         {% endfor %}
@@ -80,7 +87,8 @@
                     closeEffect	: 'elastic',
                     'speedIn'		:	600,
                     'speedOut'		:	200,
-                    'overlayShow'	:	true,
+//                    'overlayShow'	:	true,
+                    "overlayOpacity" : 0.7,
                     'centerOnScroll' : true
 
                 });
