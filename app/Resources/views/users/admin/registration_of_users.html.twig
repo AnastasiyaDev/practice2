@@ -29,10 +29,12 @@
                 <input type="password" id="password-user-field-1" name="_password" pattern="([a-zA-Z0-9_-]){6,37}" tabindex="2" required>
             </div>
 
-            <div class="al-center">
+            <div class="al-center position-rel">
                 <div><label for="password-user-field-2" class="">Повторите пароль: </label></div>
-                <input type="password" id="password-user-field-2" name="_password-2" pattern="([a-zA-Z0-9_-]){6,37}" tabindex="3" required>
+                <input type="password" id="password-user-field-2" name="_password-2" onchange="checkPass()" pattern="([a-zA-Z0-9_-]){6,37}" tabindex="3" required>
+                <span id="info" class="position-abs"></span>
             </div>
+
 
             <div class="al-center">
                 <div><label for="name-user-field" class="">Имя: </label></div>
@@ -63,8 +65,29 @@
             </div>
         </form>
 
+        <script type="text/javascript">
+
+                function checkPass(){
+
+                    var pass1 = $('#password-user-field-1').val();
+                    var pass2 = $('#password-user-field-2').val();
+
+                    $('#info').innerHTML = ( pass1 != pass2 ) ? 'Не совпадает!!!' : 'OK!';
+
+                }
+
+        </script>
 
 
+        {#<script>#}
+            {#function checkPass ()#}
+            {#{#}
+                {#var a = document;#}
+
+                {#a.getElementById ('info').innerHTML = (a.getElementById ('password-user-field-1').value != a.getElementById ('password-user-field-2').value) ?#}
+                            {#'Не совпадает!!!' : 'OK!';#}
+            {#}#}
+        {#</script>#}
 
 
     </div>

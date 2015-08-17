@@ -55,7 +55,7 @@ h3{
 	background-size: 100% 100%;
 	margin: 0px 0px 20px 0px !important;
 }
-#add-content textarea, .content-des-res textarea, modalDialogDes textarea{
+#add-content textarea, .content-des-res textarea, .modalDialogDes textarea{
 	width: 400px;
 }
 
@@ -228,4 +228,11 @@ a #input{
 /*------------------------------for new_test---------------------*/
 #description-new-test-field{
 	width: 300px;
+}
+
+/*--------------------for new user----------------------*/
+#info{
+	top: 20px;
+	right:95px;
+	color: red;
 }
