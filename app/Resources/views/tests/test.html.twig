@@ -52,8 +52,8 @@
                     </li>
                     {% endfor %}
 
-                    {% if question.image is not empty %}
-                        <img class="img-in-form position-abs expando" src="{{ question.image.webPath }}"  alt="Изображение">
+                    {% if question.image is not empty %}{#-----------------------ADD IMAGE------------------------#}
+                        <a href="{{ question.image.webPath }}" class="fancy-img position-abs img-in-form"><img class="" src="{{ question.image.webPath }}" alt="Изображение"></a>
                     {% endif %}
 
                     {% if is_granted('ROLE_ADMIN') %} {#---------------УДАЛЕНИЕ/РЕДАКЦИЯ ВОПРОСА------------------#}
@@ -71,16 +71,30 @@
         </form>
 
 
-        {##}
-        {#<script type="text/javascript">#}
-            {##}
-            {#jQuery(document).ready(function() {#}
-                {##}
-                {#jQuery("a").fancybox();#}
-                {##}
-            {#});#}
-            {##}
-        {#</script>#}
+
+        <script type="text/javascript">
+
+            $(document).ready(function() {
+
+
+//                $("a[href$='.jpg'],a[href$='.png'],a[href$='.gif']").fancybox();
+
+                $("a.fancy-img").fancybox({
+                    "imageScale"    : false,
+                    'transitionIn'	:	'elastic',
+                    'transitionOut'	:	'elastic',
+                    'speedIn'		:	600,
+                    'speedOut'		:	200,
+                    'centerOnScroll':   true,
+                    'overlayShow'	:	false,
+                    'width':'auto',
+                    'hieght':'auto'
+                });
+
+
+            });
+
+        </script>
 {#*****************************************************************************************************************************************#}
 
 

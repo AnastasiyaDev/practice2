@@ -2,8 +2,11 @@
 <header>
 
     <div class="header_content marg-auto clearfix ">
-        <a href={{ path('_welcome') }}><div class="fl-left mar-l-35" id="logo"><img src="{{ asset('images/LogoOnHeader.png') }}"></div>
-            <span>Victim</span></a>
+        <a href={{ path('_welcome') }}>
+            <div class="fl-left mar-l-35" id="logo"><img src="{{ asset('images/LogoOnHeader.png') }}"></div>
+            <div class="fl-left text ">Victim</div>
+        </a>
+        <a href=""><div class="fl-left" id="row"><img src="{{ asset('images/row.png') }}"></div></a>
         <a href={{ path('_logout') }}><div class="fl-right blue-button marg-r-30" id="exit" >Выйти</div></a>
     </div>
 
