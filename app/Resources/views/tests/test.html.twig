@@ -53,7 +53,7 @@
                     {% endfor %}
 
                     {% if question.image is not empty %}{#-----------------------ADD IMAGE------------------------#}
-                        <a href="{{ question.image.webPath }}" class="fancy-img position-abs img-in-form"><img class="" src="{{ question.image.webPath }}" alt="Изображение"></a>
+                        <a href="{{ question.image.webPath }}" class="fancy-img position-abs"><img class="img-in-form" src="{{ question.image.webPath }}" alt="Изображение"></a>
                     {% endif %}
 
                     {% if is_granted('ROLE_ADMIN') %} {#---------------УДАЛЕНИЕ/РЕДАКЦИЯ ВОПРОСА------------------#}
@@ -71,67 +71,22 @@
         </form>
 
 
-
         <script type="text/javascript">
 
             $(document).ready(function() {
 
-
-//                $("a[href$='.jpg'],a[href$='.png'],a[href$='.gif']").fancybox();
-
-                $("a.fancy-img").fancybox({
-                    "imageScale"    : false,
-                    'transitionIn'	:	'elastic',
-                    'transitionOut'	:	'elastic',
+                $(".fancy-img").fancybox({
+                    openEffect	: 'elastic',
+                    closeEffect	: 'elastic',
                     'speedIn'		:	600,
                     'speedOut'		:	200,
-                    'centerOnScroll':   true,
-                    'overlayShow'	:	false,
-                    'width':'auto',
-                    'hieght':'auto'
+                    'overlayShow'	:	true,
+                    'centerOnScroll' : true
+
                 });
-
-
             });
 
         </script>
-{#*****************************************************************************************************************************************#}
-
-
-        <script type="text/javascript">
-
-//            function openImage(src) {
-//                var image = new Image();
-//                image.src = src;
-//                var width = image.width;
-//                var height = image.height;
-//                var myWindow = document.createElement("div");
-//                myWindow.style({
-//                    'position': 'fixed',
-//                    'top': '0',
-//                    'right': '0',
-//                    'bottom': '0',
-//                    'left': '0',
-//                    'background': 'rgba(0,0,0,0.7)',
-//                    'z-index': '99999',
-//                    'display': 'none'});
-//
-//                myWindow.show();
-//
-//                alert('fdsfS')
-
-
-
-//                openImgInMyWindow(image.src, width, height);
-//                openImgInMyWindow(image, width, height)
-//                window.open(src,"Image", "width=" + width + ", height=" + height);
-
-//}
-
-        </script>
-
-
-
 
         {#----------------------------------------Start border_color----------------------------------#}
 

@@ -7,6 +7,11 @@
             {% stylesheets 'css/jquery-ui.min.css' filter='cssrewrite' %}
                 <link rel="stylesheet" href="{{ asset(asset_url) }}">
             {% endstylesheets %}
+
+            {% stylesheets 'css/jquery.fancybox.css' filter='cssrewrite' %}
+            <link rel="stylesheet" href="{{ asset(asset_url) }}">
+            {% endstylesheets %}
+
             <link rel="stylesheet" type="text/css" href="{{ asset('css/body.css') }}">
         {% endblock %}
         {% block javascripts %}
