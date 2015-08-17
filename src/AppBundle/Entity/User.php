@@ -47,7 +47,7 @@ Class User implements UserInterface, \Serializable
     private $department;
 
     /**
-     * @ORM\ManyToMany(targetEntity="Test", inversedBy="users")
+     * @ORM\ManyToMany(targetEntity="Test", inversedBy="users",fetch="LAZY")
      * @ORM\JoinTable(name="user_complete_test",
      * joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
      * inverseJoinColumns={@ORM\JoinColumn(name="test_id", referencedColumnName="id")})

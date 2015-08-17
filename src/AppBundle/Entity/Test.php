@@ -270,7 +270,13 @@ Class Test extends NamedEntity
      */
     public function removeImages()
     {
-        if (!$this->image === null) {
+        foreach ($this->getQuestions()->getValues() as $question) {
+            if (!$question->getImage() == null) {
+                $question->removeImages();
+            }
+            else continue;
+        }
+        if (!$this->image == null) {
             $this->image->removeUpload();
             rmdir(__DIR__.'/../../../web/images/tests/'.$this->getId());
         }

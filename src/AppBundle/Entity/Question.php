@@ -26,8 +26,11 @@ class Question extends BaseEntity {
      */
     private $test;
 
-
-
+    /**
+     * @ORM\OneToOne(targetEntity="Image",cascade={"all"},orphanRemoval=true)
+     * @ORM\JoinColumn(name="image_id",referencedColumnName="id",nullable=true)
+     */
+    private $image;
 
     /**
      * Constructor
@@ -115,5 +118,40 @@ class Question extends BaseEntity {
     public function getTest()
     {
         return $this->test;
+    }
+
+    /**
+     * Set image
+     *
+     * @param \AppBundle\Entity\Image $image
+     * @return Question
+     */
+    public function setImage(\AppBundle\Entity\Image $image = null)
+    {
+        $this->image = $image;
+
+        return $this;
+    }
+
+    /**
+     * Get image
+     *
+     * @return \AppBundle\Entity\Image 
+     */
+    public function getImage()
+    {
+        return $this->image;
+    }
+
+    /**
+     * @ORM\PostRemove()
+     */
+    public function removeImages()
+    {
+        if (!$this->image == null) {
+            $this->image->removeUpload();
+            rmdir(__DIR__.'/../../../web/images/tests/'.$this->test->getId().'/'.$this->getId());
+        }
+        return;
     }
 }
