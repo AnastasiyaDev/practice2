@@ -52,6 +52,10 @@
                     </li>
                     {% endfor %}
 
+                    {% if question.image is not empty %}
+                        <img class="img-in-form position-abs expando" src="{{ question.image.webPath }}"  alt="Изображение">
+                    {% endif %}
+
                     {% if is_granted('ROLE_ADMIN') %} {#---------------УДАЛЕНИЕ/РЕДАКЦИЯ ВОПРОСА------------------#}
                         <a class="del-img" href={{ path('delQuestion',{'testId':test.id,'id':question.id}) }}></a>
                         <a class="edit-img" href={{ path('editQuestion',{'testId':test.id,'id':question.id}) }}></a>
@@ -65,6 +69,55 @@
                         <button type="submit" class="fl-right al-center red-button" id="end-test">Завершить</button>
                     {% endif %}
         </form>
+
+
+        {##}
+        {#<script type="text/javascript">#}
+            {##}
+            {#jQuery(document).ready(function() {#}
+                {##}
+                {#jQuery("a").fancybox();#}
+                {##}
+            {#});#}
+            {##}
+        {#</script>#}
+{#*****************************************************************************************************************************************#}
+
+
+        <script type="text/javascript">
+
+//            function openImage(src) {
+//                var image = new Image();
+//                image.src = src;
+//                var width = image.width;
+//                var height = image.height;
+//                var myWindow = document.createElement("div");
+//                myWindow.style({
+//                    'position': 'fixed',
+//                    'top': '0',
+//                    'right': '0',
+//                    'bottom': '0',
+//                    'left': '0',
+//                    'background': 'rgba(0,0,0,0.7)',
+//                    'z-index': '99999',
+//                    'display': 'none'});
+//
+//                myWindow.show();
+//
+//                alert('fdsfS')
+
+
+
+//                openImgInMyWindow(image.src, width, height);
+//                openImgInMyWindow(image, width, height)
+//                window.open(src,"Image", "width=" + width + ", height=" + height);
+
+//}
+
+        </script>
+
+
+
 
         {#----------------------------------------Start border_color----------------------------------#}
 
@@ -87,7 +140,7 @@
         {#-------------------------------- start Add form_question ---------------------------------------#}
 
         {% set NumberQ = test.questions|length %}
-        <form id="AddQuestionForm" action="{{ path('addQuestion', {'id':test.id}) }}" method="post" name="AddQuestionForm">
+        <form id="AddQuestionForm" action="{{ path('testpage', {'id':test.id}) }}" method="post" name="AddQuestionForm" {{ form_enctype(uploadForm) }}>
 
             {% set NumberQ  = NumberQ + 1 %}
 
@@ -102,7 +155,7 @@
 
                         <label for="text-q-{{ NumberQ  }}">Текст вопроса: </label>
                         <textarea id="text-q-{{ NumberQ  }}" name="_description" tabindex="1" spellcheck="true" required pattern="[а-яА-ЯёЁa-zA-Z-\t]+"></textarea>
-
+                        {{ form_widget(uploadForm) }}
                     </div>
 
                     <div class="fl-right butblock">
@@ -166,7 +219,7 @@
 
         </script>
 
-        {#--------------------------------Start form_description_test-----------------------------------------#}
+        {#--------------------------------Start form_description_test(MODAL WINDOW)-----------------------------------------#}
 
 
         <form id="descriptionTestForm" action="{{ path('editTest', {'id': test.id}) }}" method="post" name="descriptionTestForm">
@@ -203,9 +256,6 @@
             });
 
         </script>
-
-
-
 
 
 
