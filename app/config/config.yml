@@ -65,6 +65,11 @@ assetic:
                 inputs:
                     - %kernel.root_dir%/../vendor/benexile/fancybox/source/jquery.fancybox.pack.js
                 output: js/jquery-fancybox.pack.js
+            fancybox-css:
+                inputs:
+                    - %kernel.root_dir%/../vendor/benexile/fancybox/source/jquery.fancybox.css
+                output: css/jquery.fancybox.css
+
 
 # Doctrine Configuration
 doctrine:
