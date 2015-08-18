@@ -232,7 +232,12 @@ a #input{
 
 /*--------------------for new user----------------------*/
 #info{
-	top: 20px;
-	right:95px;
-	color: red;
+	top: 16px;
+	bottom: 2px;
+	right:50px;
+	color: #DD3C57;
+	border-radius: 4px;
+	padding: 2px;
+	background-color: #F9F2F4;
+	height: auto;
 }
