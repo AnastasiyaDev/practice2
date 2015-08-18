@@ -55,17 +55,19 @@ class TestController extends Controller
             ->getRepository('AppBundle:Test')
             ->find($id);
 
-        $user = $this->getUser();
-        if (!$user->getTests()->isEmpty()) {
-            foreach ($user->getTests()->getValues() as $userTest) {
-                if ($userTest === $test)
-                    return $this->redirectToRoute('userTest', array('id' => $user->getId(), 'testId' => $test->getId()));
+        //for complete test
+        if(!$this->isGranted("ROLE_ADMIN")) {
+            $user = $this->getUser();
+            if (!$user->getTests()->isEmpty()) {
+                foreach ($user->getTests()->getValues() as $userTest) {
+                    if ($userTest === $test)
+                        return $this->redirectToRoute('userTest', array('id' => $user->getId(), 'testId' => $test->getId()));
+                }
             }
+            return $this->render('tests/test.html.twig', array('test' => $test));
         }
 
-        $minRating = $this->get('calculate')->calculateMinRating($test);
-        $maxRating = $this->get('calculate')->calculateMaxRating($test);
-
+        //for admin edit
         $image = new Image();
         $form = $this->createFormBuilder($image)
             ->add('file','file',array('label' => 'Изображение:','required' => false))
@@ -115,9 +117,13 @@ class TestController extends Controller
                 'maxRating' => $maxRating,'minRating' => $minRating));
         }
 
+        $minRating = $this->get('calculate')->calculateMinRating($test);
+        $maxRating = $this->get('calculate')->calculateMaxRating($test);
+
         if(!$test) {
             throw $this->createNotFoundException('No found test for id'.$id);
         }
+
         return $this->render('tests/test.html.twig', array('test' => $test, 'uploadForm' => $form->createView(),
             'maxRating' => $maxRating,'minRating' => $minRating));
     }
@@ -168,7 +174,7 @@ class TestController extends Controller
 
         $image = new Image();
         $form = $this->createFormBuilder($image)
-            ->add('file')
+            ->add('file','file',array('label' => 'Изображение:'))
             ->getForm();
 
         $form->handleRequest($request);
