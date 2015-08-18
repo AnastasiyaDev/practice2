@@ -321,34 +321,94 @@ class TestController extends Controller
         $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($testId);
         $question = $this->getDoctrine()->getRepository('AppBundle:Question')->find($id);
 
-        $question->setContent($request->get('_description'));
-        $question->setTest($test);
+        $image = new Image();
+        $form = $this->createFormBuilder($image)
+            ->add('file','file',array('label' => 'Изображение:','required' => false))
+            ->getForm();
 
-        $em = $this->getDoctrine()->getManager();
+        $form->handleRequest($request);
 
-        $ans = ($request->get('_answer'));
-        $questionAns = $question->getAnswers();
+//        if ($form->isValid()) {
+//            $em = $this->getDoctrine()->getManager();
+//
+//            $question->setContent($request->get('_description'));
+//            $question->setTest($test);
+//            $test->addQuestion($question);
+//
+//            $ans = ($request->get('_answer'));
+//
+//            for ($i=0; $i<count($ans);$i++) {
+//                if (!empty($ans[$i]['content'])) {
+//                    $answer = new Answer();
+//                    $answer->setContent($ans[$i]['content']);
+//                    $answer->setRating($ans[$i]['rating']);
+//                    $answer->setQuestion($question);
+//                    $question->addAnswer($answer);
+//                }else continue;
+//            }
+//
+//            if (!$form->get('file')->isEmpty()) {
+//                $question->setImage($image);
+//                $em->persist($test);
+//                $em->flush();
+//                $image->upload($test->getId().'/'.$question->getId());
+//                $image->setPath($test->getId().'/'.$question->getId().'/'.$form->get('file')->getData()->getClientOriginalName());
+//                $em->persist($image);
+//                $em->flush();
+//                $minRating = $this->get('calculate')->calculateMinRating($test);
+//                $maxRating = $this->get('calculate')->calculateMaxRating($test);
+//                return $this->render('tests/test.html.twig', array('test' => $test, 'uploadForm' => $form->createView(),
+//                    'maxRating' => $maxRating,'minRating' => $minRating));
+//            }
+//
+//            $em->persist($test);
+//            $em->flush();
+//            $minRating = $this->get('calculate')->calculateMinRating($test);
+//            $maxRating = $this->get('calculate')->calculateMaxRating($test);
+//            return $this->render('tests/test.html.twig', array('test' => $test, 'uploadForm' => $form->createView(),
+//                'maxRating' => $maxRating,'minRating' => $minRating));
+//        }
+//
+        $minRating = $this->get('calculate')->calculateMinRating($test);
+        $maxRating = $this->get('calculate')->calculateMaxRating($test);
+//
+//        if(!$test) {
+//            throw $this->createNotFoundException('No found test for id'.$id);
+//        }
 
-        foreach($questionAns as $answer)
-        for ($i=0; $i<count($ans);$i++) {
-            $answer->setContent($ans[$i]['content']);
-            $answer->setRating($ans[$i]['rating']);
-        }
 
-        if(count($ans)>count($questionAns)) {
-            for ($i=0; $i<count($ans)-count($questionAns);$i++) {
-                $answer = new Answer();
-                $answer->setContent($ans[$i]['content']);
-                $answer->setRating($ans[$i]['rating']);
-                $answer->setQuestion($question);
-                $question->addAnswer($answer);
-            }
-        }
+        return $this->render('tests/test.html.twig', array('test' => $test, 'uploadForm' => $form->createView(),
+            'maxRating' => $maxRating,'minRating' => $minRating, 'questionEdit' => $question));
 
-        $em->persist($question);
-        $em->flush();
 
-        return $this->redirectToRoute('testpage', array('id' => $test->getId()));
+//        $question->setContent($request->get('_description'));
+//        $question->setTest($test);
+//
+//        $em = $this->getDoctrine()->getManager();
+//
+//        $ans = ($request->get('_answer'));
+//        $questionAns = $question->getAnswers();
+//
+//        foreach($questionAns as $answer)
+//        for ($i=0; $i<count($ans);$i++) {
+//            $answer->setContent($ans[$i]['content']);
+//            $answer->setRating($ans[$i]['rating']);
+//        }
+//
+//        if(count($ans)>count($questionAns)) {
+//            for ($i=0; $i<count($ans)-count($questionAns);$i++) {
+//                $answer = new Answer();
+//                $answer->setContent($ans[$i]['content']);
+//                $answer->setRating($ans[$i]['rating']);
+//                $answer->setQuestion($question);
+//                $question->addAnswer($answer);
+//            }
+//        }
+//
+//        $em->persist($question);
+//        $em->flush();
+//
+//        return $this->redirectToRoute('testpage', array('id' => $test->getId()));
     }
 
     /**
@@ -401,23 +461,37 @@ class TestController extends Controller
     }
 
     /**
-     * @Route("/test/id{id}/explanation{idExplanation}/edit", name="editExplanation")
+     * @Route("/test/id{testId}/explanation{id}/edit", name="editExplanation")
      */
-    public function editExplanationAction(Request $request, $id, $idExplanation) {
+    public function editExplanationAction(Request $request, $testId, $id) {
 
-        $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($id);
-        $explanation = $this->getDoctrine()->getRepository('AppBundle:Explanation')->find($idExplanation);
+        $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($testId);
+        $explanation = $this->getDoctrine()->getRepository('AppBundle:Explanation')->find($id);
 
-        $explanation->setDescription($request->get('_description'));
-        $explanation->setMinRating($request->get('_minRating'));
-        $explanation->setMaxRating($request->get('_maxRating'));
+//        $explanation->setDescription($request->get('_description'));
+//        $explanation->setMinRating($request->get('_minRating'));
+//        $explanation->setMaxRating($request->get('_maxRating'));
+//
+//        $em = $this->getDoctrine()->getManager();
+//
+//        $em->persist($explanation);
+//        $em->flush();
 
-        $em = $this->getDoctrine()->getManager();
+        $image = new Image();
+        $form = $this->createFormBuilder($image)
+            ->add('file','file',array('label' => 'Изображение:','required' => false))
+            ->getForm();
 
-        $em->persist($explanation);
-        $em->flush();
+        $form->handleRequest($request);
 
-        return $this->redirectToRoute('testpage', array('id' => $test->getId()));
+        $minRating = $this->get('calculate')->calculateMinRating($test);
+        $maxRating = $this->get('calculate')->calculateMaxRating($test);
+
+        return $this->render('tests/test.html.twig', array('test' => $test, 'uploadForm' => $form->createView(),
+            'maxRating' => $maxRating,'minRating' => $minRating, 'explanationEdit' => $explanation));
+
+
+//        return $this->redirectToRoute('testpage', array('id' => $test->getId()));
     }
 
     /**

@@ -34,6 +34,54 @@
         <form id="questionForm" action="{{ path('testCompete', {'id':test.id}) }}" method="post" name="questionForm">
 
         {% for question in test.questions %}
+            {% if questionEdit is defined and question.id == questionEdit.id %}
+                    <form id="AddQuestionForm" action="{{ path('testpage', {'id':test.id}) }}" method="post" name="AddQuestionForm" {{ form_enctype(uploadForm) }}>
+
+
+                        <div class="clearfix quest-box quest-box-{{ loop.index }}">
+                            <div class="quest-number fl-left al-center vert-align-m">
+                                <p class="vert-align-m mar-pad-0 font-s-14">{{ loop.index }}</p>
+                            </div>
+
+                            <div class="question fl-right mar-pad-0 clearfix">
+
+                                <div class="fl-left width-410" id="add-content">
+
+                                    <label for="text-q-{{ loop.index  }}">Текст вопроса: </label>
+
+                                    <textarea id="text-q-{{ loop.index  }}" name="_description" tabindex="1" spellcheck="true" required pattern="[а-яА-ЯёЁa-zA-Z-\t]+">{{ questionEdit.content }}</textarea>
+                                    {{ form_widget(uploadForm) }}
+                                </div>
+
+                                {% for answer in questionEdit.answers %}
+                                <div class="fl-left add-a-box" id="add-a-box-'{{ loop.index }}'">
+                                    <label for="text-a-'{{ loop.index }}'">Ответ: </label>
+                                    <input id="text-a-'{{ loop.index }}'" type="text" value="{{ answer.content }}" name="_answer['{{ loop.index }}'][content]" size="8" tabindex="2" spellcheck="true" required pattern="[а-яА-ЯёЁa-zA-Z0-9-/t]+">
+                                    <span class="spn0 spn0-'{{ loop.index }}'"><label for="text-p-'{{ loop.index }}'">Баллы за ответ: </label>
+                        <input id="text-p-'{{ loop.index }}'" type="number" value="{{ answer.rating }}" name="_answer['{{ loop.index }}'][rating]" size="1" tabindex="3" required min=0>
+                            </span>
+                                    <div id="cancel-a-'{{ loop.index }}'" onclick="giveId('{{ loop.index }}')" class="vert-align-m cnl cnl-'{{ loop.index }}'"></div>
+                                    </div>
+                                {% endfor %}
+
+
+
+
+
+
+                                <div class="fl-right butblock">
+                                    <a href="{{ path('testpage',{'id':test.id})}}"><button id="cancel-q" class="red-button" type="button" tabindex="">Отмена</button></a>
+                                    <button id="add-ans" class="green-button" type="button" tabindex="">Добавить ответ</button>
+                                    <button id="save" class="blue-button" type="submit" tabindex="">Сохранить</button>
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </form>
+
+            {% else %}
+
         <div class="quest-box clearfix quest-box-{{ loop.index }}">
             <div class="quest-number quest-number-{{ question.id }} fl-left al-center vert-align-m"><p class="vert-align-m mar-pad-0 font-s-14">{{ loop.index }}</p></div>
             <ul class="question question-{{ question.id }} fl-right mar-pad-0 position-rel clearfix">
@@ -54,28 +102,29 @@
                     {% endfor %}
 
 
-
                     {% if is_granted('ROLE_ADMIN') %} {#---------------УДАЛЕНИЕ/РЕДАКЦИЯ ВОПРОСА------------------#}
                         <a class="del-img" href={{ path('delQuestion',{'testId':test.id,'id':question.id}) }}></a>
-                        <a class="edit-img" href={{ path('editQuestion',{'testId':test.id,'id':question.id}) }}></a>
+                        <a class="edit-img" id="{{ question.id }}" onclick="setId({{question.id}})"></a>
+                        {#href={{ path('editQuestion',{'testId':test.id,'id':question.id}) }}#}
                     {% endif %}
                 </div>
 
+
         </div>
 
-                {% if question.image is not empty %}{#-----------------------ADD IMAGE------------------------#}
+                {% if question.image is not empty %}{#-----------------------IMAGE------------------------#}
                     <a href="{{ question.image.webPath }}" class="fancy-img fl-right"><img class="img-in-form" src="{{ question.image.webPath }}" alt="Изображение"></a>
                 {% endif %}
 
 
-
             </ul>
         </div>
+        {% endif %}
         {% endfor %}
 
-                    {% if not is_granted('ROLE_ADMIN') %}
-                        <button type="submit" class="fl-right al-center red-button" id="end-test">Завершить</button>
-                    {% endif %}
+            {% if not is_granted('ROLE_ADMIN') %}
+                <button type="submit" class="fl-right al-center red-button" id="end-test">Завершить</button>
+            {% endif %}
         </form>
 
 
@@ -132,6 +181,7 @@
                     <div class="fl-left width-410" id="add-content">
 
                         <label for="text-q-{{ NumberQ  }}">Текст вопроса: </label>
+
                         <textarea id="text-q-{{ NumberQ  }}" name="_description" tabindex="1" spellcheck="true" required pattern="[а-яА-ЯёЁa-zA-Z-\t]+"></textarea>
                         {{ form_widget(uploadForm) }}
                     </div>
@@ -148,15 +198,16 @@
 
 
         <button id="add-q"  class="green-button al-center" type="button" tabindex="">Добавить вопрос</button>
-    {% endif %}
 
-        {#----------------------------------------Start Add question-----------------------------------------------#}
+
+        {#----------------------------------------Start ADD and DELETE question-----------------------------------------#}
 
 
         <script type="text/javascript">
             $(document).ready(function () {
                 $('document').append('#AddQuestionForm');
                 $('#AddQuestionForm').hide();
+
                 $('#add-q').click(function () {
                     $('#AddQuestionForm').show();
                 });
@@ -166,8 +217,27 @@
                     $('.add-a-box').remove();
                     $('#AddQuestionForm').hide();
                 });
+
             });
         </script>
+
+        {#----------/-------/--------/-------/--EDIT QUESTION form-------/-----/--------------------/---------#}
+
+        <script type="text/javascript">
+
+
+                function setId(ids){
+                    this.ids = ids;
+                    var url = '{{ path("editQuestion", {'testId':test.id,'id':'QId'}) }}';
+                    $(location).attr('href',url.replace("QId", ids));
+
+
+
+                }
+
+
+        </script>
+
 
 
         {#----------------------------------------Start Add/cancel answer-----------------------------------------------#}
@@ -240,6 +310,45 @@
 
             <div class="dis-content marg-auto clearfix">
                 {% for explanation in test.explanation %}
+                    {% if explanationEdit is defined and explanation.id == explanationEdit.id %}
+                        <div class="content-des-res">
+                        <h3>Пояснение {{ loop.index }}</h3>
+                            {#<p>{{ explanationEdit.description }}</p>#}
+
+                            <form id="" autocomplete="off" action="{{ path("editExplanation", {'testId':test.id,'id':explanationEdit.id}) }}" method="post" name="AddDescriptionResult">
+
+
+
+                                <div class="clearfix description-result-box description-result-box-{{ loop.index }}">
+
+                                    <div class="fl-left width-410 content-des-res">
+
+
+                                        <label for="description-res-form-{{ loop.index }}" class="disp-block">Описание: </label>
+                                        <textarea id="description-res-form-{{ loop.index }}" name="_description"   tabindex="1" spellcheck="true" pattern="[а-яА-ЯёЁa-zA-Z-\t]+" required >{{ explanationEdit.description }}</textarea>
+
+                                        <label for="minRating-{{ loop.index }}" class="">Минимальное количество баллов: </label>
+                                        <input type="number" id="minRating-{{ loop.index }}" value="{{ explanationEdit.minRating }}"  name="_minRating"  tabindex="2" size="2" pattern="[0-9]+"
+                                               min="{{ minRating }}" max="{{ maxRating }}" required><br>
+
+                                        <label for="maxRating-{{ loop.index }}" class="">Максимальное количество баллов: </label>
+                                        <input type="number" id="maxRating-{{ loop.index }}" value="{{ explanationEdit.maxRating }}" name="_maxRating"  tabindex="3" size="2" pattern="[0-9]+"
+                                               min="{{ minRating }}" max="{{ maxRating }}" required>
+
+                                    </div>
+
+                                    <div class="fl-right butblock">
+                                        <a href="{{ path('testpage',{'id':test.id})}}"><button type="button" class="fl-left al-center red-button" id="exit-on-desct-res" tabindex="">Отмена</button></a>
+                                        <button type="submit" class="fl-right al-center blue-button" id="save-desct-res" tabindex="">Сохранить</button>
+                                    </div>
+
+
+                                </div>
+
+
+                            </form>
+                        </div>
+                    {% else %}
                     <div class="content-des-res">
                         <h3>Пояснение {{ loop.index }}</h3>
                         <p>{{ explanation.description }}</p>
@@ -249,11 +358,33 @@
                         </span>
 
                         <a class="del-img"  href={{ path('delExplanation', {'id':test.id, 'idExplanation': explanation.id}) }}></a>
-                        <a class="edit-img" href={{ path('editExplanation',{'id':test.id, 'idExplanation': explanation.id}) }}></a>
+                        <a class="edit-img" id="{{ explanation.id }}" onclick="setDesId({{explanation.id}})"></a>
+
+                        {#href={{ path('editExplanation',{'id':test.id, 'idExplanation': explanation.id}) }}#}
                     </div>
+
+
+                    {% endif %}
                 {% endfor %}
             </div>
-        {% endif %}
+
+
+        {#----------/-------/--------/-------/--EDIT DESCRIPTION form-------/-----/--------------------/---------#}
+
+        <script type="text/javascript">
+
+
+            function setDesId(ids){
+                this.ids = ids;
+                var url = '{{ path("editExplanation", {'testId':test.id,'id':'EId'}) }}';
+                $(location).attr('href',url.replace("EId", ids));
+
+
+            }
+
+
+        </script>
+
 
         {#----------------------------------Start DescriptionResultForm-------------------------------------------------#}
         {% set NumberDes = test.explanation|length %}
@@ -292,7 +423,7 @@
 
 
         <button id="add-description" class="green-button" type="button" class="al-center" tabindex="">Добавить описание</button>
-    {% endif %}
+
 
         <script type="text/javascript">
             $(document).ready(function () {
