@@ -62,6 +62,7 @@
                 </div>
 
         </div>
+
                 {% if question.image is not empty %}{#-----------------------ADD IMAGE------------------------#}
                     <a href="{{ question.image.webPath }}" class="fancy-img fl-right"><img class="img-in-form" src="{{ question.image.webPath }}" alt="Изображение"></a>
                 {% endif %}
@@ -147,7 +148,7 @@
 
 
         <button id="add-q"  class="green-button al-center" type="button" tabindex="">Добавить вопрос</button>
-
+    {% endif %}
 
         {#----------------------------------------Start Add question-----------------------------------------------#}
 
@@ -252,7 +253,7 @@
                     </div>
                 {% endfor %}
             </div>
-
+        {% endif %}
 
         {#----------------------------------Start DescriptionResultForm-------------------------------------------------#}
         {% set NumberDes = test.explanation|length %}
@@ -291,7 +292,7 @@
 
 
         <button id="add-description" class="green-button" type="button" class="al-center" tabindex="">Добавить описание</button>
-
+    {% endif %}
 
         <script type="text/javascript">
             $(document).ready(function () {
