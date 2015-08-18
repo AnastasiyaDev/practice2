@@ -94,5 +94,18 @@ li ul {
 .ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl {
     border-bottom-left-radius: 0px !important;
 }
+td .del-img{
+    top: 0px !important;
+    right: 0px !important;
+}
+td .edit-img{
+    top: 15px !important;
+    right: 0px !important;
+}
+td .be-admin-img{
+    top: 30px !important;
+    right: 0px !important;
+}
+
 
 

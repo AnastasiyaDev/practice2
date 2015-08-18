@@ -3,6 +3,7 @@
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/header.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/test_content.css') }}">
 {% endblock %}
 {% block body%}
     <body>
@@ -10,14 +11,41 @@
 
     <div class="content marg-auto clearfix ">
 
-        <ul class="main-menu">
+        {#<ul class="main-menu">#}
+            {#{% for user in users %}#}
+                {#<li class="sub"><a href={{ path('usersPageAdmin',{ 'id':user.id}) }}>#}
+                        {#<p>{{ user.username }}</p>#}
+                        {#<span>{{ user.firstName }} {{ user.secondName }}</span>#}
+                    {#</a></li>#}
+            {#{% endfor %}#}
+        {#</ul>#}
+
+        <table class="simple-little-table" cellspacing='0'>
+            <tr>
+                <th>Пользователь</th>
+                <th>Имя, Фамилия</th>
+                <th></th>
+            </tr>
+
             {% for user in users %}
-                <li class="sub"><a href={{ path('usersPageAdmin',{ 'id':user.id}) }}>
-                        <p>{{ user.username }}</p>
-                        <span>{{ user.firstName }} {{ user.secondName }}</span>
-                    </a></li>
+
+            <a href={{ path('usersPageAdmin',{ 'id':user.id}) }}>
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.firstName }} {{ user.secondName }}</td>
+                <td class="position-rel">
+                    <a class="del-img" id="" onclick=""></a>
+                    <a class="edit-img" id="" onclick=""></a>
+                    <a class="be-admin-img" id="" onclick=""></a>
+
+                </td>
+            </tr>
+            </a>
             {% endfor %}
-        </ul>
+
+
+        </table>
+
     </div>
 
 

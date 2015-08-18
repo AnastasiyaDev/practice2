@@ -165,6 +165,16 @@ input[type="file"] > input[type="button"]::-moz-focus-inner{
 .edit-img:hover, .edit-img:active{
     background: url("../images/button/ui-icons_2694e8_256x240.png") no-repeat -65px -113px !important;
 }
+.be-admin-img{
+    width: 15px;
+    height: 15px;
+    background: url("../images/button/ui-icons_222222_256x240.png") no-repeat -225px -113px;
+    display: block;
+    position: absolute;
+}
+.be-admin-img:hover, .be-admin-img:active{
+    background: url("../images/button/ui-icons_2694e8_256x240.png") no-repeat -225px -113px !important;
+}
 
 .width-410{
     width: 410px;
