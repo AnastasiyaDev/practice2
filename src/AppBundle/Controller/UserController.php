@@ -141,14 +141,12 @@ class UserController extends Controller
         $user->setFirstName($request->get('_firstName'));
         $user->setSecondName($request->get('_secondName'));
 
-//        if(!empty($request->get('_department'))) {
-//            $user->setDepartment($this->getDoctrine()->getRepository('AppBundle:Department')->find($request->get('_department')));
-//        }else
-//            $user->setDepartment($this->getDoctrine()->getRepository('AppBundle:Department')->findOneBy(array('name' => 'FakeCompany')));
-//        $user->setRoles('ROLE_USER');
-
-        $user->setDepartment($this->getDoctrine()->getRepository('AppBundle:Department')->findOneBy(array('name' => 'FakeDepartment')));
+        if(!empty($request->get('_department'))) {
+            $user->setDepartment($this->getDoctrine()->getRepository('AppBundle:Department')->find($request->get('_department')));
+        }else
+            $user->setDepartment($this->getDoctrine()->getRepository('AppBundle:Department')->findOneBy(array('name' => 'FakeDepartment')));
         $user->setRoles('ROLE_USER');
+
 
         $em = $this->getDoctrine()->getManager();
 
