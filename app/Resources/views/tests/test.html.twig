@@ -39,7 +39,7 @@
             <ul class="question question-{{ question.id }} fl-right mar-pad-0 position-rel clearfix">
                 <div class="fl-left width-410">
                 <h4>{{ question.content }}</h4>
-                <p class="mar-pad-0">выберите один из вариантов:<br>(нажмите на картинке для ее увеличения)</p>
+                <p class="mar-pad-0">выберите один из вариантов:{% if question.image is not empty %}<br>(нажмите на картинке для ее увеличения)</p>{% endif %}
                 <br>
                 <div class="al-center">
                     {% for answer in question.answers %}
@@ -115,7 +115,7 @@
 
 
         {#-------------------------------- start Add form_question ---------------------------------------#}
-
+    {% if is_granted('ROLE_ADMIN') %}
         {% set NumberQ = test.questions|length %}
         <form id="AddQuestionForm" action="{{ path('testpage', {'id':test.id}) }}" method="post" name="AddQuestionForm" {{ form_enctype(uploadForm) }}>
 
@@ -145,9 +145,9 @@
             </div>
         </form>
 
-    {% if is_granted('ROLE_ADMIN') %}
+
         <button id="add-q"  class="green-button al-center" type="button" tabindex="">Добавить вопрос</button>
-    {% endif %}
+
 
         {#----------------------------------------Start Add question-----------------------------------------------#}
 
@@ -178,9 +178,9 @@
                 $('#add-ans').click(function (){
                     $('#add-content').append(' <div class="fl-left add-a-box" id="add-a-box-'+numAns+'">'
                         +'<label for="text-a-'+numAns+'">Ответ: <//label>'
-                        +'<input id="text-a-'+numAns+'" type="text" name="_answer['+numAns+'][content]" size="8" tabindex="2" spellcheck="true" required pattern="[а-яА-ЯёЁa-zA-Z-/t]+">'
+                        +'<input id="text-a-'+numAns+'" type="text" name="_answer['+numAns+'][content]" size="8" tabindex="2" spellcheck="true" required pattern="[а-яА-ЯёЁa-zA-Z0-9-/t]+">'
                         +'<span class="spn0 spn0-'+numAns+'">'+' <label for="text-p-'+numAns+'">Баллы за ответ: <//label>'
-                        +'<input id="text-p-'+numAns+'" type="text" name="_answer['+numAns+'][rating]" size="2" tabindex="3" required pattern="[0-9]+">'
+                        +'<input id="text-p-'+numAns+'" type="number" name="_answer['+numAns+'][rating]" size="1" tabindex="3" required min=0>'
                             +'<//span>'
                             +'<div id="cancel-a-'+numAns+'" onclick="giveId('+numAns+')" class="vert-align-m cnl cnl-'+numAns+'">'+'<//div>'
                             +'<//div>');
@@ -236,7 +236,7 @@
 
 
 
-        {% if is_granted('ROLE_ADMIN') %}
+
             <div class="dis-content marg-auto clearfix">
                 {% for explanation in test.explanation %}
                     <div class="content-des-res">
@@ -252,7 +252,7 @@
                     </div>
                 {% endfor %}
             </div>
-        {% endif %}
+
 
         {#----------------------------------Start DescriptionResultForm-------------------------------------------------#}
         {% set NumberDes = test.explanation|length %}
@@ -289,9 +289,9 @@
 
         </form>
 
-    {% if is_granted('ROLE_ADMIN') %}
+
         <button id="add-description" class="green-button" type="button" class="al-center" tabindex="">Добавить описание</button>
-    {% endif %}
+
 
         <script type="text/javascript">
             $(document).ready(function () {
@@ -307,18 +307,7 @@
                 });
             });
         </script>
-
-
-
-
-
-
-
-        {% if answers is defined %}
-            {% for answer in answers %}
-                {{ answer }}
-            {% endfor %}
-        {% endif %}
+    {% endif %}
 
 
     </div>
