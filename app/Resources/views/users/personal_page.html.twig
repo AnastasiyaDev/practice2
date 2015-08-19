@@ -15,7 +15,7 @@
     <div class="content marg-auto clearfix ">
 
         <div id="personal">
-            <div id="name">{{ user.firstName }} {{ user.secondName }}</div>
+            <div id="name">{{ user.firstName }} {{ user.secondName }} {% for role in user.roles if role == 'ROLE_ADMIN' %} (Администратор) {% endfor %}</div>
             {% if user.department.name != 'FakeDepartment' %}
             <div id="nGroup">{{ user.department.name }}</div>
             {% endif %}
@@ -27,6 +27,17 @@
                     <a href={{ path('editUserForm', {'id':user.id}) }}>
                         <div id="edit-des" class="blue-button" type="button" class="al-center" tabindex="">Редактировать</div>
                     </a>
+                    {% for role in user.roles %}
+                            {% if role == 'ROLE_ADMIN' %}
+                                <a href={{ path('makeUser', {'id':user.id}) }}>
+                                    <div id="edit-des" class="green-button" type="button" class="al-center" tabindex="">Сделать юзером</div>
+                                </a>
+                            {% else %}
+                                <a href={{ path('makeAdmin', {'id':user.id}) }}>
+                        <div id="edit-des" class="green-button" type="button" class="al-center" tabindex="">Сделать админом</div>
+                                </a>
+                            {% endif %}
+                    {% endfor %}
                 </span>
             {% endif %}
         </div>
@@ -36,14 +47,14 @@
         <div id="tabs">
             <ul>
                 <li><a href="#tabs-1">Пройденные тесты</a></li>
-                <li><a href="#tabs-2">Тесты</a></li>
+                {% if not is_granted('ROLE_ADMIN') %}<li><a href="#tabs-2">Тесты</a></li>{% endif %}
             </ul>
 
             <div id="tabs-1">
                     <ul class="main-menu">
                     {% if user.tests is not empty %}
                         {% for test in user.tests %}
-                            <li class="sub ">
+                            <li class="sub clearfix position-rel">
                                 <a href={{ path('testpage',{'id':test.id}) }}>
                                     <p>{{ test.name }}</p>
                                     <span>{{ test.description }}
@@ -55,6 +66,9 @@
                                         {% endfor %}
                                     </span>
                                 </a>
+                                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                    <a class="del-img" id="{{ test.id }}" onclick="setId({{test.id}})" title="Убрать из пройденных"></a>
+                                {% endif %}
                             </li>
                         {% endfor %}
                     {% else %}
@@ -78,7 +92,9 @@
                             </li>
                         {% endfor %}
                     {% else %}
-                        <span>Тестов больше нет</span>
+                        <li class="sub">
+                            <span id="prompt">Тестов больше нет</span>
+                        </li>
                     {% endif %}
                 </ul>
             </div>
@@ -89,6 +105,30 @@
             $(function() {
                 $( "#tabs" ).tabs();
             });
+        </script>
+
+        <script>
+
+            function ask(question, yes, no) {
+                if (confirm(question)) {
+                    yes();
+                }
+                else no();
+            }
+            function showOk() {
+                var url = '{{ path("cancelTest", {'id':user.id,'testId':'testId'}) }}';
+                $(location).attr('href',url.replace("testId", ids));
+
+            }
+            function showCancel() {
+                // отмена выполнения
+            }
+
+            function setId(ids){
+                this.ids = ids;
+                ask("Вы действительно хотите убрать тест из пройденных?", showOk, showCancel);
+            }
+
         </script>
 
 
