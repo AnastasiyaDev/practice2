@@ -55,6 +55,9 @@
                                <textarea id="text-q-{{ loop.index  }}" name="_description" tabindex="1" spellcheck="true" required>{{ questionEdit.content }}</textarea>
                                {{ form_widget(uploadForm) }}
                            </div>
+                           {% if question.image is not empty %}{#-----------------------IMAGE------------------------#}
+                               <a href="{{ question.image.webPath }}" class="fancy-img fl-right"><img class="img-in-form" src="{{ question.image.webPath }}" alt="Изображение"></a>
+                           {% endif %}
 
                            {% for answer in questionEdit.answers %}
                            <div class="fl-left add-a-box" id="add-a-box-{{ loop.index-1 }}">
@@ -68,7 +71,9 @@
                                {#удалить вариант ответа#}
                                <div id="cancel-a-'{{ loop.index-1 }}'" onclick="delAns({{ loop.index-1 }},{{ answer.id }})" class="vert-align-m cnl cnl-'{{ loop.index-1 }}'"></div>
                            </div>
+
                            {% endfor %}
+
 
                            <div class="fl-right butblock">
                                <a href="{{ path('testpage',{'id':test.id})}}"><button id="cancel-q" class="red-button" type="button" tabindex="">Отмена</button></a>
@@ -77,6 +82,8 @@
                            </div>
 
                        </div>
+
+
                    </div>
                </form>
 
@@ -229,7 +236,7 @@
 
                 function setId(ids){
                     this.ids = ids;
-                    var url = '{{ path("editQuestion", {'testId':test.id,'id':'QId'}) }}';
+                    var url = '{{ path('editQuestion', {'testId':test.id,'id':'QId'}) }}';
                     $(location).attr('href',url.replace("QId", ids));
 
                 }
@@ -375,7 +382,7 @@
                         Максимальный рейтинг:  <b>{{ explanation.MaxRating }}</b>
                     </span>
 
-                    <a class="del-img"  href={{ path('delExplanation', {'id':test.id, 'idExplanation': explanation.id}) }}></a>
+                    <a class="del-img"  href={{ path('delExplanation', {'testId':test.id, 'id': explanation.id}) }}></a>
                     <a class="edit-img" id="{{ explanation.id }}" onclick="setDesId({{explanation.id}})"></a>
                 </div>
 
@@ -389,7 +396,7 @@
 
             function setDesId(ids){
                 this.ids = ids;
-                var url = '{{ path("editExplanationForm", {'testId':test.id,'id':'EId'}) }}';
+                var url = '{{ path('editExplanationForm', {'testId':test.id,'id':'EId'}) }}';
                 $(location).attr('href',url.replace("EId", ids));
 
             }
