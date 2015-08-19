@@ -93,7 +93,7 @@
             <div class="quest-box clearfix quest-box-{{ loop.index }}">
                 <div class="quest-number quest-number-{{ question.id }} fl-left al-center vert-align-m position-rel">
                     <p class="vert-align-m mar-pad-0 font-s-14">{{ loop.index }}</p>
-                    <div id="tick"></div>
+                    <div id="tick-{{ question.id }}"></div>
                 </div>
 
                 <ul class="question question-{{ question.id }} fl-right mar-pad-0 position-rel clearfix">
@@ -160,13 +160,11 @@
 
         <script type="text/javascript">
 
-            $('#tick').hide();
-
             function giveIdNameSpace(idNameSpace){
 
                 $('.question-'+idNameSpace).css({'border':'1px solid #62ED2C'}) &&
                 $('.quest-number-'+idNameSpace).css({'background-color':'#62ED2C', 'color': '#62ED2C'});
-                $('#tick').show();
+                $('#tick-'+idNameSpace).addClass('tick');
             }
 
         </script>

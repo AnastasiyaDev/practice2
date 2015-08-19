@@ -139,7 +139,7 @@ input[type="file"] > input[type="button"]::-moz-focus-inner{
     background: url("../images/button/buttonGreenActive.png") no-repeat;
     background-size: 100% 100%;
 }
-.del-img,.edit-img,.be-admin-img, #tick{
+.del-img,.edit-img,.be-admin-img, .tick{
     width: 15px;
     height: 15px;
     display: block;
