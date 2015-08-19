@@ -129,7 +129,7 @@ class TestController extends Controller
     }
 
     /**
-     * @Route("/test/id{id}/complete", name="testCompete")
+     * @Route("/testid{id}/test/complete", name="testCompete")
      */
     public function completeTestAction($id, Request $request)
     {
@@ -212,32 +212,10 @@ class TestController extends Controller
         ));
     }
 
-    /**
-     * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/test/new", name="testNew")
-     */
-    public function newTestAction(Request $request) {
-
-        $test = new Test();
-
-        $test->setName($request->get('_name'));
-        $test->setDescription($request->get('_description'));
-        $company = $this->getDoctrine()->getRepository('AppBundle:Company')->find($request->get('_company'));
-        $test->addCompany($company);
-        $company->addTest($test);
-
-        $em = $this->getDoctrine()->getManager();
-
-        $em->persist($test);
-        $em->flush();
-
-        return $this->redirectToRoute('aboutTestpage', array('id' => $test->getId()));
-
-    }
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/test/id{id}/del", name="delTest")
+     * @Route("/testid{id}/del", name="delTest")
      */
     public function delTestAction($id) {
 
@@ -259,10 +237,9 @@ class TestController extends Controller
 
     }
 
-
     /**
      * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/test/id{id}/editComplete", name="editTest")
+     * @Route("/testid{id}/test/edit", name="editTest")
      */
     public function editTestAction(Request $request, $id) {
 
@@ -281,41 +258,7 @@ class TestController extends Controller
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/test/id{id}/addComplete", name="addQuestion")
-     */
-    public function addQuestionAction(Request $request, $id) {
-
-        $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($id);
-
-        $em = $this->getDoctrine()->getManager();
-
-        $question = new Question();
-        $question->setContent($request->get('_description'));
-        $question->setTest($test);
-        $test->addQuestion($question);
-
-        $ans = ($request->get('_answer'));
-
-        for ($i=0; $i<count($ans);$i++) {
-            if (!empty($ans[$i]['content'])) {
-                $answer = new Answer();
-                $answer->setContent($ans[$i]['content']);
-                $answer->setRating($ans[$i]['rating']);
-                $answer->setQuestion($question);
-                $question->addAnswer($answer);
-            }else continue;
-        }
-
-        $em->flush();
-
-
-        return $this->redirectToRoute('testpage', array('id' => $test->getId()));
-
-    }
-
-    /**
-     * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/test/id{testId}/question{id}/edit", name="editQuestion")
+     * @Route("/testid{testId}/test/question{id}", name="editQuestion")
      */
     public function editQuestionAction(Request $request, $testId, $id) {
         $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($testId);
@@ -323,7 +266,7 @@ class TestController extends Controller
 
         $image = new Image();
         $form = $this->createFormBuilder($image)
-            ->add('file','file',array('label' => 'Изображение:','required' => false))
+            ->add('file','file',array('label' => 'Новое изображение:','required' => false))
             ->getForm();
 
         $form->handleRequest($request);
@@ -363,6 +306,7 @@ class TestController extends Controller
             }
 
             if (!$form->get('file')->isEmpty()) {
+                $question->removeImages();
                 $question->setImage($image);
                 $em->persist($test);
                 $em->flush();
@@ -372,13 +316,10 @@ class TestController extends Controller
                 $em->flush();
                 $minRating = $this->get('calculate')->calculateMinRating($test);
                 $maxRating = $this->get('calculate')->calculateMaxRating($test);
-                return $this->render('tests/test.html.twig', array('test' => $test, 'uploadForm' => $form->createView(),
-                    'maxRating' => $maxRating,'minRating' => $minRating));
+                return $this->redirectToRoute('testpage',array('id' => $testId));
             }
 
             $em->flush();
-            $minRating = $this->get('calculate')->calculateMinRating($test);
-            $maxRating = $this->get('calculate')->calculateMaxRating($test);
             return $this->redirectToRoute('testpage',array('id' => $testId));
         }
 
@@ -412,11 +353,9 @@ class TestController extends Controller
         ));
     }
 
-
-
     /**
      * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/test/id{testId}/question{id}/del", name="delQuestion")
+     * @Route("/testid{testId}/test/question{id}/del", name="delQuestion")
      */
     public function delQuestionAction($testId, $id) {
         $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($testId);
@@ -436,7 +375,7 @@ class TestController extends Controller
     }
 
     /**
-     * @Route("/test/id{id}/addExplanation", name="addExplanation")
+     * @Route("/testid{id}/test/addExplanation", name="addExplanation")
      */
     public function addExplanationAction(Request $request, $id) {
 
@@ -464,7 +403,7 @@ class TestController extends Controller
     }
 
     /**
-     * @Route("/test/id{testId}/explanation{id}/edit", name="editExplanationForm")
+     * @Route("/testid{testId}/test/explanation{id}", name="editExplanationForm")
      */
     public function editExplanationFormAction(Request $request, $testId, $id) {
 
@@ -480,7 +419,7 @@ class TestController extends Controller
     }
 
     /**
-     * @Route("/test/id{testId}/explanation{id}/editComplete", name="editExplanation")
+     * @Route("/testid{testId}/test/explanation{id}/edit", name="editExplanation")
      */
     public function editExplanationAction(Request $request, $testId, $id) {
 
@@ -500,12 +439,12 @@ class TestController extends Controller
     }
 
     /**
-     * @Route("/test/id{id}/explanation{idExplanation}/del", name="delExplanation")
+     * @Route("/testid{testId}/test/explanation{id}/del", name="delExplanation")
      */
-    public function delExplanationAction(Request $request, $id, $idExplanation) {
+    public function delExplanationAction(Request $request, $testId, $id) {
 
-        $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($id);
-        $explanation = $this->getDoctrine()->getRepository('AppBundle:Explanation')->find($idExplanation);
+        $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($testId);
+        $explanation = $this->getDoctrine()->getRepository('AppBundle:Explanation')->find($id);
 
         $test->removeExplanation($explanation);
 
