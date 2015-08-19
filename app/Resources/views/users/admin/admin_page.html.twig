@@ -53,7 +53,16 @@
             <div id="tabs-3">
                 <ul class="main-menu">
                     {% for department in departments %}
-                        <li class="sub"><a href={{ path('userByGroup',{'id':department.id}) }}><p>{{ department.name }}</p></a></li>
+                        <li class="sub clearfix position-rel">
+                            <a  class="disp-block" href={{ path('userByGroup',{'id':department.id}) }}>
+                                <p>{{ department.name }}</p>
+                            </a>
+
+                            {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                <a class="del-img" id="{{ department.id }}" onclick="delGroupId({{department.id}})" title="Удалить группу"></a>
+                            {% endif %}
+
+                        </li>
                     {% endfor %}
                     {% if is_granted('ROLE_SUPER_ADMIN') %}
                         <li class="sub"><a href={{ path('newGroupForm') }}>+ Добавить группу</a></li>
@@ -89,6 +98,30 @@
             function setId(ids){
                 this.ids = ids;
                 ask("Вы действительно хотите удалить тест?", showOk, showCancel);
+            }
+
+        </script>
+
+        <script>
+
+            function ask(question, yes, no) {
+                if (confirm(question)) {
+                    yes();
+                }
+                else no();
+            }
+            function showOk() {
+                var url = '{{ path('delGroup', {'id':'depId'}) }}';
+                $(location).attr('href',url.replace("depId", ids));
+
+            }
+            function showCancel() {
+                // отмена выполнения
+            }
+
+            function delGroupId(ids){
+                this.ids = ids;
+                ask("Вы действительно хотите удалить группу?", showOk, showCancel);
             }
 
         </script>

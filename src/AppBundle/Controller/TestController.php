@@ -166,7 +166,7 @@ class TestController extends Controller
     }
 
     /**
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @Route("/test", name="testNewForm")
      */
     public function newTestFormAction(Request $request)
@@ -214,7 +214,7 @@ class TestController extends Controller
 
 
     /**
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @Route("/testid{id}/del", name="delTest")
      */
     public function delTestAction($id) {
@@ -238,7 +238,7 @@ class TestController extends Controller
     }
 
     /**
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @Route("/testid{id}/test/edit", name="editTest")
      */
     public function editTestAction(Request $request, $id) {
@@ -257,7 +257,7 @@ class TestController extends Controller
     }
 
     /**
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @Route("/testid{testId}/test/question{id}", name="editQuestion")
      */
     public function editQuestionAction(Request $request, $testId, $id) {
@@ -333,7 +333,7 @@ class TestController extends Controller
     }
 
     /**
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @Route("/test/question{qId}/answer{id}/del", name="delAnswer")
      */
     public function delAnswerAction($qId ,$id) {
@@ -354,7 +354,7 @@ class TestController extends Controller
     }
 
     /**
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @Route("/testid{testId}/test/question{id}/del", name="delQuestion")
      */
     public function delQuestionAction($testId, $id) {
@@ -375,6 +375,7 @@ class TestController extends Controller
     }
 
     /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @Route("/testid{id}/test/addExplanation", name="addExplanation")
      */
     public function addExplanationAction(Request $request, $id) {
@@ -403,6 +404,7 @@ class TestController extends Controller
     }
 
     /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @Route("/testid{testId}/test/explanation{id}", name="editExplanationForm")
      */
     public function editExplanationFormAction(Request $request, $testId, $id) {
@@ -419,6 +421,7 @@ class TestController extends Controller
     }
 
     /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @Route("/testid{testId}/test/explanation{id}/edit", name="editExplanation")
      */
     public function editExplanationAction(Request $request, $testId, $id) {
@@ -439,6 +442,7 @@ class TestController extends Controller
     }
 
     /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @Route("/testid{testId}/test/explanation{id}/del", name="delExplanation")
      */
     public function delExplanationAction(Request $request, $testId, $id) {

@@ -3,7 +3,6 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Department;
-use AppBundle\Entity\Image;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -38,10 +37,14 @@ class AdminController extends Controller
     public function showAllUsersAction()
     {
 
-        $users = $this->getDoctrine()->getRepository('AppBundle:User')->findByRoles('ROLE_USER');
-
+        if ($this->getUser() === $this->getDoctrine()->getRepository('AppBundle:User')->findOneByRoles('ROLE_SUPER_ADMIN')) {
+            return $this->render('users/admin/users.html.twig', array('user' => $this->getUser(),
+                'users' => $this->getDoctrine()->getRepository('AppBundle:User')->findByRoles('ROLE_USER')));
+        } else
         return $this->render('users/admin/users.html.twig', array('user' => $this->getUser(),
-            'users' => $users));
+            'users' => $this->getDoctrine()->getRepository('AppBundle:User')->findBy(array('roles' => 'ROLE_USER',
+                                                                                    'department' => $this->getUser()->getDepartment()->getId())))
+        );
 
     }
 
@@ -51,14 +54,22 @@ class AdminController extends Controller
      */
     public function showUsersAction($id)
     {
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
+
+        if ($user === $this->getDoctrine()->getRepository('AppBundle:User')->findOneByRoles('ROLE_SUPER_ADMIN')) {
+            return $this->redirectToRoute('_welcome');
+
+        }
+
+
         return $this->render(':users:personal_page.html.twig', array(
-            'user' => $this->getDoctrine()->getRepository('AppBundle:User')->find($id)));
+            'user' => $user));
 
     }
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/users/group{id}/",name="userByGroup")
+     * @Route("/users/group{id}",name="userByGroup")
      */
     public function showUserByGroupAction($id)
     {
@@ -71,7 +82,7 @@ class AdminController extends Controller
 
     /**
      * @Route("/users/addForm",name="addUserForm")
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      */
     public function addUserFormAction()
     {
@@ -85,7 +96,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @Route("/{id}/editForm",name="editUserForm")
      */
     public function editUserFormAction($id)
@@ -102,7 +113,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @Route("/{id}/edit",name="editUser")
      */
     public function editUserAction(Request $request, $id)
@@ -114,6 +125,15 @@ class AdminController extends Controller
 
         $user->setFirstName($request->get('_firstName'));
         $user->setSecondName($request->get('_secondName'));
+
+        //pas
+        if(!empty($request->get('_password'))) {
+            $plainPassword = $request->get('_password');
+            $encoder = $this->container->get('security.password_encoder');
+            $encoded = $encoder->encodePassword($user, $plainPassword);
+            $user->setPassword($encoded);
+        }
+
         if ($user->getDepartment() !==
             $department = $this->getDoctrine()->getRepository('AppBundle:Department')->find($request->get('_department'))) {
             $this->getDoctrine()->getRepository('AppBundle:Department')->find($user->getDepartment())->removeUser($user);
@@ -123,11 +143,11 @@ class AdminController extends Controller
 
         $em->flush();
 
-        return $this->redirectToRoute('userPage',array('id' => $id));
+        return $this->redirectToRoute('usersPageAdmin',array('id' => $id));
     }
 
     /**
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @Route("/id{id}/del",name="delUser")
      */
     public function delUserAction($id)
@@ -144,7 +164,7 @@ class AdminController extends Controller
     }
 
     /**
-     * @Security("has_role('ROLE_ADMIN')")
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @Route("/users/new",name="newUser")
      */
     public function newUserAction()
@@ -184,6 +204,90 @@ class AdminController extends Controller
 
         return $this->redirectToRoute('adminPage');
     }
+
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @Route("/users/group{id}/del", name="delGroup")
+     */
+    public function delDepartmentAction($id)
+    {
+        $department = $this->getDoctrine()->getRepository('AppBundle:Department')->find($id);
+
+        $department->getCompany()->removeDepartment($department);
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->remove($department);
+        $em->flush();
+
+        return $this->redirectToRoute('adminPage');
+    }
+
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @Route("/users/{id}/makeAdmin", name="makeAdmin")
+     */
+    public function makeAdminAction($id)
+    {
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
+
+        $user->setRoles('ROLE_ADMIN');
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->flush();
+
+        return $this->redirectToRoute('usersPageAdmin',array('id' => $user->getId()));
+    }
+
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @Route("/users/{id}/makeUser", name="makeUser")
+     */
+    public function makeUserAction($id)
+    {
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
+
+        $user->setRoles('ROLE_USER');
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->flush();
+
+        return $this->redirectToRoute('usersPageAdmin',array('id' => $user->getId()));
+    }
+
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Route("/id{id}/test/id{testId}", name="cancelTest")
+     */
+    public function cancelTestAction($id, $testId)
+    {
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
+        $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($testId);
+
+        $user->removeTest($test);
+        foreach ($test->getQuestions()->getValues() as $question) {
+            foreach ($question->getAnswers()->getValues() as $answer) {
+                $user->removeAnswer($answer);
+            }
+        }
+
+        foreach ($user->getResults()->getValues() as $result) {
+            if ($result->getTest() === $test) $resultUser = $result;
+        }
+        $user->removeResult($resultUser);
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->remove($resultUser);
+        $em->flush();
+
+        return $this->redirectToRoute('usersPageAdmin',array('id' => $user->getId()));
+    }
+
+
+
 
 
 
