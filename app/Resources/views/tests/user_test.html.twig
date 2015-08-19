@@ -8,8 +8,11 @@
 {% endblock %}
 {% block body%}
     <body>
-
-    {% include 'header.html.twig' with {'back':path('userPage', {'id':user.id})} %}
+    {% if is_granted('ROLE_ADMIN') %}
+        {% include 'header.html.twig' with {'back':path('usersPageAdmin', {'id':user.id})} %}
+    {% else %}
+        {% include 'header.html.twig' with {'back':path('userPage', {'id':user.id})} %}
+    {% endif %}
 
     <div class="content marg-auto clearfix">
 
@@ -21,7 +24,7 @@
             </div>
 
             <div class="fl-right">
-                Результат:<span class="font-size-60">{{ result.rating }}</span>
+                {#Результат:<span class="font-size-60">{{ result.rating }}</span>#}
             </div>
 
         </div>

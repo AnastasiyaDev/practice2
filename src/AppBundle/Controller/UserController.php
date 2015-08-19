@@ -91,27 +91,26 @@ class UserController extends Controller
      */
     public function showUserTestAction($id, $testId)
     {
-        $user = $this->getUser();
+        if ($this->isGranted('ROLE_ADMIN')) {
+            $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
+        } else $user = $this->getUser();
+
         if ($user!= $this->getDoctrine()
             ->getRepository('AppBundle:User')
-            ->find($id)) {
-            return $this->redirect($this->generateUrl('userpage'));
+            ->find($id) and !$this->isGranted('ROLE_ADMIN')) {
+            return $this->redirectToRoute('userPage',array('id' => $user->getId()));
         }
 
         $test = $this->getDoctrine()
             ->getRepository('AppBundle:Test')
             ->find($testId);
-
-        $q = $this->getDoctrine()->getManager()->createQuery(
-            'SELECT r FROM AppBundle:Result r WHERE r.user=(:user) AND r.test=(:test)'
-        )->setParameters(array(
-                'user' => $user->getId(),
-                'test' => $test->getId(),
-                ));
-        $result = $q->getResult();
+        $result = $this->getDoctrine()->getRepository('AppBundle:Result')->findOneBy(array(
+            'user' => $user->getId(),
+            'test' => $test->getId(),
+        ));
 
         return $this->render(':tests:user_test.html.twig', array('user' => $user,
-            'test' => $test,'result' => $result[0]));
+            'test' => $test,'result' => $result));
     }
 
     /**

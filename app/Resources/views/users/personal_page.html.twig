@@ -55,7 +55,7 @@
                     {% if user.tests is not empty %}
                         {% for test in user.tests %}
                             <li class="sub clearfix position-rel">
-                                <a href={{ path('testpage',{'id':test.id}) }}>
+                                <a href={{ path('userTest',{'id':user.id,'testId':test.id}) }}>
                                     <p>{{ test.name }}</p>
                                     <span>{{ test.description }}
                                         {% set rating = 0 %}

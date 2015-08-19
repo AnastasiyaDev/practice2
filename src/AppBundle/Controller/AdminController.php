@@ -267,7 +267,7 @@ class AdminController extends Controller
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/id{id}/test/id{testId}", name="cancelTest")
+     * @Route("/id{id}/test/id{testId}/cancel", name="cancelTest")
      */
     public function cancelTestAction($id, $testId)
     {
