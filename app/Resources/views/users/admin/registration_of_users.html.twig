@@ -47,7 +47,7 @@
 
             {% if is_granted('ROLE_ADMIN') %}
             <div class="al-center marg-auto mar-top-15">
-                <div><label for="department-user-select" class="">Группаs: </label></div>
+                <div><label for="department-user-select" class="">Группа :</label></div>
                 <select id="department-user-select" name="_department">
                     {% for department in departments %}
                         <option value={{ department.id }}>{{ department.name }}</option>

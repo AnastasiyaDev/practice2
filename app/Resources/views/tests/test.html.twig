@@ -48,7 +48,7 @@
 
                        <div class="question fl-right mar-pad-0 clearfix">
 
-                           <div class="fl-left width-410" id="add-content">
+                           <div {% if question.image is not empty %}class="fl-left width-410" {% else %} class="fl-left width-auto" {% endif %}id="add-content">
 
                                <label for="text-q-{{ loop.index  }}">Текст вопроса: </label>
 
@@ -56,7 +56,7 @@
                                {{ form_widget(uploadForm) }}
                            </div>
                            {% if question.image is not empty %}{#-----------------------IMAGE------------------------#}
-                               <a href="{{ question.image.webPath }}" class="fancy-img fl-right"><img class="img-in-form" src="{{ question.image.webPath }}" alt="Изображение"></a>
+                               <a href="{{ question.image.webPath }}" class="fancy-img fl-right"><img src="{{ question.image.webPath }}" alt="Изображение"></a>
                            {% endif %}
 
                            {% for answer in questionEdit.answers %}
@@ -76,7 +76,7 @@
 
 
                            <div class="fl-right butblock">
-                               <a href="{{ path('testpage',{'id':test.id})}}"><button id="cancel-q" class="red-button" type="button" tabindex="">Отмена</button></a>
+                               <a href="{{ path('testpage',{'id':test.id})}}"><div id="cancel-q" class="red-button">Отмена</div></a>
                                <button id="add-ans-edit" class="green-button" type="button" tabindex="">Добавить ответ</button>
                                <button id="save" class="blue-button" type="submit" tabindex="">Сохранить</button>
                            </div>
@@ -93,7 +93,7 @@
                 <div class="quest-number quest-number-{{ question.id }} fl-left al-center vert-align-m"><p class="vert-align-m mar-pad-0 font-s-14">{{ loop.index }}</p></div>
 
                 <ul class="question question-{{ question.id }} fl-right mar-pad-0 position-rel clearfix">
-                    <div class="fl-left width-410">
+                    <div {% if question.image is not empty %}class="fl-left width-410" {% else %} class="" {% endif %}>
                         <h4>{{ question.content }}</h4>
                         <p class="mar-pad-0">выберите один из вариантов:{% if question.image is not empty %}<br>(нажмите на картинке для ее увеличения)</p>{% endif %}
                         <div class="al-center">
@@ -117,7 +117,7 @@
                     </div>
 
                     {% if question.image is not empty %}{#-----------------------IMAGE------------------------#}
-                        <a href="{{ question.image.webPath }}" class="fancy-img fl-right"><img class="img-in-form" src="{{ question.image.webPath }}" alt="Изображение"></a>
+                        <a href="{{ question.image.webPath }}" class="fancy-img fl-right"><img src="{{ question.image.webPath }}" alt="Изображение"></a>
                     {% endif %}
 
                 </ul>
@@ -203,7 +203,9 @@
 
         {% endif %}
 
-        <button id="add-q" type="button" class="green-button al-center" tabindex="">Добавить вопрос</button>
+        {% if questionEdit is not defined %}
+            <button id="add-q" type="button" class="green-button al-center" tabindex="">Добавить вопрос</button>
+        {% endif %}
 
 
         {#----------------------------------------ADD and DELETE question-----------------------------------------#}
@@ -220,6 +222,7 @@
                     window.scrollBy(0,height);
 
                 });
+
 
                 $('#cancel-q').click(function () {
                     $('#AddQuestionForm')[0].reset();
@@ -362,7 +365,7 @@
                             </div>
 
                             <div class="fl-right butblock">
-                                <a href="{{ path('testpage',{'id':test.id})}}"><button type="button" class="fl-left al-center red-button" id="exit-on-desct-res" tabindex="">Отмена</button></a>
+                                <a href="{{ path('testpage',{'id':test.id})}}"><div class="fl-left red-button" id="exit-on-desct-res">Отмена</div></a>
                                 <button type="submit" class="fl-right al-center blue-button" id="save-desct-res" tabindex="">Сохранить</button>
                             </div>
 
