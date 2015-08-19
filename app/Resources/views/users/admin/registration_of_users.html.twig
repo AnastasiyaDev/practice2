@@ -45,18 +45,16 @@
                 <input type="text" id="second-name-user-field" name="_secondName" pattern="[а-яА-ЯёЁa-zA-Z-\t]+" tabindex="5" required>
             </div>
 
-            {#---------тип пока ты не запилишь всякие пути и доступы нераскомменчивай--------#}
-
-            {#{% if is_granted('ROLE_ADMIN') %}#}
+            {% if is_granted('ROLE_ADMIN') %}
             <div class="al-center marg-auto mar-top-15">
-                <select name="_department">
-                    {#{% for department in departments %}#}
-                    <option></option>
-                        {#<option value={{ department.id }}>{{ department.name }}</option>#}
-                    {#{% endfor %}#}
+                <div><label for="department-user-select" class="">Группаs: </label></div>
+                <select id="department-user-select" name="_department">
+                    {% for department in departments %}
+                        <option value={{ department.id }}>{{ department.name }}</option>
+                    {% endfor %}
                 </select>
             </div>
-            {#{% endif %}#}
+            {% endif %}
 
             <div class="mar-top-30 clearfix">
                 <a href={{ path('_welcome') }}><div class="fl-left red-button" id="back-">Отмена</div></a>

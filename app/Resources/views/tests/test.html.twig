@@ -26,16 +26,19 @@
                 <p>{{ company.name }}</p>
                 {% endfor %}
             {% endif %}
-        </div>
+    </div>
 
 
     <p class="mar-l-35">Вопросы</p>
 
+    {% if not is_granted('ROLE_ADMIN') %}
         <form id="questionForm" action="{{ path('testCompete', {'id':test.id}) }}" method="post" name="questionForm">
+    {% endif %}
+        <div id="questionForm" action="{{ path('testCompete', {'id':test.id}) }}" method="post" name="questionForm">
 
         {% for question in test.questions %}
             {% if questionEdit is defined and question.id == questionEdit.id %}
-                    <form id="AddQuestionForm" action="{{ path('testpage', {'id':test.id}) }}" method="post" name="AddQuestionForm" {{ form_enctype(uploadForm) }}>
+                    <form id="EditQuestionForm" action="{{ path('editQuestion', {'testId':test.id,'id':questionEdit.id}) }}" method="post" name="AddQuestionForm" {{ form_enctype(uploadForm) }}>
 
 
                         <div class="clearfix quest-box quest-box-{{ loop.index }}">
@@ -54,24 +57,20 @@
                                 </div>
 
                                 {% for answer in questionEdit.answers %}
-                                <div class="fl-left add-a-box" id="add-a-box-'{{ loop.index }}'">
-                                    <label for="text-a-'{{ loop.index }}'">Ответ: </label>
-                                    <input id="text-a-'{{ loop.index }}'" type="text" value="{{ answer.content }}" name="_answer['{{ loop.index }}'][content]" size="8" tabindex="2" spellcheck="true" required pattern="[а-яА-ЯёЁa-zA-Z0-9-/t]+">
-                                    <span class="spn0 spn0-'{{ loop.index }}'"><label for="text-p-'{{ loop.index }}'">Баллы за ответ: </label>
-                        <input id="text-p-'{{ loop.index }}'" type="number" value="{{ answer.rating }}" name="_answer['{{ loop.index }}'][rating]" size="1" tabindex="3" required min=0>
+                                <div class="fl-left add-a-box" id="add-a-box-{{ loop.index-1 }}">
+                                    <label for="text-a-'{{ loop.index-1 }}'">Ответ: </label>
+                                    <input id="text-a-{{ loop.index-1 }}" type="text" value="{{ answer.content }}" name="_answer[{{ loop.index-1 }}][content]" size="8" tabindex="2" spellcheck="true" required pattern="[а-яА-ЯёЁa-zA-Z0-9-/t]+">
+                                    <span class="spn0 spn0-'{{ loop.index-1 }}'"><label for="text-p-'{{ loop.index-1 }}'">Баллы за ответ: </label>
+                        <input id="text-p-{{ loop.index-1 }}" type="number" value="{{ answer.rating }}" name="_answer[{{ loop.index-1 }}][rating]" size="1" tabindex="3" required min=0>
                             </span>
-                                    <div id="cancel-a-'{{ loop.index }}'" onclick="giveId('{{ loop.index }}')" class="vert-align-m cnl cnl-'{{ loop.index }}'"></div>
+                                    <div id="cancel-a-'{{ loop.index-1 }}'" onclick="delAns({{ loop.index-1 }},{{ answer.id }})" class="vert-align-m cnl cnl-'{{ loop.index-1 }}'"></div>
                                     </div>
                                 {% endfor %}
 
 
-
-
-
-
                                 <div class="fl-right butblock">
                                     <a href="{{ path('testpage',{'id':test.id})}}"><button id="cancel-q" class="red-button" type="button" tabindex="">Отмена</button></a>
-                                    <button id="add-ans" class="green-button" type="button" tabindex="">Добавить ответ</button>
+                                    <button id="add-ans-edit" class="green-button" type="button" tabindex="">Добавить ответ</button>
                                     <button id="save" class="blue-button" type="submit" tabindex="">Сохранить</button>
                                 </div>
 
@@ -125,9 +124,10 @@
             {% if not is_granted('ROLE_ADMIN') %}
                 <button type="submit" class="fl-right al-center red-button" id="end-test">Завершить</button>
             {% endif %}
-        </form>
-
-
+        </div>
+    {% if not is_granted('ROLE_ADMIN') %}
+    </form>
+    {% endif %}
         <script type="text/javascript">
 
             $(document).ready(function() {
@@ -167,6 +167,7 @@
         {#-------------------------------- start Add form_question ---------------------------------------#}
     {% if is_granted('ROLE_ADMIN') %}
         {% set NumberQ = test.questions|length %}
+        {% if uploadForm is defined  %}
         <form id="AddQuestionForm" action="{{ path('testpage', {'id':test.id}) }}" method="post" name="AddQuestionForm" {{ form_enctype(uploadForm) }}>
 
             {% set NumberQ  = NumberQ + 1 %}
@@ -194,8 +195,10 @@
 
                 </div>
             </div>
+
         </form>
 
+        {% endif %}
 
         <button id="add-q"  class="green-button al-center" type="button" tabindex="">Добавить вопрос</button>
 
@@ -246,6 +249,24 @@
 
             $(document).ready(function () {
                 var numAns = 0;
+                {% if questionEdit is defined %}
+                    numAns = {{ questionEdit.answers.count }}
+
+//                      Тут тип надо что-то сделать чтоб в конец добавлялось, но я вообще не знаю как!
+                            $('#add-ans-edit').click(function (){
+                                $('#add-a-box-0').append(' <div class="fl-left add-a-box" id="add-a-box-'+numAns+'">'
+                                        +'<label for="text-a-'+numAns+'">Ответ: <//label>'
+                                        +'<input id="text-a-'+numAns+'" type="text" name="_answer['+numAns+'][content]" size="8" tabindex="2" spellcheck="true" required pattern="[а-яА-ЯёЁa-zA-Z0-9-/t]+">'
+                                        +'<span class="spn0 spn0-'+numAns+'">'+' <label for="text-p-'+numAns+'">Баллы за ответ: <//label>'
+                                        +'<input id="text-p-'+numAns+'" type="number" name="_answer['+numAns+'][rating]" size="1" tabindex="3" required min=0>'
+                                        +'<//span>'
+                                        +'<div id="cancel-a-'+numAns+'" onclick="giveId('+numAns+')" class="vert-align-m cnl cnl-'+numAns+'">'+'<//div>'
+                                        +'<//div>');
+                                numAns++;
+
+                            });
+                {% endif %}
+
                 $('#add-ans').click(function (){
                     $('#add-content').append(' <div class="fl-left add-a-box" id="add-a-box-'+numAns+'">'
                         +'<label for="text-a-'+numAns+'">Ответ: <//label>'
@@ -262,10 +283,20 @@
 
             function giveId(ids){
                 $('#add-a-box-'+ids).remove();     //I hate this line!!1111!1!!
-            };
+            }
+            function delAns(ids, ansId){
+                $('#add-a-box-'+ids).remove();     //Try hate
+                {% if questionEdit is defined %}
+                var url = '{{ path("delAnswer", {'qId':questionEdit.id,'id':'Aid' }) }}';
+                $(location).attr('href',url.replace("Aid", ansId));
+                {% endif %}
+            }
+            ;
 
 
         </script>
+
+
 
         {#--------------------------------Start form_description_test(MODAL WINDOW)-----------------------------------------#}
 
@@ -376,7 +407,7 @@
 
             function setDesId(ids){
                 this.ids = ids;
-                var url = '{{ path("editExplanation", {'testId':test.id,'id':'EId'}) }}';
+                var url = '{{ path("editExplanationForm", {'testId':test.id,'id':'EId'}) }}';
                 $(location).attr('href',url.replace("EId", ids));
 
 

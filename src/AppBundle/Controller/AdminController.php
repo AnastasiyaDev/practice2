@@ -19,8 +19,15 @@ class AdminController extends Controller
      */
     public function indexAction()
     {
+        $q = $this->getDoctrine()->getManager()->createQuery(
+            "SELECT d FROM AppBundle:Department d WHERE d.name<>'FakeDepartment'"
+        );
+        $departments = $q->getResult();
+
         return $this->render(':users/admin:admin_page.html.twig', array('user' => $this->getUser(),
-            'tests' => $this->getDoctrine()->getRepository('AppBundle:Test')->findAll()));
+            'tests' => $this->getDoctrine()->getRepository('AppBundle:Test')->findAll(),
+            'departments' => $departments
+        ));
     }
 
     /**
@@ -50,32 +57,14 @@ class AdminController extends Controller
 
     /**
      * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/group",name="groupList")
+     * @Route("/users/group{id}/",name="userByGroup")
      */
-    public function showAllGroupAction()
+    public function showUserByGroupAction($id)
     {
-
-        $q = $this->getDoctrine()->getManager()->createQuery(
-            "SELECT d FROM AppBundle:Department d WHERE d.name<>'FakeDepartment'"
-        );
-        $departments = $q->getResult();
-
-        return $this->render(':users/admin:all_groups.html.twig', array('user' => $this->getUser(),
-            'departments' => $departments));
-
-    }
-
-    /**
-     * @Security("has_role('ROLE_ADMIN')")
-     * @Route("/group/{groupName}",name="groupUser")
-     */
-    public function showUserByGroupAction($groupName)
-    {
-
-        $users = $this->getDoctrine()->getRepository('AppBundle:User')->findByGroupName($groupName);
 
         return $this->render('users/admin/users.html.twig', array('user' => $this->getUser(),
-            'users' => $users));
+            'users' => $this->getDoctrine()->getRepository('AppBundle:Department')->find($id)->getUsers()
+        ));
 
     }
 
@@ -159,7 +148,9 @@ class AdminController extends Controller
      */
     public function newUserAction()
     {
-        return $this->render('users/admin/registration_of_users.html.twig');
+        return $this->render('users/admin/registration_of_users.html.twig', array(
+            'departments' => $this->getDoctrine()->getRepository('AppBundle:Department')->findAll()
+        ));
     }
 
 

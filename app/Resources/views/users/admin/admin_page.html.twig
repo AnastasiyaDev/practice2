@@ -17,6 +17,7 @@
             <ul>
                 <li><a href="#tabs-1">Тесты</a></li>
                 <li><a href="#tabs-2">Пользователи</a></li>
+                <li><a href="#tabs-3">Группы</a></li>
             </ul>
             <div id="tabs-1">
                 <ul class="main-menu">
@@ -34,16 +35,29 @@
 
                         </li>
                     {% endfor %}
+                     {% if is_granted('ROLE_SUPER_ADMIN') %}
                         <li class="sub">
                             <a href={{ path('testNewForm') }}> + Новый тест</a>
                         </li>
+                     {% endif %}
                 </ul>
             </div>
             <div id="tabs-2">
                 <ul class="main-menu">
                     <li class="sub"><a href={{ path('usersList') }}><p>Список всех пользователей</p></a></li>
-                    <li class="sub"><a href={{ path('groupList') }}><p>Список пользователей по группам</p></a></li>
+                    {% if is_granted('ROLE_SUPER_ADMIN') %}
                     <li class="sub"><a href={{ path('newUser') }}><p>+ Добавить пользователя</p></a></li>
+                    {% endif %}
+                </ul>
+            </div>
+            <div id="tabs-3">
+                <ul class="main-menu">
+                    {% for department in departments %}
+                        <li class="sub"><a href={{ path('userByGroup',{'id':department.id}) }}><p>{{ department.name }}</p></a></li>
+                    {% endfor %}
+                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                        <li class="sub"><a href=><p>+ Добавить группу</p></a></li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
