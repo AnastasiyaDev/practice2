@@ -21,17 +21,17 @@
 
             <div class="al-center mar-top-15">
                 <div><label for="login-user-field" class="">Логин: </label></div>
-                <input type="text" id="login-user-field" name="_username" pattern="[a-zA-Z0-9_-\t]+" tabindex="1" required>
+                <input type="text" id="login-user-field" name="_username" pattern="[\w-.]+" tabindex="1" required>
             </div>
 
             <div class="al-center marg-auto mar-top-5">
                 <div><label for="password-user-field-1" class="">Пароль: </label></div>
-                <input type="password" id="password-user-field-1" name="_password" pattern="([a-zA-Z0-9_-]){6,37}" tabindex="2" required>
+                <input type="password" id="password-user-field-1" name="_password" pattern="[\w-.]{6,37}" tabindex="2" required>
             </div>
 
             <div class="al-center position-rel mar-top-5">
                 <div><label for="password-user-field-2" class="">Повторите пароль: </label></div>
-                <input type="password" id="password-user-field-2" name="_password-2" onchange="checkPass()" pattern="([a-zA-Z0-9_-]){6,37}" tabindex="3" required>
+                <input type="password" id="password-user-field-2" name="_password-2" onchange="checkPass()" pattern="[\w-.]{6,37}" tabindex="3" required>
                 <span id="info" class="position-abs"></span>
             </div>
 

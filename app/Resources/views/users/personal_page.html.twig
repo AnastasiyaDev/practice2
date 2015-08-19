@@ -22,25 +22,50 @@
             {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <span>
                     <a href={{ path('delUser', {'id':user.id}) }}>
-                        <div id="del-d" class="red-button" type="button" class="al-center" tabindex="">Удалить</div>
+                        <div id="del-d" class="red-button" onclick="delUser({{user.id}})" tabindex="">Удалить</div>
                     </a>
                     <a href={{ path('editUserForm', {'id':user.id}) }}>
-                        <div id="edit-des" class="blue-button" type="button" class="al-center" tabindex="">Редактировать</div>
+                        <div id="edit-des" class="blue-button" tabindex="">Редактировать</div>
                     </a>
                     {% for role in user.roles %}
                             {% if role == 'ROLE_ADMIN' %}
                                 <a href={{ path('makeUser', {'id':user.id}) }}>
-                                    <div id="edit-des" class="green-button" type="button" class="al-center" tabindex="">Сделать юзером</div>
+                                    <div id="edit-des" class="green-button" tabindex="">Сделать юзером</div>
                                 </a>
                             {% else %}
                                 <a href={{ path('makeAdmin', {'id':user.id}) }}>
-                        <div id="edit-des" class="green-button" type="button" class="al-center" tabindex="">Сделать админом</div>
+                        <div id="edit-des" class="green-button" tabindex="">Сделать админом</div>
                                 </a>
                             {% endif %}
                     {% endfor %}
                 </span>
             {% endif %}
         </div>
+
+        <script>
+
+            function ask(question, yes, no) {
+                if (confirm(question)) {
+                    yes();
+                }
+                else no();
+            }
+            function showOk() {
+                var url = '{{ path('delUser', {'id':'userId'}) }}';
+                $(location).attr('href',url.replace("userId", ids));
+
+            }
+            function showCancel() {
+                // отмена выполнения
+            }
+
+            function delUser(ids){
+                this.ids = ids;
+                ask("Вы действительно хотите удалить пользователя?", showOk, showCancel);
+            }
+
+        </script>
+
 
 {#////////////////////////////USER MENU///////////////////////////////#}
 

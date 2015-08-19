@@ -21,40 +21,52 @@
                 {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <th></th>
                 {% endif %}
-                {#-------------------не работает---------------------#}
-                <th class="width-100 help-box"></th>
-                {#---------------------------------------------------#}
             </tr>
 
             {% for user in users %}
 
-            <a href={{ path('usersPageAdmin',{ 'id':user.id}) }}>
             <tr>
-                <td>{{ user.username }}</td>
-                <td>{{ user.firstName }} {{ user.secondName }}</td>
+                <td onclick=" window.location.href='{{ path('usersPageAdmin',{ 'id':user.id}) }}'; return false">{{ user.username }}</td>
+                <td onclick=" window.location.href='{{ path('usersPageAdmin',{ 'id':user.id}) }}'; return false">{{ user.firstName }} {{ user.secondName }}</td>
                 <td>{{ user.department.company.name }}</td>
                 <td>{{ user.department.name }}</td>
                 <td>{{ user.tests|length }}</td>
                 {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <td class="position-rel">
-                    <a class="del-img" id="" onclick="" title="Удалить пользователя"></a>
-                    <a class="edit-img" id="" onclick="" title="Редактировать"></a>
-                    <a class="be-admin-img" id="" onclick="" title="Сделать администратором"></a>
+                    <a class="del-img" id="" onclick="delUser({{user.id}})" title="Удалить пользователя"></a>
+                    <a class="edit-img" href="{{ path('editUserForm', {'id':user.id}) }}" title="Редактировать"></a>
+                    <a class="be-admin-img" href="{{ path('makeAdmin', {'id':user.id}) }}" id="" onclick="" title="Сделать администратором"></a>
                 </td>
                 {% endif %}
-                {#-------------------не работает---------------------#}
-                <td class="position-rel help-box">
-                    <div class="position-abs help-text-del">text on right1</div>
-                    <div class="position-abs help-text-edit">text on right2</div>
-                    <div class="position-abs help-text-be-admin">text on right3</div>
-                </td>
-                {#---------------------------------------------------#}
             </tr>
-            </a>
             {% endfor %}
 
 
         </table>
+
+        <script>
+
+            function ask(question, yes, no) {
+                if (confirm(question)) {
+                    yes();
+                }
+                else no();
+            }
+            function showOk() {
+                var url = '{{ path('delUser', {'id':'userId'}) }}';
+                $(location).attr('href',url.replace("userId", ids));
+
+            }
+            function showCancel() {
+                // отмена выполнения
+            }
+
+            function delUser(ids){
+                this.ids = ids;
+                ask("Вы действительно хотите удалить пользователя?", showOk, showCancel);
+            }
+
+        </script>
 
     </div>
 

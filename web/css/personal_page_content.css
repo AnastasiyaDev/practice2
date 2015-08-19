@@ -62,7 +62,7 @@
     background-color: #E6E6E6 !important;
     border: none !important;
 }
-#tabs-1 .main-menu .sub:first-child, #tabs-2 .main-menu .sub:first-child{
+#tabs-1 .main-menu .sub:first-child, #tabs-2 .main-menu .sub:first-child, #tabs-3 .main-menu .sub:first-child{
     border-radius:0em 0em 0em 0em !important;
     border-top: none !important;
 }
