@@ -209,6 +209,9 @@
 
                 $('#add-q').click(function () {
                     $('#AddQuestionForm').show();
+                    var height = $('#AddQuestionForm').outerHeight(true) + $('#add-q').outerHeight(true);
+                    window.scrollBy(0,height);
+
                 });
 
                 $('#cancel-q').click(function () {
@@ -435,6 +438,9 @@
                 $('#AddDescriptionResult').hide();
                 $('#add-description').click(function () {
                     $('#AddDescriptionResult').show();
+                    var height = $('#AddDescriptionResult').outerHeight(true) + $('#add-description').outerHeight(true);
+                    window.scrollBy(0,height);
+
                 });
 
                 $('#exit-on-desct-res').click(function () {
