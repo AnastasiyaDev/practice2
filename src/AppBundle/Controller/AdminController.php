@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Department;
 use AppBundle\Entity\Image;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -152,6 +153,39 @@ class AdminController extends Controller
             'departments' => $this->getDoctrine()->getRepository('AppBundle:Department')->findAll()
         ));
     }
+
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @Route("/users/newGroup", name="newGroupForm")
+     */
+    public function newDepartmentFormAction(Request $request)
+    {
+        return $this->render(':users/admin:new_group.html.twig',array(
+            'companies' => $this->getDoctrine()->getRepository('AppBundle:Company')->findAll()
+        ));
+    }
+
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @Route("/users/newGroup/compete", name="newGroup")
+     */
+    public function newDepartmentAction(Request $request)
+    {
+        $department = new Department();
+
+        $department->setName($request->get('_name'));
+
+        $department->setCompany($this->getDoctrine()->getRepository('AppBundle:Company')->find($request->get('_company')));
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->persist($department);
+        $em->flush();
+
+        return $this->redirectToRoute('adminPage');
+    }
+
+
 
 
 
