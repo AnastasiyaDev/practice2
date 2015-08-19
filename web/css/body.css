@@ -193,6 +193,9 @@ input[type="file"] > input[type="button"]::-moz-focus-inner{
 .mar-top-5{
     margin-top: 5px;
 }
+.mar-left-5{
+    margin-left: 5px;
+}
 .wid_202{
     width: 240px;
 }

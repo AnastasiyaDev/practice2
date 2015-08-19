@@ -26,16 +26,16 @@
             {% for user in users %}
 
             <tr>
-                <td onclick=" window.location.href='{{ path('usersPageAdmin',{ 'id':user.id}) }}'; return false">{{ user.username }}</td>
-                <td onclick=" window.location.href='{{ path('usersPageAdmin',{ 'id':user.id}) }}'; return false">{{ user.firstName }} {{ user.secondName }}</td>
+                <td class="link-on-user" onclick=" window.location.href='{{ path('usersPageAdmin',{ 'id':user.id}) }}'; return false">{{ user.username }}</td>
+                <td class="link-on-user" onclick=" window.location.href='{{ path('usersPageAdmin',{ 'id':user.id}) }}'; return false">{{ user.firstName }} {{ user.secondName }}</td>
                 <td>{{ user.department.company.name }}</td>
                 <td>{{ user.department.name }}</td>
                 <td>{{ user.tests|length }}</td>
                 {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <td class="position-rel">
-                    <a class="del-img" id="" onclick="delUser({{user.id}})" title="Удалить пользователя"></a>
+                    <a class="del-img" onclick="delUser({{user.id}})" title="Удалить пользователя"></a>
                     <a class="edit-img" href="{{ path('editUserForm', {'id':user.id}) }}" title="Редактировать"></a>
-                    <a class="be-admin-img" href="{{ path('makeAdmin', {'id':user.id}) }}" id="" onclick="" title="Сделать администратором"></a>
+                    <a class="be-admin-img" href="{{ path('makeAdmin', {'id':user.id}) }}" title="Сделать администратором"></a>
                 </td>
                 {% endif %}
             </tr>

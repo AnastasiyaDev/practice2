@@ -1,14 +1,18 @@
 #personal{
     background-color: #EFEFEF;
     border-radius: 0.5em/0.5em;
-    padding: 5px 0px 5px 10px;
+    padding: 5px 10px 5px 10px;
+    margin-bottom: 20px;
 }
 #name{
     font-size: 24px;
     margin-bottom: 10px;
 }
-#personal{
-    margin-bottom: 20px;
+#nGroup{
+    padding: 2px;
+}
+#make-user, #make-admin{
+    width: 166px !important;
 }
 .main-menu{
     list-style:none;
@@ -109,4 +113,10 @@ a.be-admin-img:hover .help-box.help-text-be-admin{
 .help-text-be-admin{
     top: 30px;
     left: 0px;
+}
+.link-on-user{
+    cursor: pointer;
+}
+.link-on-user:hover{
+    text-decoration: underline;
 }

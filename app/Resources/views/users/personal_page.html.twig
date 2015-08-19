@@ -14,32 +14,34 @@
 
     <div class="content marg-auto clearfix ">
 
-        <div id="personal">
+        <div id="personal" class="clearfix">{#personal = .lvl(css)#}
             <div id="name">{{ user.firstName }} {{ user.secondName }} {% for role in user.roles if role == 'ROLE_ADMIN' %} (Администратор) {% endfor %}</div>
             {% if user.department.name != 'FakeDepartment' %}
             <div id="nGroup">{{ user.department.name }}</div>
             {% endif %}
+
             {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <span>
                     <a href={{ path('delUser', {'id':user.id}) }}>
-                        <div id="del-d" class="red-button" onclick="delUser({{user.id}})" tabindex="">Удалить</div>
+                        <div id="del-d" class="red-button fl-left" onclick="delUser({{user.id}})">Удалить</div>
                     </a>
                     <a href={{ path('editUserForm', {'id':user.id}) }}>
-                        <div id="edit-des" class="blue-button" tabindex="">Редактировать</div>
+                        <div id="edit-des" class="blue-button fl-left mar-left-5">Редактировать</div>
                     </a>
                     {% for role in user.roles %}
-                            {% if role == 'ROLE_ADMIN' %}
-                                <a href={{ path('makeUser', {'id':user.id}) }}>
-                                    <div id="edit-des" class="green-button" tabindex="">Сделать юзером</div>
-                                </a>
-                            {% else %}
-                                <a href={{ path('makeAdmin', {'id':user.id}) }}>
-                        <div id="edit-des" class="green-button" tabindex="">Сделать админом</div>
-                                </a>
-                            {% endif %}
+                        {% if role == 'ROLE_ADMIN' %}
+                            <a href={{ path('makeUser', {'id':user.id}) }}>
+                                <div id="make-user" class="green-button fl-right">Сделать пользователем</div>
+                            </a>
+                        {% else %}
+                            <a href={{ path('makeAdmin', {'id':user.id}) }}>
+                                <div id="make-admin" class="green-button fl-right">Сделать администратором</div>
+                            </a>
+                        {% endif %}
                     {% endfor %}
                 </span>
             {% endif %}
+
         </div>
 
         <script>
