@@ -11,20 +11,15 @@
 
     <div class="content marg-auto clearfix ">
 
-        {#<ul class="main-menu">#}
-            {#{% for user in users %}#}
-                {#<li class="sub"><a href={{ path('usersPageAdmin',{ 'id':user.id}) }}>#}
-                        {#<p>{{ user.username }}</p>#}
-                        {#<span>{{ user.firstName }} {{ user.secondName }}</span>#}
-                    {#</a></li>#}
-            {#{% endfor %}#}
-        {#</ul>#}
-
         <table class="simple-little-table" cellspacing='0'>
             <tr>
                 <th>Пользователь</th>
                 <th>Имя, Фамилия</th>
                 <th></th>
+
+                {#-------------------не работает---------------------#}
+                <th class="width-100 help-box"></th>
+                {#---------------------------------------------------#}
             </tr>
 
             {% for user in users %}
@@ -37,8 +32,15 @@
                     <a class="del-img" id="" onclick=""></a>
                     <a class="edit-img" id="" onclick=""></a>
                     <a class="be-admin-img" id="" onclick=""></a>
-
                 </td>
+
+                {#-------------------не работает---------------------#}
+                <td class="position-rel help-box">
+                    <div class="position-abs help-text-del">text on right1</div>
+                    <div class="position-abs help-text-edit">text on right2</div>
+                    <div class="position-abs help-text-be-admin">text on right3</div>
+                </td>
+                {#---------------------------------------------------#}
             </tr>
             </a>
             {% endfor %}

@@ -26,98 +26,95 @@
                 <p>{{ company.name }}</p>
                 {% endfor %}
             {% endif %}
-    </div>
+        </div>
 
 
-    <p class="mar-l-35">Вопросы</p>
+        <p class="mar-l-35">Вопросы</p>
 
-    {% if not is_granted('ROLE_ADMIN') %}
-        <form id="questionForm" action="{{ path('testCompete', {'id':test.id}) }}" method="post" name="questionForm">
-    {% endif %}
+        {% if not is_granted('ROLE_ADMIN') %}
+            <form id="questionForm" action="{{ path('testCompete', {'id':test.id}) }}" method="post" name="questionForm">
+        {% endif %}
         <div id="questionForm" action="{{ path('testCompete', {'id':test.id}) }}" method="post" name="questionForm">
 
         {% for question in test.questions %}
             {% if questionEdit is defined and question.id == questionEdit.id %}
-                    <form id="EditQuestionForm" action="{{ path('editQuestion', {'testId':test.id,'id':questionEdit.id}) }}" method="post" name="AddQuestionForm" {{ form_enctype(uploadForm) }}>
 
+               <form id="EditQuestionForm" action="{{ path('editQuestion', {'testId':test.id,'id':questionEdit.id}) }}" method="post" name="AddQuestionForm" {{ form_enctype(uploadForm) }}>
 
-                        <div class="clearfix quest-box quest-box-{{ loop.index }}">
-                            <div class="quest-number fl-left al-center vert-align-m">
-                                <p class="vert-align-m mar-pad-0 font-s-14">{{ loop.index }}</p>
-                            </div>
+                   <div class="clearfix quest-box quest-box-{{ loop.index }}">
+                       <div class="quest-number fl-left al-center vert-align-m">
+                           <p class="vert-align-m mar-pad-0 font-s-14">{{ loop.index }}</p>
+                       </div>
 
-                            <div class="question fl-right mar-pad-0 clearfix">
+                       <div class="question fl-right mar-pad-0 clearfix">
 
-                                <div class="fl-left width-410" id="add-content">
+                           <div class="fl-left width-410" id="add-content">
 
-                                    <label for="text-q-{{ loop.index  }}">Текст вопроса: </label>
+                               <label for="text-q-{{ loop.index  }}">Текст вопроса: </label>
 
-                                    <textarea id="text-q-{{ loop.index  }}" name="_description" tabindex="1" spellcheck="true" required pattern="[а-яА-ЯёЁa-zA-Z-\t]+">{{ questionEdit.content }}</textarea>
-                                    {{ form_widget(uploadForm) }}
-                                </div>
+                               <textarea id="text-q-{{ loop.index  }}" name="_description" tabindex="1" spellcheck="true" required>{{ questionEdit.content }}</textarea>
+                               {{ form_widget(uploadForm) }}
+                           </div>
 
-                                {% for answer in questionEdit.answers %}
-                                <div class="fl-left add-a-box" id="add-a-box-{{ loop.index-1 }}">
-                                    <label for="text-a-'{{ loop.index-1 }}'">Ответ: </label>
-                                    <input id="text-a-{{ loop.index-1 }}" type="text" value="{{ answer.content }}" name="_answer[{{ loop.index-1 }}][content]" size="8" tabindex="2" spellcheck="true" required pattern="[а-яА-ЯёЁa-zA-Z0-9-/t]+">
-                                    <span class="spn0 spn0-'{{ loop.index-1 }}'"><label for="text-p-'{{ loop.index-1 }}'">Баллы за ответ: </label>
-                        <input id="text-p-{{ loop.index-1 }}" type="number" value="{{ answer.rating }}" name="_answer[{{ loop.index-1 }}][rating]" size="1" tabindex="3" required min=0>
-                            </span>
-                                    <div id="cancel-a-'{{ loop.index-1 }}'" onclick="delAns({{ loop.index-1 }},{{ answer.id }})" class="vert-align-m cnl cnl-'{{ loop.index-1 }}'"></div>
-                                    </div>
-                                {% endfor %}
+                           {% for answer in questionEdit.answers %}
+                           <div class="fl-left add-a-box" id="add-a-box-{{ loop.index-1 }}">
 
+                               <label for="text-a-'{{ loop.index-1 }}'">Ответ: </label>
+                               <input id="text-a-{{ loop.index-1 }}" type="text" value="{{ answer.content }}" name="_answer[{{ loop.index-1 }}][content]" size="8" tabindex="2" spellcheck="true" required pattern="[а-яА-ЯёЁa-zA-Z0-9-/t]+">
 
-                                <div class="fl-right butblock">
-                                    <a href="{{ path('testpage',{'id':test.id})}}"><button id="cancel-q" class="red-button" type="button" tabindex="">Отмена</button></a>
-                                    <button id="add-ans-edit" class="green-button" type="button" tabindex="">Добавить ответ</button>
-                                    <button id="save" class="blue-button" type="submit" tabindex="">Сохранить</button>
-                                </div>
+                               <span class="spn0 spn0-'{{ loop.index-1 }}'"><label for="text-p-'{{ loop.index-1 }}'">Баллы за ответ: </label>
+                                  <input id="text-p-{{ loop.index-1 }}" type="number" value="{{ answer.rating }}" name="_answer[{{ loop.index-1 }}][rating]" size="1" tabindex="3" required min=0>
+                               </span>
+                               {#удалить вариант ответа#}
+                               <div id="cancel-a-'{{ loop.index-1 }}'" onclick="delAns({{ loop.index-1 }},{{ answer.id }})" class="vert-align-m cnl cnl-'{{ loop.index-1 }}'"></div>
+                           </div>
+                           {% endfor %}
 
-                            </div>
-                        </div>
+                           <div class="fl-right butblock">
+                               <a href="{{ path('testpage',{'id':test.id})}}"><button id="cancel-q" class="red-button" type="button" tabindex="">Отмена</button></a>
+                               <button id="add-ans-edit" class="green-button" type="button" tabindex="">Добавить ответ</button>
+                               <button id="save" class="blue-button" type="submit" tabindex="">Сохранить</button>
+                           </div>
 
-                    </form>
+                       </div>
+                   </div>
+               </form>
 
             {% else %}
 
-        <div class="quest-box clearfix quest-box-{{ loop.index }}">
-            <div class="quest-number quest-number-{{ question.id }} fl-left al-center vert-align-m"><p class="vert-align-m mar-pad-0 font-s-14">{{ loop.index }}</p></div>
-            <ul class="question question-{{ question.id }} fl-right mar-pad-0 position-rel clearfix">
-                <div class="fl-left width-410">
-                <h4>{{ question.content }}</h4>
-                <p class="mar-pad-0">выберите один из вариантов:{% if question.image is not empty %}<br>(нажмите на картинке для ее увеличения)</p>{% endif %}
-                <br>
-                <div class="al-center">
-                    {% for answer in question.answers %}
-                    <li>
-                        <label for="Q{{ answer.id }}">
-                            {% if not is_granted('ROLE_ADMIN') %}
-                                <input onclick=" giveIdNameSpace({{ question.id }}) " type="radio" id="Q{{ answer.id }}" value="{{ answer.id }}" name="_answerArray[{{ answer.question.id }}]" required>
-                            {% endif %}
-                                <span>{{ answer.content }}{% if is_granted('ROLE_ADMIN') %}[{{ answer.rating }}]{% endif %}</span>
-                        </label>
-                    </li>
-                    {% endfor %}
+            <div class="quest-box clearfix quest-box-{{ loop.index }}">
+                <div class="quest-number quest-number-{{ question.id }} fl-left al-center vert-align-m"><p class="vert-align-m mar-pad-0 font-s-14">{{ loop.index }}</p></div>
 
+                <ul class="question question-{{ question.id }} fl-right mar-pad-0 position-rel clearfix">
+                    <div class="fl-left width-410">
+                        <h4>{{ question.content }}</h4>
+                        <p class="mar-pad-0">выберите один из вариантов:{% if question.image is not empty %}<br>(нажмите на картинке для ее увеличения)</p>{% endif %}
+                        <div class="al-center">
+                           {% for answer in question.answers %}
+                           <li>
+                               <label for="Q{{ answer.id }}">
+                                   {% if not is_granted('ROLE_ADMIN') %}
+                                       <input onclick=" giveIdNameSpace({{ question.id }}) " type="radio" id="Q{{ answer.id }}" value="{{ answer.id }}" name="_answerArray[{{ answer.question.id }}]" required>
+                                   {% endif %}
+                                       <span>{{ answer.content }}{% if is_granted('ROLE_ADMIN') %}[{{ answer.rating }}]{% endif %}</span>
+                               </label>
+                           </li>
+                           {% endfor %}
 
                     {% if is_granted('ROLE_ADMIN') %} {#---------------УДАЛЕНИЕ/РЕДАКЦИЯ ВОПРОСА------------------#}
                         <a class="del-img" href={{ path('delQuestion',{'testId':test.id,'id':question.id}) }}></a>
                         <a class="edit-img" id="{{ question.id }}" onclick="setId({{question.id}})"></a>
-                        {#href={{ path('editQuestion',{'testId':test.id,'id':question.id}) }}#}
                     {% endif %}
-                </div>
+                        </div>
 
+                    </div>
 
-        </div>
+                    {% if question.image is not empty %}{#-----------------------IMAGE------------------------#}
+                        <a href="{{ question.image.webPath }}" class="fancy-img fl-right"><img class="img-in-form" src="{{ question.image.webPath }}" alt="Изображение"></a>
+                    {% endif %}
 
-                {% if question.image is not empty %}{#-----------------------IMAGE------------------------#}
-                    <a href="{{ question.image.webPath }}" class="fancy-img fl-right"><img class="img-in-form" src="{{ question.image.webPath }}" alt="Изображение"></a>
-                {% endif %}
-
-
-            </ul>
-        </div>
+                </ul>
+            </div>
         {% endif %}
         {% endfor %}
 
@@ -125,9 +122,11 @@
                 <button type="submit" class="fl-right al-center red-button" id="end-test">Завершить</button>
             {% endif %}
         </div>
+
     {% if not is_granted('ROLE_ADMIN') %}
     </form>
     {% endif %}
+
         <script type="text/javascript">
 
             $(document).ready(function() {
@@ -150,14 +149,11 @@
 
         <script type="text/javascript">
 
-
             function giveIdNameSpace(idNameSpace){
 
                 $('.question-'+idNameSpace).css({'border':'1px solid #00FF00'}) &&
                 $('.quest-number-'+idNameSpace).css({'background-color':'#00FF00', 'color': '#00FF00'});
-
             }
-
 
         </script>
 
@@ -200,10 +196,10 @@
 
         {% endif %}
 
-        <button id="add-q"  class="green-button al-center" type="button" tabindex="">Добавить вопрос</button>
+        <button id="add-q" type="button" class="green-button al-center" tabindex="">Добавить вопрос</button>
 
 
-        {#----------------------------------------Start ADD and DELETE question-----------------------------------------#}
+        {#----------------------------------------ADD and DELETE question-----------------------------------------#}
 
 
         <script type="text/javascript">
@@ -228,22 +224,16 @@
 
         <script type="text/javascript">
 
-
                 function setId(ids){
                     this.ids = ids;
                     var url = '{{ path("editQuestion", {'testId':test.id,'id':'QId'}) }}';
                     $(location).attr('href',url.replace("QId", ids));
 
-
-
                 }
-
 
         </script>
 
-
-
-        {#----------------------------------------Start Add/cancel answer-----------------------------------------------#}
+        {#----------------------------------------ADD/CANCEL answer-----------------------------------------------#}
 
         <script type="text/javascript">
 
@@ -291,11 +281,8 @@
                 $(location).attr('href',url.replace("Aid", ansId));
                 {% endif %}
             }
-            ;
-
 
         </script>
-
 
 
         {#--------------------------------Start form_description_test(MODAL WINDOW)-----------------------------------------#}
@@ -336,88 +323,77 @@
 
         </script>
 
+{#----------------------------------------------EDIT DESCRIPTION RESULT----------------------------------------------------------------------------------#}
+
+        <div class="dis-content marg-auto clearfix">
+          {% for explanation in test.explanation %}
+            {% if explanationEdit is defined and explanation.id == explanationEdit.id %}
+                <div class="content-des-res">
+                    <h3>Пояснение {{ loop.index }}</h3>
+
+                    <form id="" autocomplete="off" action="{{ path("editExplanation", {'testId':test.id,'id':explanationEdit.id}) }}" method="post" name="AddDescriptionResult">
+
+                        <div class="clearfix description-result-box description-result-box-{{ loop.index }}">
+
+                            <div class="fl-left width-410 content-des-res">
 
 
+                                <label for="description-res-form-{{ loop.index }}" class="disp-block">Описание: </label>
+                                <textarea id="description-res-form-{{ loop.index }}" name="_description"   tabindex="1" spellcheck="true" pattern="[а-яА-ЯёЁa-zA-Z-\t]+" required >{{ explanationEdit.description }}</textarea>
 
-            <div class="dis-content marg-auto clearfix">
-                {% for explanation in test.explanation %}
-                    {% if explanationEdit is defined and explanation.id == explanationEdit.id %}
-                        <div class="content-des-res">
-                        <h3>Пояснение {{ loop.index }}</h3>
-                            {#<p>{{ explanationEdit.description }}</p>#}
+                                <label for="minRating-{{ loop.index }}" class="">Минимальное количество баллов: </label>
+                                <input type="number" id="minRating-{{ loop.index }}" value="{{ explanationEdit.minRating }}"  name="_minRating"  tabindex="2" size="2" pattern="[0-9]+"
+                                       min="{{ minRating }}" max="{{ maxRating }}" required><br>
 
-                            <form id="" autocomplete="off" action="{{ path("editExplanation", {'testId':test.id,'id':explanationEdit.id}) }}" method="post" name="AddDescriptionResult">
+                                <label for="maxRating-{{ loop.index }}" class="">Максимальное количество баллов: </label>
+                                <input type="number" id="maxRating-{{ loop.index }}" value="{{ explanationEdit.maxRating }}" name="_maxRating"  tabindex="3" size="2" pattern="[0-9]+"
+                                       min="{{ minRating }}" max="{{ maxRating }}" required>
 
+                            </div>
 
+                            <div class="fl-right butblock">
+                                <a href="{{ path('testpage',{'id':test.id})}}"><button type="button" class="fl-left al-center red-button" id="exit-on-desct-res" tabindex="">Отмена</button></a>
+                                <button type="submit" class="fl-right al-center blue-button" id="save-desct-res" tabindex="">Сохранить</button>
+                            </div>
 
-                                <div class="clearfix description-result-box description-result-box-{{ loop.index }}">
-
-                                    <div class="fl-left width-410 content-des-res">
-
-
-                                        <label for="description-res-form-{{ loop.index }}" class="disp-block">Описание: </label>
-                                        <textarea id="description-res-form-{{ loop.index }}" name="_description"   tabindex="1" spellcheck="true" pattern="[а-яА-ЯёЁa-zA-Z-\t]+" required >{{ explanationEdit.description }}</textarea>
-
-                                        <label for="minRating-{{ loop.index }}" class="">Минимальное количество баллов: </label>
-                                        <input type="number" id="minRating-{{ loop.index }}" value="{{ explanationEdit.minRating }}"  name="_minRating"  tabindex="2" size="2" pattern="[0-9]+"
-                                               min="{{ minRating }}" max="{{ maxRating }}" required><br>
-
-                                        <label for="maxRating-{{ loop.index }}" class="">Максимальное количество баллов: </label>
-                                        <input type="number" id="maxRating-{{ loop.index }}" value="{{ explanationEdit.maxRating }}" name="_maxRating"  tabindex="3" size="2" pattern="[0-9]+"
-                                               min="{{ minRating }}" max="{{ maxRating }}" required>
-
-                                    </div>
-
-                                    <div class="fl-right butblock">
-                                        <a href="{{ path('testpage',{'id':test.id})}}"><button type="button" class="fl-left al-center red-button" id="exit-on-desct-res" tabindex="">Отмена</button></a>
-                                        <button type="submit" class="fl-right al-center blue-button" id="save-desct-res" tabindex="">Сохранить</button>
-                                    </div>
-
-
-                                </div>
-
-
-                            </form>
                         </div>
-                    {% else %}
-                    <div class="content-des-res">
-                        <h3>Пояснение {{ loop.index }}</h3>
-                        <p>{{ explanation.description }}</p>
-                        <span class="disp-block al-center">
-                            Минимальный рейтинг:  <b>{{ explanation.MinRating }}</b>
-                            Максимальный рейтинг:  <b>{{ explanation.MaxRating }}</b>
-                        </span>
 
-                        <a class="del-img"  href={{ path('delExplanation', {'id':test.id, 'idExplanation': explanation.id}) }}></a>
-                        <a class="edit-img" id="{{ explanation.id }}" onclick="setDesId({{explanation.id}})"></a>
+                    </form>
 
-                        {#href={{ path('editExplanation',{'id':test.id, 'idExplanation': explanation.id}) }}#}
-                    </div>
+                </div>
 
+            {% else %}
 
-                    {% endif %}
-                {% endfor %}
-            </div>
+                <div class="content-des-res">
+                    <h3>Пояснение {{ loop.index }}</h3>
+                    <p>{{ explanation.description }}</p>
+                    <span class="disp-block al-center">
+                        Минимальный рейтинг:  <b>{{ explanation.MinRating }}</b>
+                        Максимальный рейтинг:  <b>{{ explanation.MaxRating }}</b>
+                    </span>
 
+                    <a class="del-img"  href={{ path('delExplanation', {'id':test.id, 'idExplanation': explanation.id}) }}></a>
+                    <a class="edit-img" id="{{ explanation.id }}" onclick="setDesId({{explanation.id}})"></a>
+                </div>
+
+            {% endif %}
+            {% endfor %}
+        </div>
 
         {#----------/-------/--------/-------/--EDIT DESCRIPTION form-------/-----/--------------------/---------#}
 
         <script type="text/javascript">
-
 
             function setDesId(ids){
                 this.ids = ids;
                 var url = '{{ path("editExplanationForm", {'testId':test.id,'id':'EId'}) }}';
                 $(location).attr('href',url.replace("EId", ids));
 
-
             }
-
 
         </script>
 
-
-        {#----------------------------------Start DescriptionResultForm-------------------------------------------------#}
+        {#----------------------------------DescriptionResultForm-------------------------------------------------#}
         {% set NumberDes = test.explanation|length %}
         <form id="AddDescriptionResult" autocomplete="off" action="{{ path('addExplanation', {'id': test.id}) }}" method="post" name="AddDescriptionResult">
 
@@ -429,7 +405,7 @@
 
 
                      <label for="description-res-form-{{ NumberDes }}" class="disp-block">Описание: </label>
-                     <textarea id="description-res-form-{{ NumberDes }}" name="_description"   tabindex="1" spellcheck="true" pattern="[а-яА-ЯёЁa-zA-Z-\t]+" required ></textarea>
+                     <textarea id="description-res-form-{{ NumberDes }}" name="_description"   tabindex="1" spellcheck="true" required ></textarea>
 
                      <label for="minRating-{{ NumberDes }}" class="">Минимальное количество баллов: </label>
                      <input type="number" id="minRating-{{ NumberDes }}" name="_minRating"  tabindex="2" size="2" pattern="[0-9]+"
@@ -446,12 +422,9 @@
                      <button type="submit" class="fl-right al-center blue-button" id="save-desct-res" tabindex="">Сохранить</button>
                  </div>
 
-
             </div>
 
-
         </form>
-
 
         <button id="add-description" class="green-button" type="button" class="al-center" tabindex="">Добавить описание</button>
 

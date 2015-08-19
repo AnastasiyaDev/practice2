@@ -139,13 +139,15 @@ input[type="file"] > input[type="button"]::-moz-focus-inner{
     background: url("../images/button/buttonGreenActive.png") no-repeat;
     background-size: 100% 100%;
 }
-.del-img{
+.del-img,.edit-img,.be-admin-img{
     width: 15px;
     height: 15px;
-    background: url("../images/button/ui-icons_222222_256x240.png") no-repeat -177px -98px;
-    padding: 0 !important;
     display: block;
     position: absolute;
+    padding: 0 !important;
+}
+.del-img{
+    background: url("../images/button/ui-icons_222222_256x240.png") no-repeat -177px -98px;
     top: 10px;
     right: 5px;
 }
@@ -153,12 +155,7 @@ input[type="file"] > input[type="button"]::-moz-focus-inner{
     background: url("../images/button/ui-icons_2694e8_256x240.png") no-repeat -177px -98px !important;
 }
 .edit-img{
-    width: 15px;
-    height: 15px;
     background: url("../images/button/ui-icons_222222_256x240.png") no-repeat -65px -113px;
-    padding: 0 !important;
-    display: block;
-    position: absolute;
     top: 35px;
     right: 5px;
 }
@@ -166,11 +163,7 @@ input[type="file"] > input[type="button"]::-moz-focus-inner{
     background: url("../images/button/ui-icons_2694e8_256x240.png") no-repeat -65px -113px !important;
 }
 .be-admin-img{
-    width: 15px;
-    height: 15px;
     background: url("../images/button/ui-icons_222222_256x240.png") no-repeat -225px -113px;
-    display: block;
-    position: absolute;
 }
 .be-admin-img:hover, .be-admin-img:active{
     background: url("../images/button/ui-icons_2694e8_256x240.png") no-repeat -225px -113px !important;
@@ -178,6 +171,9 @@ input[type="file"] > input[type="button"]::-moz-focus-inner{
 
 .width-410{
     width: 410px;
+}
+.width-100{
+    width: 100px;
 }
 .height-35{
     height: 35px;
