@@ -56,7 +56,7 @@
                         <li class="sub"><a href={{ path('userByGroup',{'id':department.id}) }}><p>{{ department.name }}</p></a></li>
                     {% endfor %}
                     {% if is_granted('ROLE_SUPER_ADMIN') %}
-                        <li class="sub"><a href=><p>+ Добавить группу</p></a></li>
+                        <li class="sub"><a href={{ path('newGroupForm') }}><p>+ Добавить группу</p></a></li>
                     {% endif %}
                 </ul>
             </div>
