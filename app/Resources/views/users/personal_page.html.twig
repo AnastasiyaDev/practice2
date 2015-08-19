@@ -19,7 +19,7 @@
             {% if user.department.name != 'FakeDepartment' %}
             <div id="nGroup">{{ user.department.name }}</div>
             {% endif %}
-            {% if is_granted('ROLE_ADMIN') %}
+            {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <span>
                     <a href={{ path('delUser', {'id':user.id}) }}>
                         <div id="del-d" class="red-button" type="button" class="al-center" tabindex="">Удалить</div>

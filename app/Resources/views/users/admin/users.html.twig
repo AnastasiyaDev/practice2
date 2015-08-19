@@ -18,8 +18,9 @@
                 <th>Компания</th>
                 <th>Группа</th>
                 <th>Пройднено тестов</th>
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <th></th>
-
+                {% endif %}
                 {#-------------------не работает---------------------#}
                 <th class="width-100 help-box"></th>
                 {#---------------------------------------------------#}
@@ -34,12 +35,13 @@
                 <td>{{ user.department.company.name }}</td>
                 <td>{{ user.department.name }}</td>
                 <td>{{ user.tests|length }}</td>
+                {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <td class="position-rel">
                     <a class="del-img" id="" onclick="" title="Удалить пользователя"></a>
                     <a class="edit-img" id="" onclick="" title="Редактировать"></a>
                     <a class="be-admin-img" id="" onclick="" title="Сделать администратором"></a>
                 </td>
-
+                {% endif %}
                 {#-------------------не работает---------------------#}
                 <td class="position-rel help-box">
                     <div class="position-abs help-text-del">text on right1</div>

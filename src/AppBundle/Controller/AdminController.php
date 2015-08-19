@@ -19,10 +19,14 @@ class AdminController extends Controller
      */
     public function indexAction()
     {
-        $q = $this->getDoctrine()->getManager()->createQuery(
-            "SELECT d FROM AppBundle:Department d WHERE d.name<>'FakeDepartment'"
-        );
-        $departments = $q->getResult();
+        if ($this->getUser() === $this->getDoctrine()->getRepository('AppBundle:User')->findOneByRoles('ROLE_SUPER_ADMIN')) {
+            $q = $this->getDoctrine()->getManager()->createQuery(
+                "SELECT d FROM AppBundle:Department d WHERE d.name<>'FakeDepartment'"
+            );
+            $departments = $q->getResult();
+        } else
+        $departments = $this->getDoctrine()->getRepository('AppBundle:Department')->findByCompany(
+            $this->getUser()->getDepartment()->getCompany()->getId());
 
         return $this->render(':users/admin:admin_page.html.twig', array('user' => $this->getUser(),
             'tests' => $this->getDoctrine()->getRepository('AppBundle:Test')->findAll(),
@@ -38,8 +42,12 @@ class AdminController extends Controller
     {
 
         if ($this->getUser() === $this->getDoctrine()->getRepository('AppBundle:User')->findOneByRoles('ROLE_SUPER_ADMIN')) {
+            $q = $this->getDoctrine()->getManager()->createQuery(
+                "SELECT u FROM AppBundle:User u WHERE u.roles<>'ROLE_SUPER_ADMIN'"
+            );
+            $users = $q->getResult();
             return $this->render('users/admin/users.html.twig', array('user' => $this->getUser(),
-                'users' => $this->getDoctrine()->getRepository('AppBundle:User')->findByRoles('ROLE_USER')));
+                'users' => $users));
         } else
         return $this->render('users/admin/users.html.twig', array('user' => $this->getUser(),
             'users' => $this->getDoctrine()->getRepository('AppBundle:User')->findBy(array('roles' => 'ROLE_USER',

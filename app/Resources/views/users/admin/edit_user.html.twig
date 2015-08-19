@@ -21,28 +21,28 @@
 
             <div class="al-center mar-top-15">
                 <div><label for="login-user-field" class="">Логин: </label></div>
-                <input type="text" id="login-user-field" name="_username" value="{{ user.username }}" pattern="[a-zA-Z0-9_-\t]+" tabindex="1" readonly required>
+                <input type="text" id="login-user-field" name="_username" value="{{ user.username }}" pattern="[a-zA-Z0-9_-\t]+" tabindex="1" readonly >
             </div>
 
             <div class="al-center marg-auto mar-top-5">
                 <div><label for="password-user-field-1" class="">Новый пароль: </label></div>
-                <input type="password" id="password-user-field-1" name="_password" pattern="([a-zA-Z0-9_-]){6,37}" tabindex="2" required>
+                <input type="password" id="password-user-field-1" name="_password" pattern="([a-zA-Z0-9_-]){6,37}" tabindex="2" >
             </div>
 
             <div class="al-center position-rel mar-top-5">
                 <div><label for="password-user-field-2" class="">Повторите новый пароль: </label></div>
-                <input type="password" id="password-user-field-2" name="_password-2" onchange="checkPass()" pattern="([a-zA-Z0-9_-]){6,37}" tabindex="3" required>
+                <input type="password" id="password-user-field-2" name="_password-2" onchange="checkPass()" pattern="([a-zA-Z0-9_-]){6,37}" tabindex="3" >
                 <span id="info" class="position-abs"></span>
             </div>
 
             <div class="al-center mar-top-5">
                 <div><label for="name-user-field" class="">Имя: </label></div>
-                <input type="text" id="name-user-field" name="_firstName" value="{{ user.firstName }}" pattern="[а-яА-ЯёЁa-zA-Z-\t]+" tabindex="4" required>
+                <input type="text" id="name-user-field" name="_firstName" value="{{ user.firstName }}" pattern="[а-яА-ЯёЁa-zA-Z-\t]+" tabindex="4" >
             </div>
 
             <div class="al-center  mar-top-5">
                 <div><label for="second-name-user-field" class="">Фамилия: </label></div>
-                <input type="text" id="second-name-user-field" name="_secondName" value="{{ user.secondName }}" pattern="[а-яА-ЯёЁa-zA-Z-\t]+" tabindex="5" required>
+                <input type="text" id="second-name-user-field" name="_secondName" value="{{ user.secondName }}" pattern="[а-яА-ЯёЁa-zA-Z-\t]+" tabindex="5" >
             </div>
 
             {% if is_granted('ROLE_ADMIN') %}
@@ -63,7 +63,7 @@
 
             <div class="mar-top-30 clearfix">
                 <a href={{ path('usersPageAdmin',{'id':user.id}) }}><div class="fl-left red-button" id="back-">Отмена</div></a>
-                <button type="submit" class="fl-right blue-button" id="reg-of-u" tabindex="6">Создать</button>
+                <button type="submit" class="fl-right blue-button" id="reg-of-u" tabindex="6">Сохранить</button>
             </div>
         </form>
 
