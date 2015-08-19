@@ -31,6 +31,11 @@ h3{
 .quest-number p{
 	margin-top: 15.5px;
 }
+#tick{
+	background: url("../images/button/ui-icons_222222_256x240.png") no-repeat -65px -145px;
+	top: 16px;
+	left: 18px;
+}
 .quest-number, .question, .description-result-box, .content-des-res{
 	background-color: #fff;
 }
