@@ -67,4 +67,13 @@ button, a #registr, a #input{
 a #registr, a #input{
     height: 17px;
 }
-
+#info{
+    top: 16px;
+    bottom: 2px;
+    right:50px;
+    color: #DD3C57;
+    border-radius: 4px;
+    padding: 2px;
+    background-color: #F9F2F4;
+    height: auto;
+}

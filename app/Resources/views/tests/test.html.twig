@@ -110,8 +110,8 @@
                            {% endfor %}
 
                     {% if is_granted('ROLE_ADMIN') %} {#---------------УДАЛЕНИЕ/РЕДАКЦИЯ ВОПРОСА------------------#}
-                        <a class="del-img" href={{ path('delQuestion',{'testId':test.id,'id':question.id}) }}></a>
-                        <a class="edit-img" id="{{ question.id }}" onclick="setId({{question.id}})"></a>
+                        <a class="del-img" title="Удалить вопрос" href={{ path('delQuestion',{'testId':test.id,'id':question.id}) }}></a>
+                        <a class="edit-img" title="Редактировать вопрос" id="{{ question.id }}" onclick="setId({{question.id}})"></a>
                     {% endif %}
                         </div>
 
@@ -386,8 +386,8 @@
                         Максимальный рейтинг:  <b>{{ explanation.MaxRating }}</b>
                     </span>
 
-                    <a class="del-img"  href={{ path('delExplanation', {'testId':test.id, 'id': explanation.id}) }}></a>
-                    <a class="edit-img" id="{{ explanation.id }}" onclick="setDesId({{explanation.id}})"></a>
+                    <a class="del-img" title="Удалить пояснение" href={{ path('delExplanation', {'testId':test.id, 'id': explanation.id}) }}></a>
+                    <a class="edit-img" title="Редактировать пояснение" id="{{ explanation.id }}" onclick="setDesId({{explanation.id}})"></a>
                 </div>
 
             {% endif %}

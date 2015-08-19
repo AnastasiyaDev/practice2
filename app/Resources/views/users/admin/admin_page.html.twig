@@ -30,7 +30,7 @@
 
 
                             {% if is_granted('ROLE_SUPER_ADMIN') %}
-                                <a class="del-img" id="{{ test.id }}" onclick="setId({{test.id}})"></a>
+                                <a class="del-img" id="{{ test.id }}" onclick="setId({{test.id}})" title="Удалить тест"></a>
                             {% endif %}
 
                         </li>
@@ -46,7 +46,7 @@
                 <ul class="main-menu">
                     <li class="sub"><a href={{ path('usersList') }}><p>Список всех пользователей</p></a></li>
                     {% if is_granted('ROLE_SUPER_ADMIN') %}
-                    <li class="sub"><a href={{ path('newUser') }}><p>+ Добавить пользователя</p></a></li>
+                    <li class="sub"><a href={{ path('newUser') }}>+ Добавить пользователя</a></li>
                     {% endif %}
                 </ul>
             </div>
@@ -56,7 +56,7 @@
                         <li class="sub"><a href={{ path('userByGroup',{'id':department.id}) }}><p>{{ department.name }}</p></a></li>
                     {% endfor %}
                     {% if is_granted('ROLE_SUPER_ADMIN') %}
-                        <li class="sub"><a href={{ path('newGroupForm') }}><p>+ Добавить группу</p></a></li>
+                        <li class="sub"><a href={{ path('newGroupForm') }}>+ Добавить группу</a></li>
                     {% endif %}
                 </ul>
             </div>

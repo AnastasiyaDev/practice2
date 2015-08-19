@@ -34,26 +34,13 @@
     border-bottom: none;
 }
 .main-menu>li:last-child{
-    border-bottom: 1px solid #777 !important;
-}
-li ul {
-    display: none;
+    border-bottom: 1px solid #aed0ea !important;
+    border-radius:0em 0em 0.5em 0.5em !important;
 }
 #prompt{
     color: #777;
     margin-left: 180px;
     border: none;
-}
-.sub:first-child{
-    border-radius:0.5em 0.5em 0em 0em !important;
-}
-.main-menu .sub:first-child a:hover{
-    border-radius:0.5em 0.5em 0em 0em !important;
-    background:#00A0FB;
-    color: #FFF;
-}
-.sub:last-child{
-    border-radius:0em 0em 0.5em 0.5em !important;
 }
 .main-menu .sub:last-child a:hover{
     border-radius:0em 0em 0.5em 0.5em !important;
@@ -67,13 +54,9 @@ li ul {
 }
 .sub{
     border-radius:0 !important;
-    list-style:none;
     width: inherit;
     padding:0;
     margin:0;
-}
-.ui-tabs .ui-tabs-panel, .ui-tabs{
-    padding: 0 !important;
 }
 #tabs{
     background-color: #E6E6E6 !important;
@@ -83,10 +66,8 @@ li ul {
     border-radius:0em 0em 0em 0em !important;
     border-top: none !important;
 }
-#tabs-1 .main-menu .sub:first-child a:hover, #tabs-2 .main-menu .sub:first-child a:hover{
-    border-radius:0em 0em 0em 0em !important;
-    background:#00A0FB;
-    color: #FFF;
+.ui-tabs .ui-tabs-panel, .ui-tabs{
+    padding: 0 !important;
 }
 .ui-corner-all, .ui-corner-bottom, .ui-corner-right, .ui-corner-br {
     border-bottom-right-radius: 0px !important;
@@ -94,6 +75,8 @@ li ul {
 .ui-corner-all, .ui-corner-bottom, .ui-corner-left, .ui-corner-bl {
     border-bottom-left-radius: 0px !important;
 }
+
+
 td .del-img{
     top: 0px !important;
     right: 0px !important;

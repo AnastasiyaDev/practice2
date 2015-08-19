@@ -32,6 +32,7 @@
                  <div class="al-center wid_202 marg-auto">
                      <div><label for="password-field-2" class="lab">Повторите пароль: </label></div>
                      <input type="password" id="password-field-2" name="_password-2" size="37" pattern="([a-zA-Z0-9_-]){6,37}" tabindex="3" required>
+                     <span id="info" class="position-abs"></span>
                  </div>
 
                  <div class="al-center wid_202 marg-auto">
@@ -52,10 +53,32 @@
         </div>
     </div>
 
-    {#<script type="text/javascript">#}
-        {#var today = new Date();#}
-        {#// alert( today.toLocaleString());#}
-    {#</script>#}
+    <script>
+
+        $('#info').hide();
+
+        function checkPass ()
+        {
+            var pass1 = $('#password-user-field-1').val();
+            var pass2 = $('#password-user-field-2').val();
+
+            if( pass1 != pass2 ){
+                uotInfo("Пароли не совпадают");
+                $('button[type=submit]').attr("disabled","disabled");
+
+            }
+            else{
+                uotInfo("Пароли совпадают");
+                $('button[type=submit]').removeAttr("disabled");
+            }
+
+            function uotInfo(text){
+                $('#info').text(text);
+                $('#info').show();
+            }
+        }
+
+    </script>
 
 
     </body>
