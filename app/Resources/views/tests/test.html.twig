@@ -48,31 +48,28 @@
 
                        <div class="question fl-right mar-pad-0 clearfix">
 
-                           <div {% if question.image is not empty %}class="fl-left width-410" {% else %} class="fl-left width-auto" {% endif %}id="add-content">
+                           <div class="fl-left width-410 add-content">
 
                                <label for="text-q-{{ loop.index  }}">Текст вопроса: </label>
 
                                <textarea id="text-q-{{ loop.index  }}" name="_description" tabindex="1" spellcheck="true" required>{{ questionEdit.content }}</textarea>
                                {{ form_widget(uploadForm) }}
+
+
+                               {% for answer in questionEdit.answers %}
+                                   <div class="fl-left add-a-box" id="add-a-box-{{ loop.index-1 }}">
+
+                                       <label for="text-a-'{{ loop.index-1 }}'">Ответ: </label>
+                                       <input id="text-a-{{ loop.index-1 }}" type="text" value="{{ answer.content }}" name="_answer[{{ loop.index-1 }}][content]" size="8" tabindex="2" spellcheck="true" required pattern="[а-яА-ЯёЁa-zA-Z0-9-/t]+">
+
+                                       <span class="spn0 spn0-'{{ loop.index-1 }}'"><label for="text-p-'{{ loop.index-1 }}'">Баллы за ответ: </label><input id="text-p-{{ loop.index-1 }}" type="number" value="{{ answer.rating }}" name="_answer[{{ loop.index-1 }}][rating]" size="1" tabindex="3" required min=0>
+                                       </span>
+                                       {#удалить вариант ответа#}
+                                       <div id="cancel-a-'{{ loop.index-1 }}'" onclick="delAns({{ loop.index-1 }},{{ answer.id }})" class="vert-align-m cnl cnl-'{{ loop.index-1 }}'"></div>
+                                   </div>
+
+                               {% endfor %}
                            </div>
-                           {% if question.image is not empty %}{#-----------------------IMAGE------------------------#}
-                               <a href="{{ question.image.webPath }}" class="fancy-img fl-right"><img src="{{ question.image.webPath }}" alt="Изображение"></a>
-                           {% endif %}
-
-                           {% for answer in questionEdit.answers %}
-                           <div class="fl-left add-a-box" id="add-a-box-{{ loop.index-1 }}">
-
-                               <label for="text-a-'{{ loop.index-1 }}'">Ответ: </label>
-                               <input id="text-a-{{ loop.index-1 }}" type="text" value="{{ answer.content }}" name="_answer[{{ loop.index-1 }}][content]" size="8" tabindex="2" spellcheck="true" required pattern="[а-яА-ЯёЁa-zA-Z0-9-/t]+">
-
-                               <span class="spn0 spn0-'{{ loop.index-1 }}'"><label for="text-p-'{{ loop.index-1 }}'">Баллы за ответ: </label>
-                                  <input id="text-p-{{ loop.index-1 }}" type="number" value="{{ answer.rating }}" name="_answer[{{ loop.index-1 }}][rating]" size="1" tabindex="3" required min=0>
-                               </span>
-                               {#удалить вариант ответа#}
-                               <div id="cancel-a-'{{ loop.index-1 }}'" onclick="delAns({{ loop.index-1 }},{{ answer.id }})" class="vert-align-m cnl cnl-'{{ loop.index-1 }}'"></div>
-                           </div>
-
-                           {% endfor %}
 
 
                            <div class="fl-right butblock">
@@ -80,6 +77,10 @@
                                <button id="add-ans-edit" class="green-button" type="button" tabindex="">Добавить ответ</button>
                                <button id="save" class="blue-button" type="submit" tabindex="">Сохранить</button>
                            </div>
+
+                           {% if question.image is not empty %}{#-----------------------IMAGE------------------------#}
+                               <a href="{{ question.image.webPath }}" class="fancy-img fl-right"><img src="{{ question.image.webPath }}" alt="Изображение"></a>
+                           {% endif %}
 
                        </div>
 
@@ -93,7 +94,7 @@
                 <div class="quest-number quest-number-{{ question.id }} fl-left al-center vert-align-m"><p class="vert-align-m mar-pad-0 font-s-14">{{ loop.index }}</p></div>
 
                 <ul class="question question-{{ question.id }} fl-right mar-pad-0 position-rel clearfix">
-                    <div {% if question.image is not empty %}class="fl-left width-410" {% else %} class="" {% endif %}>
+                    <div {% if question.image is not empty %}class="fl-left width-410 add-content" {% else %} class="add-content" {% endif %}>
                         <h4>{{ question.content }}</h4>
                         <p class="mar-pad-0">выберите один из вариантов:{% if question.image is not empty %}<br>(нажмите на картинке для ее увеличения)</p>{% endif %}
                         <div class="al-center">
@@ -182,7 +183,7 @@
 
                 <div class="question fl-right mar-pad-0 clearfix">
 
-                    <div class="fl-left width-410" id="add-content">
+                    <div class="fl-left width-410 add-content">
 
                         <label for="text-q-{{ NumberQ  }}">Текст вопроса: </label>
 
@@ -271,7 +272,7 @@
                 {% endif %}
 
                 $('#add-ans').click(function (){
-                    $('#add-content').append(' <div class="fl-left add-a-box" id="add-a-box-'+numAns+'">'
+                    $('.add-content').append(' <div class="fl-left add-a-box" id="add-a-box-'+numAns+'">'
                         +'<label for="text-a-'+numAns+'">Ответ: <//label>'
                         +'<input id="text-a-'+numAns+'" type="text" name="_answer['+numAns+'][content]" size="8" tabindex="2" spellcheck="true" required pattern="[а-яА-ЯёЁa-zA-Z0-9-/t]+">'
                         +'<span class="spn0 spn0-'+numAns+'">'+' <label for="text-p-'+numAns+'">Баллы за ответ: <//label>'
