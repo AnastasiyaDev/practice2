@@ -50,7 +50,7 @@
                 <div><label for="department-user-select" class="">Группа :</label></div>
                 <select id="department-user-select" name="_department">
                     {% for department in departments %}
-                        <option value={{ department.id }}>{{ department.name }}</option>
+                        <option value={{ department.id }}>{{ department.name|trans }}</option>
                     {% endfor %}
                 </select>
             </div>
@@ -60,6 +60,9 @@
                 <a href={{ path('_welcome') }}><div class="fl-left red-button" id="back-">Отмена</div></a>
                 <button type="submit" class="fl-right blue-button" id="reg-of-u" tabindex="6">Создать</button>
             </div>
+            {#{% for username in usernames %}#}
+                {#<p>{{ username }}</p>#}
+            {#{% endfor %}#}
         </form>
 
 

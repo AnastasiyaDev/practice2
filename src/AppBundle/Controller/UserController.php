@@ -118,7 +118,9 @@ class UserController extends Controller
      */
     public function registrationFormAction()
     {
-        return $this->render(':users:registration.html.twig');
+        return $this->render(':users:registration.html.twig',array(
+            'usernames' => $this->get('users')->getAllUsername($this->getDoctrine()->getRepository('AppBundle:User')->findAll())
+        ));
     }
 
     /**
@@ -140,6 +142,7 @@ class UserController extends Controller
         $user->setFirstName($request->get('_firstName'));
         $user->setSecondName($request->get('_secondName'));
 
+//        if(!$request->get('_department') == false) { for PHP 5.4
         if(!empty($request->get('_department'))) {
             $user->setDepartment($this->getDoctrine()->getRepository('AppBundle:Department')->find($request->get('_department')));
         }else

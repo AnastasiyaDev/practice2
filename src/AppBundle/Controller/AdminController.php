@@ -137,6 +137,7 @@ class AdminController extends Controller
         $user->setSecondName($request->get('_secondName'));
 
         //pas
+//        if(!$request->get('_password') == false) { for PHP 5.4
         if(!empty($request->get('_password'))) {
             $plainPassword = $request->get('_password');
             $encoder = $this->container->get('security.password_encoder');
@@ -180,7 +181,8 @@ class AdminController extends Controller
     public function newUserAction()
     {
         return $this->render('users/admin/registration_of_users.html.twig', array(
-            'departments' => $this->getDoctrine()->getRepository('AppBundle:Department')->findAll()
+            'departments' => $this->getDoctrine()->getRepository('AppBundle:Department')->findAll(),
+            'usernames' => $this->get('users')->getAllUsername($this->getDoctrine()->getRepository('AppBundle:User')->findAll())
         ));
     }
 

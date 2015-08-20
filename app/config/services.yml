@@ -10,3 +10,5 @@ services:
 
   calculate:
     class: AppBundle\Utils\AnsCalculate
+  users:
+    class: AppBundle\Utils\UserService
