@@ -47,11 +47,12 @@ class AdminController extends Controller
             );
             $users = $q->getResult();
             return $this->render('users/admin/users.html.twig', array('user' => $this->getUser(),
-                'users' => $users));
+                'users' => $users,'back' => $this->generateUrl('adminPage')));
         } else
         return $this->render('users/admin/users.html.twig', array('user' => $this->getUser(),
             'users' => $this->getDoctrine()->getRepository('AppBundle:User')->findBy(array('roles' => 'ROLE_USER',
-                                                                                    'department' => $this->getUser()->getDepartment()->getId())))
+                                                                                    'department' => $this->getUser()->getDepartment()->getId())),
+                'back' => $this->generateUrl('adminPage'))
         );
 
     }
@@ -83,7 +84,8 @@ class AdminController extends Controller
     {
 
         return $this->render('users/admin/users.html.twig', array('user' => $this->getUser(),
-            'users' => $this->getDoctrine()->getRepository('AppBundle:Department')->find($id)->getUsers()
+            'users' => $this->getDoctrine()->getRepository('AppBundle:Department')->find($id)->getUsers(),
+            'back' => $this->generateUrl('usersList')
         ));
 
     }

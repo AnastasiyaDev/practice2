@@ -7,7 +7,7 @@
 {% endblock %}
 {% block body%}
     <body>
-    {% include 'header.html.twig' with {'back':path('adminPage')} %}
+    {% include 'header.html.twig' with {'back':back} %}
 
     <div class="content marg-auto clearfix ">
 
@@ -28,14 +28,20 @@
             <tr>
                 <td class="link-on-user" onclick=" window.location.href='{{ path('usersPageAdmin',{ 'id':user.id}) }}'; return false">{{ user.username }}</td>
                 <td class="link-on-user" onclick=" window.location.href='{{ path('usersPageAdmin',{ 'id':user.id}) }}'; return false">{{ user.firstName }} {{ user.secondName }}</td>
-                <td>{{ user.department.company.name }}</td>
-                <td>{{ user.department.name }}</td>
+                <td>{{ user.department.company.name|trans }}</td>
+                <td class="link-on-user" onclick=" window.location.href='{{ path('userByGroup',{ 'id':user.department.id}) }}'; return false">{{ user.department.name|trans }}</td>
                 <td>{{ user.tests|length }}</td>
                 {% if is_granted('ROLE_SUPER_ADMIN') %}
                 <td class="position-rel">
                     <a class="del-img" onclick="delUser({{user.id}})" title="Удалить пользователя"></a>
                     <a class="edit-img" href="{{ path('editUserForm', {'id':user.id}) }}" title="Редактировать"></a>
-                    <a class="be-admin-img" href="{{ path('makeAdmin', {'id':user.id}) }}" title="Сделать администратором"></a>
+                    {% for role in user.roles %}
+                        {% if role == 'ROLE_ADMIN' %}
+{#---картинкой сделать-->#}                          <a class="be-user-img" href="{{ path('makeUser', {'id':user.id}) }}" title="Сделать пользователем">А</a>
+                        {% else %}
+                            <a class="be-admin-img" href="{{ path('makeAdmin', {'id':user.id}) }}" title="Сделать администратором"></a>
+                        {% endif %}
+                    {% endfor %}
                 </td>
                 {% endif %}
             </tr>
