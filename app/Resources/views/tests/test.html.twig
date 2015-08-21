@@ -22,9 +22,11 @@
                     <button id="edit-des" class="blue-button " type="button" tabindex="">Редактировать</button>
                     <button id="save-d" class="blue-button fl-right " type="button" tabindex="">Сохранить</button>
                 </span>
-                {% for company in test.companies %}
-                <p>{{ company.name }}</p>
-                {% endfor %}
+                <p>
+                    {% for company in test.companies %}
+                        {{ company.name|trans }};
+                    {% endfor %}
+                </p>
             {% endif %}
         </div>
 

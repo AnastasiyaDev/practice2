@@ -47,11 +47,12 @@ class AdminController extends Controller
             );
             $users = $q->getResult();
             return $this->render('users/admin/users.html.twig', array('user' => $this->getUser(),
-                'users' => $users));
+                'users' => $users,'back' => $this->generateUrl('adminPage')));
         } else
         return $this->render('users/admin/users.html.twig', array('user' => $this->getUser(),
             'users' => $this->getDoctrine()->getRepository('AppBundle:User')->findBy(array('roles' => 'ROLE_USER',
-                                                                                    'department' => $this->getUser()->getDepartment()->getId())))
+                                                                                    'department' => $this->getUser()->getDepartment()->getId())),
+                'back' => $this->generateUrl('adminPage'))
         );
 
     }
@@ -83,7 +84,8 @@ class AdminController extends Controller
     {
 
         return $this->render('users/admin/users.html.twig', array('user' => $this->getUser(),
-            'users' => $this->getDoctrine()->getRepository('AppBundle:Department')->find($id)->getUsers()
+            'users' => $this->getDoctrine()->getRepository('AppBundle:Department')->find($id)->getUsers(),
+            'back' => $this->generateUrl('usersList')
         ));
 
     }
@@ -135,6 +137,7 @@ class AdminController extends Controller
         $user->setSecondName($request->get('_secondName'));
 
         //pas
+//        if(!$request->get('_password') == false) { for PHP 5.4
         if(!empty($request->get('_password'))) {
             $plainPassword = $request->get('_password');
             $encoder = $this->container->get('security.password_encoder');
@@ -178,7 +181,8 @@ class AdminController extends Controller
     public function newUserAction()
     {
         return $this->render('users/admin/registration_of_users.html.twig', array(
-            'departments' => $this->getDoctrine()->getRepository('AppBundle:Department')->findAll()
+            'departments' => $this->getDoctrine()->getRepository('AppBundle:Department')->findAll(),
+            'usernames' => $this->get('users')->getAllUsername($this->getDoctrine()->getRepository('AppBundle:User')->findAll())
         ));
     }
 
