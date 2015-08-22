@@ -30,7 +30,6 @@
             {% endif %}
         </div>
 
-
         <p class="mar-l-35">Вопросы</p>
 
         {% if not is_granted('ROLE_ADMIN') %}
@@ -308,7 +307,7 @@
         {#--------------------------------Start form_description_test(MODAL WINDOW)-----------------------------------------#}
 
 
-        <form id="descriptionTestForm" action="{{ path('editTest', {'id': test.id}) }}" method="post" name="descriptionTestForm">
+        <form id="descriptionTestForm" action="{{ path('testpage', {'id': test.id}) }}" method="post" name="descriptionTestForm" >
 
             <div class="modalDialogDes width-410">
 
@@ -321,6 +320,12 @@
                      <label for="description-field-in-des-form" class="lab">Описание: </label>
                      <textarea id="description-field-in-des-form" name="_description" tabindex="2" pattern="[а-яА-ЯёЁa-zA-Z-\t]+" required>{{ test.description }}</textarea>
                  </div>
+
+                <div class="al-center">
+                    <div class="al-center mar-top-15">
+                        {{ form_widget(testForm) }}
+                    </div>
+                </div>
 
 
                  <div class="height-35">

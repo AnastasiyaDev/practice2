@@ -37,7 +37,7 @@
                 <div class="al-center mar-top-15">
                     <select name="_company">
                         {% for company in companies %}
-                            <option value={{ company.id }}>{{ company.name }}</option>
+                            <option value={{ company.id }}>{{ company.name|trans }}</option>
                         {% endfor %}
                     </select>
                 </div>

@@ -270,6 +270,40 @@ class AdminController extends Controller
     }
 
     /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @Route("/users/{id}/makeAdminT", name="makeAdminTable")
+     */
+    public function makeAdminTableAction($id)
+    {
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
+
+        $user->setRoles('ROLE_ADMIN');
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->flush();
+
+        return $this->redirectToRoute('usersList');
+    }
+
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @Route("/users/{id}/makeUserT", name="makeUserTable")
+     */
+    public function makeUserByTableAction($id)
+    {
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
+
+        $user->setRoles('ROLE_USER');
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->flush();
+
+        return $this->redirectToRoute('usersList');
+    }
+
+    /**
      * @Security("has_role('ROLE_ADMIN')")
      * @Route("/id{id}/test/id{testId}/cancel", name="cancelTest")
      */

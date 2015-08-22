@@ -68,10 +68,35 @@ class TestController extends Controller
         }
 
         //for admin edit
+        $testForm = $this->createFormBuilder($test)
+            ->add('companies','entity',array('class' => 'AppBundle\Entity\Company',
+                'choice_label' => 'name', 'multiple' => 'true', 'required' => false,
+                'label' => ' ', 'expanded' => 'true'
+            ))->getForm();
+
         $image = new Image();
         $form = $this->createFormBuilder($image)
             ->add('file','file',array('label' => 'Изображение:','required' => false))
             ->getForm();
+
+
+        $testForm->handleRequest($request);
+
+        if ($testForm->isValid()) {
+            $test->setName($request->get('_name'));
+            $test->setDescription($request->get('_description'));
+
+            $em = $this->getDoctrine()->getManager();
+
+            $em->persist($test);
+            $em->flush();
+
+            return $this->render('tests/test.html.twig', array('test' => $test, 'uploadForm' => $form->createView(),
+                'minRating' => $this->get('calculate')->calculateMinRating($test),
+                'maxRating' => $this->get('calculate')->calculateMaxRating($test),
+                'testForm' => $testForm->createView(),
+            ));
+        }
 
         $form->handleRequest($request);
 
@@ -106,7 +131,10 @@ class TestController extends Controller
                 $minRating = $this->get('calculate')->calculateMinRating($test);
                 $maxRating = $this->get('calculate')->calculateMaxRating($test);
                 return $this->render('tests/test.html.twig', array('test' => $test, 'uploadForm' => $form->createView(),
-                    'maxRating' => $maxRating,'minRating' => $minRating));
+                    'minRating' => $this->get('calculate')->calculateMinRating($test),
+                    'maxRating' => $this->get('calculate')->calculateMaxRating($test),
+                    'testForm' => $testForm->createView(),
+                ));
             }
 
             $em->persist($test);
@@ -114,18 +142,21 @@ class TestController extends Controller
             $minRating = $this->get('calculate')->calculateMinRating($test);
             $maxRating = $this->get('calculate')->calculateMaxRating($test);
             return $this->render('tests/test.html.twig', array('test' => $test, 'uploadForm' => $form->createView(),
-                'maxRating' => $maxRating,'minRating' => $minRating));
+                'minRating' => $this->get('calculate')->calculateMinRating($test),
+                'maxRating' => $this->get('calculate')->calculateMaxRating($test),
+                'testForm' => $testForm->createView(),
+            ));
         }
-
-        $minRating = $this->get('calculate')->calculateMinRating($test);
-        $maxRating = $this->get('calculate')->calculateMaxRating($test);
 
         if(!$test) {
             throw $this->createNotFoundException('No found test for id'.$id);
         }
 
         return $this->render('tests/test.html.twig', array('test' => $test, 'uploadForm' => $form->createView(),
-            'maxRating' => $maxRating,'minRating' => $minRating));
+            'minRating' => $this->get('calculate')->calculateMinRating($test),
+            'maxRating' => $this->get('calculate')->calculateMaxRating($test),
+            'testForm' => $testForm->createView(),
+        ));
     }
 
     /**
@@ -174,7 +205,7 @@ class TestController extends Controller
 
         $image = new Image();
         $form = $this->createFormBuilder($image)
-            ->add('file','file',array('label' => 'Изображение:'))
+            ->add('file','file',array('label' => 'Изображение:','required' => false))
             ->getForm();
 
         $form->handleRequest($request);
@@ -208,7 +239,6 @@ class TestController extends Controller
 
         return $this->render(':tests:new_test.html.twig',array(
             'companies' => $this->getDoctrine()->getRepository('AppBundle:Company')->findAll(),
-            'uploadForm' => $form->createView()
         ));
     }
 

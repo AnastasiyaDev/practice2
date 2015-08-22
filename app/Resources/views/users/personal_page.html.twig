@@ -93,7 +93,7 @@
                                         {% endfor %}
                                     </span>
                                 </a>
-                                {% if is_granted('ROLE_SUPER_ADMIN') %}
+                                {% if is_granted('ROLE_ADMIN') %}
                                     <a class="del-img" id="{{ test.id }}" onclick="setId({{test.id}})" title="Убрать из пройденных"></a>
                                 {% endif %}
                             </li>
