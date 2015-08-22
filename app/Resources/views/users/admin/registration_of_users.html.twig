@@ -21,7 +21,7 @@
 
             <div class="al-center mar-top-15">
                 <div><label for="login-user-field" class="">Логин: </label></div>
-                <input type="text" id="login-user-field" name="_username" pattern="[\w-.]+" tabindex="1" required>
+                <input type="text" id="login-user-field" name="_username" onchange="checkLogin()" pattern="[\w-.]+" tabindex="1" required>
             </div>
 
             <div class="al-center marg-auto mar-top-5">
@@ -60,10 +60,21 @@
                 <a href={{ path('_welcome') }}><div class="fl-left red-button" id="back-">Отмена</div></a>
                 <button type="submit" class="fl-right blue-button" id="reg-of-u" tabindex="6">Создать</button>
             </div>
+
             {#{% for username in usernames %}#}
                 {#<p>{{ username }}</p>#}
             {#{% endfor %}#}
         </form>
+
+        <script>
+
+            function  checkLogin(){
+
+            }
+
+
+        </script>
+
 
 
         <script>

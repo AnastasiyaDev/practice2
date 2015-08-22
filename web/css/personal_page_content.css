@@ -80,7 +80,6 @@
     border-bottom-left-radius: 0px !important;
 }
 
-
 td .del-img{
     top: 0px !important;
     right: 0px !important;
@@ -93,26 +92,9 @@ td .be-admin-img{
     top: 30px !important;
     right: 0px !important;
 }
-.help-box{
-    display: none;
-}
-a.be-admin-img:hover .help-box.help-text-be-admin{
-    display: block;
-}
-.help-text-box{
-    width: auto;
-}
-.help-text-del{
-    top: 0px;
-    left: 0px;
-}
-.help-text-edit{
-    top: 15px;
-    left: 0px;
-}
-.help-text-be-admin{
-    top: 30px;
-    left: 0px;
+td .be-user-img{
+    top: 30px !important;
+    right: 0px !important;
 }
 .link-on-user{
     cursor: pointer;

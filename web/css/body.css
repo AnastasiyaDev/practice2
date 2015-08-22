@@ -139,7 +139,7 @@ input[type="file"] > input[type="button"]::-moz-focus-inner{
     background: url("../images/button/buttonGreenActive.png") no-repeat;
     background-size: 100% 100%;
 }
-.del-img,.edit-img,.be-admin-img, .tick{
+.del-img,.edit-img,.be-admin-img, .be-user-img, .tick{
     width: 15px;
     height: 15px;
     display: block;
@@ -168,7 +168,12 @@ input[type="file"] > input[type="button"]::-moz-focus-inner{
 .be-admin-img:hover, .be-admin-img:active{
     background: url("../images/button/ui-icons_2694e8_256x240.png") no-repeat -225px -113px !important;
 }
-
+.be-user-img:hover, .be-user-img:active{
+    background: url("../images/button/ui-icons_222222_256x240.png") no-repeat -225px -113px !important;
+}
+.be-user-img{
+    background: url("../images/button/ui-icons_2694e8_256x240.png") no-repeat -225px -113px !important;
+}
 .width-410{
     width: 410px;
 }

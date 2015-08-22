@@ -37,7 +37,7 @@
                     <a class="edit-img" href="{{ path('editUserForm', {'id':user.id}) }}" title="Редактировать"></a>
                     {% for role in user.roles %}
                         {% if role == 'ROLE_ADMIN' %}
-{#---картинкой сделать-->#}                          <a class="be-user-img" href="{{ path('makeUser', {'id':user.id}) }}" title="Сделать пользователем">А</a>
+                            <a class="be-user-img" href="{{ path('makeUser', {'id':user.id}) }}" title="Сделать пользователем"></a>
                         {% else %}
                             <a class="be-admin-img" href="{{ path('makeAdmin', {'id':user.id}) }}" title="Сделать администратором"></a>
                         {% endif %}
@@ -49,6 +49,19 @@
 
 
         </table>
+
+        <script>
+
+            if( $('.be-admin-img').onclick() ){
+                $('.be-admin-img').css({' background': 'url("../images/button/ui-icons_2694e8_256x240.png") no-repeat -225px -113px !important'})
+                $('.be-admin-img').hide();
+            }
+            else if(  $('.be-user-img').onclick() ){
+                $('.be-user-img').css({' background': 'url("../images/button/ui-icons_222222_256x240.png") no-repeat -225px -113px !important'})
+                $('.be-user-img').hide();
+            }
+
+        </script>
 
         <script>
 
