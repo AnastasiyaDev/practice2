@@ -10,6 +10,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use AppBundle\Entity\Test;
 use AppBundle\Entity\Question;
 use AppBundle\Entity\Answer;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Security;
@@ -68,35 +69,10 @@ class TestController extends Controller
         }
 
         //for admin edit
-        $testForm = $this->createFormBuilder($test)
-            ->add('companies','entity',array('class' => 'AppBundle\Entity\Company',
-                'choice_label' => 'name', 'multiple' => 'true', 'required' => false,
-                'label' => ' ', 'expanded' => 'true'
-            ))->getForm();
-
         $image = new Image();
         $form = $this->createFormBuilder($image)
             ->add('file','file',array('label' => 'Изображение:','required' => false))
             ->getForm();
-
-
-        $testForm->handleRequest($request);
-
-        if ($testForm->isValid()) {
-            $test->setName($request->get('_name'));
-            $test->setDescription($request->get('_description'));
-
-            $em = $this->getDoctrine()->getManager();
-
-            $em->persist($test);
-            $em->flush();
-
-            return $this->render('tests/test.html.twig', array('test' => $test, 'uploadForm' => $form->createView(),
-                'minRating' => $this->get('calculate')->calculateMinRating($test),
-                'maxRating' => $this->get('calculate')->calculateMaxRating($test),
-                'testForm' => $testForm->createView(),
-            ));
-        }
 
         $form->handleRequest($request);
 
@@ -128,24 +104,12 @@ class TestController extends Controller
                 $image->setPath($test->getId().'/'.$question->getId().'/'.$form->get('file')->getData()->getClientOriginalName());
                 $em->persist($image);
                 $em->flush();
-                $minRating = $this->get('calculate')->calculateMinRating($test);
-                $maxRating = $this->get('calculate')->calculateMaxRating($test);
-                return $this->render('tests/test.html.twig', array('test' => $test, 'uploadForm' => $form->createView(),
-                    'minRating' => $this->get('calculate')->calculateMinRating($test),
-                    'maxRating' => $this->get('calculate')->calculateMaxRating($test),
-                    'testForm' => $testForm->createView(),
-                ));
+                $this->redirectToRoute('testpage', array('id' => $test->getId()));
             }
 
             $em->persist($test);
             $em->flush();
-            $minRating = $this->get('calculate')->calculateMinRating($test);
-            $maxRating = $this->get('calculate')->calculateMaxRating($test);
-            return $this->render('tests/test.html.twig', array('test' => $test, 'uploadForm' => $form->createView(),
-                'minRating' => $this->get('calculate')->calculateMinRating($test),
-                'maxRating' => $this->get('calculate')->calculateMaxRating($test),
-                'testForm' => $testForm->createView(),
-            ));
+            $this->redirectToRoute('testpage', array('id' => $test->getId()));
         }
 
         if(!$test) {
@@ -155,7 +119,6 @@ class TestController extends Controller
         return $this->render('tests/test.html.twig', array('test' => $test, 'uploadForm' => $form->createView(),
             'minRating' => $this->get('calculate')->calculateMinRating($test),
             'maxRating' => $this->get('calculate')->calculateMaxRating($test),
-            'testForm' => $testForm->createView(),
         ));
     }
 
@@ -217,9 +180,13 @@ class TestController extends Controller
 
             $test->setName($request->get('_name'));
             $test->setDescription($request->get('_description'));
-            $company = $this->getDoctrine()->getRepository('AppBundle:Company')->find($request->get('_company'));
-            $test->addCompany($company);
-            $company->addTest($test);
+
+            $companyArray = $request->get('_companyArray');
+            foreach ($companyArray as $companyId) {
+                $company = $this->getDoctrine()->getRepository('AppBundle:Company')->find($companyId);
+                $test->addCompany($company);
+                $company->addTest($test);
+            }
 
             if (!$form->get('file')->isEmpty()) {
                 $test->setImage($image);
@@ -239,6 +206,7 @@ class TestController extends Controller
 
         return $this->render(':tests:new_test.html.twig',array(
             'companies' => $this->getDoctrine()->getRepository('AppBundle:Company')->findAll(),
+            'uploadForm' => $form->createView(),
         ));
     }
 
@@ -265,6 +233,78 @@ class TestController extends Controller
 
         return $this->redirectToRoute('adminPage');
 
+    }
+
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @Route("/testid{id}/test/edit", name="editTestForm")
+     */
+    public function editTestFormAction(Request $request, $id)
+    {
+        $test = $this->getDoctrine()->getRepository('AppBundle:Test')->find($id);
+
+        $image = new Image();
+        $form = $this->createFormBuilder($image)
+            ->add('file','file',array('label' => 'Изображение:','required' => false))
+            ->getForm();
+
+        $form->handleRequest($request);
+
+        if ($form->isValid()) {
+            $em = $this->getDoctrine()->getManager();
+
+            $test->setName($request->get('_name'));
+            $test->setDescription($request->get('_description'));
+
+            $companyArray = $request->get('_companyArray');
+
+            foreach ($companyArray as $companyId) {
+                $company = $this->getDoctrine()->getRepository('AppBundle:Company')->find($companyId);
+                if (!$test->getCompanies()->contains($company)) {
+                    $test->addCompany($company);
+                    $company->addTest($test);
+                    $em->persist($company);
+                }
+            }
+
+            $companyTest = null;
+            foreach ($test->getCompanies()->getValues() as $company) {
+                $companyTest[] = $company->getId();
+
+            }
+
+            $removeArray = array_diff($companyTest, $companyArray);
+
+            foreach ($removeArray as $companyId) {
+                $company = $this->getDoctrine()->getRepository('AppBundle:Company')->find($companyId);
+                $company->removeTest($test);
+                $test->removeCompany($company);
+                $em->persist($company);
+            }
+
+
+
+            if (!$form->get('file')->isEmpty()) {
+                $test->getImage()->removeUpload();
+                $test->setImage($image);
+                $em->persist($test);
+                $em->flush();
+                $image->upload($test->getId());
+                $image->setPath($test->getId().'/'.$form->get('file')->getData()->getClientOriginalName());
+                $em->persist($image);
+                $em->flush();
+                return $this->redirectToRoute('testpage', array('id' => $test->getId()));
+            }
+
+            $em->persist($test);
+            $em->flush();
+            return $this->redirectToRoute('testpage', array('id' => $test->getId()));
+        }
+
+        return $this->render(':tests:new_test.html.twig',array(
+            'companies' => $this->getDoctrine()->getRepository('AppBundle:Company')->findAll(),
+            'uploadForm' => $form->createView(), 'test' => $test,'back' => $this->generateUrl('testpage',array('id' => $test->getId()))
+        ));
     }
 
     /**

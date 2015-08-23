@@ -1,6 +1,6 @@
 {% extends '::base.html.twig' %}
 
-{% block title %} Новый тест | {{ parent() }}{% endblock %}
+{% block title %} {% if test is defined %} Редактирование {{ test.name }} {% else %} Новый тест  {% endif %}  | {{ parent() }}{% endblock %}
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/header.css') }}">
@@ -9,7 +9,8 @@
 {% block body%}
     <body>
 
-    {% include 'header.html.twig' %}
+    {% if test is defined %} {% include 'header.html.twig' with {'back':back} %} {% else %} {% include 'header.html.twig' %} {% endif %}
+
 
     <div class="content marg-auto clearfix">
 
@@ -18,33 +19,50 @@
                 <div id="err" class="al-center">{{ error }}</div>
             {% endif %}
 
-            <form id="newTestForm" autocomplete="off" action="{{ path('testNewForm') }}" method="post" name="registrationForm" {{ form_enctype(uploadForm) }}>
+            <form id="newTestForm" autocomplete="off" {% if test is defined %} action="{{ path('editTestForm', {'id':test.id}) }}" {% else %} action="{{ path('testNewForm') }}" {% endif %}
+                     method="post" name="registrationForm" {{ form_enctype(uploadForm) }}>
 
                 <div class="al-center mar-top-15">
                     <div><label for="new-test-name-field" class="">Имя: </label></div>
-                    <input type="text" id="new-test-name-field" name="_name"  tabindex="1" required>
+                    <input type="text" {% if test is defined %} value="{{ test.name }}" {% endif %} id="new-test-name-field" name="_name"  tabindex="1" required>
                 </div>
 
                 <div class="al-center">
                     <div><label for="description-new-test-field" class="">Описание: </label></div>
-                    <textarea id="description-new-test-field" name="_description"  tabindex="2" required></textarea>
+                    <textarea id="description-new-test-field" name="_description"  tabindex="2" required>{% if test is defined %}{{ test.description }}{% endif %}</textarea>
                 </div>
+
+                {% if test is defined %}
+                <div class="fl-right">
+                    {% if test.image is not empty %}
+                        <img src="{{ test.image.webPath }}" align="right" width="100" height="80">
+                    {% endif %}
+                </div>
+                {% endif %}
 
                 <div class="al-center mar-top-15">
                     {{ form_widget(uploadForm) }}
                 </div>
 
+                {#<div class="al-center mar-top-15">#}
+                    {#<select multiple="multiple" name="_company">#}
+                        {#{% for company in companies %}#}
+                            {#<option value={{ company.id }}>{{ company.name|trans }}</option>#}
+                        {#{% endfor %}#}
+                    {#</select>#}
+                {#</div>#}
+
                 <div class="al-center mar-top-15">
-                    <select name="_company">
-                        {% for company in companies %}
-                            <option value={{ company.id }}>{{ company.name|trans }}</option>
-                        {% endfor %}
-                    </select>
+                    {% for company in companies %}
+                            <input type="checkbox"
+                        {% if test is defined %} {% for companyTest in test.companies if companyTest.id == company.id %} checked="checked" {% endfor %} {% endif %}
+                                   name="_companyArray[{{ loop.index-1 }}]" value="{{ company.id }}">{{ company.name|trans }}
+                    {% endfor %}
                 </div>
 
                 <div class="mar-top-30 clearfix">
-                    <a href={{ path('_welcome') }}><div class="fl-left red-button">Отмена</div></a>
-                    <button type="submit" class="fl-right blue-button" tabindex="3">Создать</button>
+                    <a href={% if test is defined %}{{ back }}{% else %}{{ path('_welcome') }}{% endif %}><div class="fl-left red-button">Отмена</div></a>
+                    <button type="submit" class="fl-right blue-button" tabindex="3">{% if test is defined %} Сохранить {% else %} Создать {% endif %}</button>
                 </div>
 
 
