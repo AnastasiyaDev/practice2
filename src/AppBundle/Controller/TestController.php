@@ -181,11 +181,17 @@ class TestController extends Controller
             $test->setName($request->get('_name'));
             $test->setDescription($request->get('_description'));
 
-            $companyArray = $request->get('_companyArray');
-            foreach ($companyArray as $companyId) {
-                $company = $this->getDoctrine()->getRepository('AppBundle:Company')->find($companyId);
+            if (empty($request->get('_companyArray'))) {
+                $company = $this->getDoctrine()->getRepository('AppBundle:Company')->findOneByName('FakeCompany');
                 $test->addCompany($company);
                 $company->addTest($test);
+            } else {
+                $companyArray = $request->get('_companyArray');
+                foreach ($companyArray as $companyId) {
+                    $company = $this->getDoctrine()->getRepository('AppBundle:Company')->find($companyId);
+                    $test->addCompany($company);
+                    $company->addTest($test);
+                }
             }
 
             if (!$form->get('file')->isEmpty()) {

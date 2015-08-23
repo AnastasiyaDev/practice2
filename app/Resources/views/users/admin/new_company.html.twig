@@ -1,0 +1,34 @@
+{% extends '::base.html.twig' %}
+
+{% block title %} Новая компания | {{ parent() }}{% endblock %}
+{% block stylesheets %}
+    {{ parent() }}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/header.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/test_content.css') }}">
+{% endblock %}
+{% block body%}
+    <body>
+
+    {% include 'header.html.twig' with {'back':path('adminPage')} %}
+
+    <div class="content marg-auto clearfix">
+
+        <form id="newTestForm" autocomplete="off" action="{{ path('newCompany') }}" method="post" name="registrationForm">
+
+            <div class="al-center mar-top-15">
+                <div><label for="new-test-name-field" class="">Имя: </label></div>
+                <input type="text" id="new-test-name-field" name="_name"  tabindex="1" required>
+            </div>
+
+            <div class="mar-top-30 clearfix">
+                <a href={{ path('_welcome') }}><div class="fl-left red-button">Отмена</div></a>
+                <button type="submit" class="fl-right blue-button" tabindex="3">Создать</button>
+            </div>
+
+
+        </form>
+    </div>
+
+
+    </body>
+{% endblock %}

@@ -17,6 +17,7 @@
                 <li><a href="#tabs-1">Тесты</a></li>
                 <li><a href="#tabs-2">Пользователи</a></li>
                 <li><a href="#tabs-3">Группы</a></li>
+                {% if is_granted('ROLE_SUPER_ADMIN') %}<li><a href="#tabs-4">Компании</a></li>{% endif %}
             </ul>
             <div id="tabs-1">
                 <ul class="main-menu">
@@ -68,6 +69,25 @@
                     {% endif %}
                 </ul>
             </div>
+    {% if is_granted('ROLE_SUPER_ADMIN') %}
+            <div id="tabs-4">
+                <ul class="main-menu">
+                    {% for company in companies %}
+                        <li class="sub clearfix position-rel">
+                            <a  class="disp-block" href={{ path('groupByCompany',{'id':company.id}) }}>
+                                <p>{{ company.name }}</p>
+                            </a>
+
+                                <a class="del-img" id="{{ company.id }}" onclick="delCompanyId({{company.id}})" title="Удалить компанию"></a>
+
+                        </li>
+                    {% endfor %}
+                    {% if is_granted('ROLE_SUPER_ADMIN') %}
+                        <li class="sub"><a href={{ path('newCompanyForm') }}>+ Добавить компанию</a></li>
+                    {% endif %}
+                </ul>
+            </div>
+    {% endif %}
         </div>
 
 
@@ -120,7 +140,31 @@
 
             function delGroupId(ids){
                 this.ids = ids;
-                ask("Вы действительно хотите удалить группу?", showOk, showCancel);
+                ask("Вы действительно хотите удалить группу?", showGroupOk, showCancel);
+            }
+
+        </script>
+
+        <script>
+
+            function ask(question, yes, no) {
+                if (confirm(question)) {
+                    yes();
+                }
+                else no();
+            }
+            function showCompanyOk() {
+                var url = '{{ path('delCompany', {'id':'comId'}) }}';
+                $(location).attr('href',url.replace("comId", ids));
+
+            }
+            function showCancel() {
+                // отмена выполнения
+            }
+
+            function delCompanyId(ids){
+                this.ids = ids;
+                ask("Вы действительно хотите удалить компанию?", showCompanyOk, showCancel);
             }
 
         </script>
