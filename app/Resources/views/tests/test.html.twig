@@ -14,27 +14,34 @@
 
     <div class="content marg-auto clearfix">
         <div class="lvl">
-            <h3>{{ test.name }}</h3>
-            <p>{{ test.description }}</p>
+            <div class="clearfix">
+                <div class="fl-left">
+                    <h3>{{ test.name }}</h3>
+                    <p>{{ test.description }}</p>
+                    <p>
+                      Принадлежит:
+                      {% for company in test.companies %}
+                          {{ company.name|trans }}
+                      {% endfor %}
+                    </p>
+                </div>
+
+                <div class="fl-right">
+                    {% if test.image is not empty %}
+                        <img src="{{ test.image.webPath }}" align="right" width="100" height="80">
+                    {% endif %}
+                </div>
+            </div>
             {% if is_granted('ROLE_ADMIN') %}
-                <span>
+                <div class="clearfix mar-top-5">
                     <a href={{ path('delTest', {'id':test.id}) }}><div class="fl-left red-button" id="del-test" formnovalidate>Удалить</div></a>
-                    <a href={{ path('editTestForm', {'id':test.id}) }}><div class="fl-left blue-button" id="del-test" formnovalidate>Форма</div></a>
-                    <button id="edit-des" class="blue-button " type="button" tabindex="">Редактировать</button>
+                    <a href={{ path('editTestForm', {'id':test.id}) }}><div class="fl-left blue-button" id="edit-des" formnovalidate>Редактировать</div></a>
                     <button id="save-d" class="blue-button fl-right " type="button" tabindex="">Сохранить</button>
-                </span>
-                <p>
-                    {% for company in test.companies %}
-                        {{ company.name|trans }};
-                    {% endfor %}
-                </p>
+                </div>
+
             {% endif %}
         </div>
-        <div class="fl-right">
-            {% if test.image is not empty %}
-                <img src="{{ test.image.webPath }}" align="right" width="100" height="80">
-            {% endif %}
-        </div>
+
 
         <p class="mar-l-35">Вопросы</p>
 
@@ -154,8 +161,6 @@
                     closeEffect	: 'elastic',
                     'speedIn'		:	600,
                     'speedOut'		:	200,
-//                    'overlayShow'	:	true,
-                    "overlayOpacity" : 0.7,
                     'centerOnScroll' : true
 
                 });
@@ -306,43 +311,6 @@
                 $(location).attr('href',url.replace("Aid", ansId));
                 {% endif %}
             }
-
-        </script>
-
-
-        {#--------------------------------Start form_description_test(MODAL WINDOW)-----------------------------------------#}
-
-        <form id="descriptionTestForm" action="{{ path('testpage', {'id': test.id}) }}" method="post" name="descriptionTestForm" >
-
-            <div class="modalDialogDes width-410">
-
-                 <div class="al-center">
-                     <label for="name-field-in-form-des" class="lab">Имя: </label>
-                     <input type="text" id="name-field-in-form-des" name="_name" value="{{ test.name }}"  tabindex="1" pattern="[а-яА-ЯёЁa-zA-Z0-9-/t]+" required>
-                 </div>
-
-                 <div class="al-center">
-                     <label for="description-field-in-des-form" class="lab">Описание: </label>
-                     <textarea id="description-field-in-des-form" name="_description" tabindex="2" required>{{ test.description }}</textarea>
-                 </div>
-
-                 <div class="height-35">
-                     <a href={{ path('testpage', {'id':test.id}) }}><div class="fl-left al-center blue-button" id="input">Назад</div></a>
-                     <button type="submit" class="fl-right al-center red-button" id="create" tabindex="">Сохранить</button>
-                 </div>
-
-
-            </div>
-        </form>
-
-        <script type="text/javascript">
-
-            $(document).ready(function () {
-
-                $('#edit-des').click(function () {
-                    $('#descriptionTestForm').show();
-                });
-            });
 
         </script>
 

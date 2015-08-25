@@ -18,9 +18,10 @@
                 <p>{{ test.description }}</p>
                 {% if is_granted('ROLE_SUPER_ADMIN') %}
                     <p>
-                    {% for company in test.companies %}
-                        {{ company.name|trans }};
-                    {% endfor %}
+                      Принадлежит:
+                      {% for company in test.companies %}
+                          {{ company.name|trans }}
+                      {% endfor %}
                     </p>
                 {% endif %}
                 {% if is_granted('ROLE_SUPER_ADMIN') %}
