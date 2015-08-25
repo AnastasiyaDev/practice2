@@ -37,9 +37,9 @@
                     <a class="edit-img" href="{{ path('editUserForm', {'id':user.id}) }}" title="Редактировать"></a>
                     {% for role in user.roles %}
                         {% if role == 'ROLE_ADMIN' %}
-                            <a class="be-user-img" href="{{ path('makeUser', {'id':user.id}) }}" title="Сделать пользователем"></a>
+                            <a class="be-user-img" href="{{ path('makeUserTable', {'id':user.id}) }}" title="Сделать пользователем"></a>
                         {% else %}
-                            <a class="be-admin-img" href="{{ path('makeAdmin', {'id':user.id}) }}" title="Сделать администратором"></a>
+                            <a class="be-admin-img" href="{{ path('makeAdminTable', {'id':user.id}) }}" title="Сделать администратором"></a>
                         {% endif %}
                     {% endfor %}
                 </td>

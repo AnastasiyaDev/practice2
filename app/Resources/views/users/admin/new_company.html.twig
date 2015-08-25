@@ -1,6 +1,6 @@
 {% extends '::base.html.twig' %}
 
-{% block title %} Новая группа | {{ parent() }}{% endblock %}
+{% block title %} Новая компания | {{ parent() }}{% endblock %}
 {% block stylesheets %}
     {{ parent() }}
     <link rel="stylesheet" type="text/css" href="{{ asset('css/header.css') }}">
@@ -13,19 +13,11 @@
 
     <div class="content marg-auto clearfix">
 
-        <form id="newTestForm" autocomplete="off" action="{{ path('newGroup') }}" method="post" name="registrationForm">
+        <form id="newTestForm" autocomplete="off" action="{{ path('newCompany') }}" method="post" name="registrationForm">
 
             <div class="al-center mar-top-15">
                 <div><label for="new-test-name-field" class="">Имя: </label></div>
                 <input type="text" id="new-test-name-field" name="_name"  tabindex="1" required>
-            </div>
-
-            <div class="al-center mar-top-15">
-                <select name="_company">
-                    {% for company in companies %}
-                        <option value={{ company.id }}>{{ company.name|trans }}</option>
-                    {% endfor %}
-                </select>
             </div>
 
             <div class="mar-top-30 clearfix">

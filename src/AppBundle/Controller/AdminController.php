@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use AppBundle\Entity\User;
 use AppBundle\Entity\Test;
+use AppBundle\Entity\Company;
 
 class AdminController extends Controller
 {
@@ -19,18 +20,23 @@ class AdminController extends Controller
      */
     public function indexAction()
     {
+        $companies = null;
         if ($this->getUser() === $this->getDoctrine()->getRepository('AppBundle:User')->findOneByRoles('ROLE_SUPER_ADMIN')) {
             $q = $this->getDoctrine()->getManager()->createQuery(
                 "SELECT d FROM AppBundle:Department d WHERE d.name<>'FakeDepartment'"
             );
             $departments = $q->getResult();
+            $q = $this->getDoctrine()->getManager()->createQuery(
+                "SELECT d FROM AppBundle:Company d WHERE d.name<>'FakeCompany'"
+            );
+            $companies = $q->getResult();
         } else
         $departments = $this->getDoctrine()->getRepository('AppBundle:Department')->findByCompany(
             $this->getUser()->getDepartment()->getCompany()->getId());
 
         return $this->render(':users/admin:admin_page.html.twig', array('user' => $this->getUser(),
             'tests' => $this->getDoctrine()->getRepository('AppBundle:Test')->findAll(),
-            'departments' => $departments
+            'departments' => $departments, 'companies' => $companies
         ));
     }
 
@@ -88,6 +94,33 @@ class AdminController extends Controller
             'back' => $this->generateUrl('usersList')
         ));
 
+    }
+
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Route("/users/Company{id}",name="groupByCompany")
+     */
+    public function showGroupByCompanyAction($id)
+    {
+
+        return $this->render(':users/admin:groups.html.twig', array('user' => $this->getUser(),
+            'departments' => $this->getDoctrine()->getRepository('AppBundle:Department')->findByCompany($id),
+            'back' => $this->generateUrl('adminPage'), 'companyId' => $id
+        ));
+
+    }
+
+    /**
+     * @Security("has_role('ROLE_ADMIN')")
+     * @Route("/users/Company{id}/group{groupId}",name="userByCompanyGroup")
+     */
+    public function showUserByCompanyGroupAction($id, $groupId)
+    {
+        $department = $this->getDoctrine()->getRepository('AppBundle:Department')->find($groupId);
+        return $this->render('users/admin/users.html.twig', array('user' => $this->getUser(),
+            'users' => $department->getUsers(),
+            'back' => $this->generateUrl('groupByCompany',array('id' => $id))
+        ));
     }
 
     /**
@@ -190,7 +223,7 @@ class AdminController extends Controller
      * @Security("has_role('ROLE_SUPER_ADMIN')")
      * @Route("/users/newGroup", name="newGroupForm")
      */
-    public function newDepartmentFormAction(Request $request)
+    public function newDepartmentFormAction()
     {
         return $this->render(':users/admin:new_group.html.twig',array(
             'companies' => $this->getDoctrine()->getRepository('AppBundle:Company')->findAll()
@@ -215,6 +248,36 @@ class AdminController extends Controller
         $em->flush();
 
         return $this->redirectToRoute('adminPage');
+    }
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @Route("/users/company{id}/newGroup", name="newCompanyGroupForm")
+     */
+    public function newDepartmentInCompanyFormAction($id)
+    {
+        return $this->render(':users/admin:new_group.html.twig',array(
+            'companies' => $this->getDoctrine()->getRepository('AppBundle:Company')->findById($id)
+        ));
+    }
+
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @Route("/users/company{id}/newGroup/compete", name="newCompanyGroup")
+     */
+    public function newDepartmentInCompanyAction(Request $request, $id)
+    {
+        $department = new Department();
+
+        $department->setName($request->get('_name'));
+
+        $department->setCompany($this->getDoctrine()->getRepository('AppBundle:Company')->find($id));
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->persist($department);
+        $em->flush();
+
+        return $this->redirectToRoute('groupByCompany',array('id' => $id));
     }
 
     /**
@@ -270,6 +333,40 @@ class AdminController extends Controller
     }
 
     /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @Route("/users/{id}/makeAdminT", name="makeAdminTable")
+     */
+    public function makeAdminTableAction($id)
+    {
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
+
+        $user->setRoles('ROLE_ADMIN');
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->flush();
+
+        return $this->redirectToRoute('usersList');
+    }
+
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @Route("/users/{id}/makeUserT", name="makeUserTable")
+     */
+    public function makeUserByTableAction($id)
+    {
+        $user = $this->getDoctrine()->getRepository('AppBundle:User')->find($id);
+
+        $user->setRoles('ROLE_USER');
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->flush();
+
+        return $this->redirectToRoute('usersList');
+    }
+
+    /**
      * @Security("has_role('ROLE_ADMIN')")
      * @Route("/id{id}/test/id{testId}/cancel", name="cancelTest")
      */
@@ -298,6 +395,48 @@ class AdminController extends Controller
         return $this->redirectToRoute('usersPageAdmin',array('id' => $user->getId()));
     }
 
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @Route("/users/newCompany", name="newCompanyForm")
+     */
+    public function newCompanyFormAction()
+    {
+        return $this->render(':users/admin:new_company.html.twig');
+    }
+
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @Route("/users/newCompany/compete", name="newCompany")
+     */
+    public function newCompanyAction(Request $request)
+    {
+        $company = new Company();
+
+        $company->setName($request->get('_name'));
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->persist($company);
+        $em->flush();
+
+        return $this->redirectToRoute('adminPage');
+    }
+
+    /**
+     * @Security("has_role('ROLE_SUPER_ADMIN')")
+     * @Route("/users/company{id}/del", name="delCompany")
+     */
+    public function delCompanyAction($id)
+    {
+        $company = $this->getDoctrine()->getRepository('AppBundle:Company')->find($id);
+
+        $em = $this->getDoctrine()->getManager();
+
+        $em->remove($company);
+        $em->flush();
+
+        return $this->redirectToRoute('adminPage');
+    }
 
 
 
