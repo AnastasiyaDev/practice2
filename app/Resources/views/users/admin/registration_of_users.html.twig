@@ -19,6 +19,8 @@
 
         <form id="registrationOfUsersForm" autocomplete="off" action="{{ path("registrationNew") }}" method="post" name="registrationOfUsersForm">
 
+            <div id="err" class="al-center"></div>
+
             <div class="al-center mar-top-15">
                 <div><label for="login-user-field" class="">Логин: </label></div>
                 <input type="text" id="login-user-field" name="_username" onchange="checkLogin()" pattern="[\w-.]+" tabindex="1" required>
@@ -26,7 +28,7 @@
 
             <div class="al-center marg-auto mar-top-5">
                 <div><label for="password-user-field-1" class="">Пароль: </label></div>
-                <input type="password" id="password-user-field-1" name="_password" pattern="[\w-.]{6,37}" tabindex="2" required>
+                <input type="password" id="password-user-field-1" name="_password" onchange="checkPass()" pattern="[\w-.]{6,37}" tabindex="2" required>
             </div>
 
             <div class="al-center position-rel mar-top-5">
@@ -58,49 +60,105 @@
 
             <div class="mar-top-30 clearfix">
                 <a href={{ path('_welcome') }}><div class="fl-left red-button" id="back-">Отмена</div></a>
-                <button type="submit" class="fl-right blue-button" id="reg-of-u" tabindex="6">Создать</button>
+                <button type="submit" class="fl-right blue-button" id="reg-of-u" tabindex="6" disabled="disabled">Создать</button>
             </div>
 
-            {#{% for username in usernames %}#}
-                {#<p>{{ username }}</p>#}
-            {#{% endfor %}#}
         </form>
+
+        {#<script>#}
+
+            {#function  checkLogin(){#}
+
+                {#var login = $('#login-user-field').val();#}
+{#//                $('button[type=submit]').attr("disabled","disabled");#}
+
+                {#{% for username in usernames %}#}
+
+                {#var masUserName = '{{ username }}';#}
+
+                {#if( masUserName == login ){#}
+                    {#$('#err').text('Пользователь уже существует');#}
+                {#}#}
+                {#else return false;#}
+
+                {#{% endfor %}#}
+
+            {#}#}
+
+        {#</script>#}
+
+
+        {#<script>#}
+
+            {#$('#info').hide();#}
+{#//            $('button[type=submit]').attr("disabled","disabled");#}
+
+            {#function checkPass ()#}
+            {#{#}
+                {#var pass1 = $('#password-user-field-1').val();#}
+                {#var pass2 = $('#password-user-field-2').val();#}
+
+                {#if( pass1 != pass2 ){#}
+                    {#uotInfo("Пароли не совпадают");#}
+
+                {#}#}
+                {#else{#}
+                    {#$('#info').hide();#}
+                    {#$('button[type=submit]').removeAttr("disabled");#}
+                {#}#}
+
+                {#function uotInfo(text){#}
+                    {#$('#info').text(text);#}
+                    {#$('#info').show();#}
+                {#}#}
+            {#}#}
+
+        {#</script>#}
+
+
 
         <script>
 
             function  checkLogin(){
 
+                var login = $('#login-user-field').val();
+
+                {% for username in usernames %}
+
+                    var masUserName = '{{ username }}';
+
+                    if( masUserName == login ){
+                        $('#err').text('Пользователь уже существует');
+                        $('#err').show();
+                        return false;
+                    }
+                    else if(masUserName != login && login != '') {
+                        $('#err').hide();
+                        return true;
+                    }
+                {% endfor %}
             }
 
+            if ( checkLogin() ){
+                alert("true");
+            }
 
-        </script>
+            function checkPass (){
 
-
-
-        <script>
-
-            $('#info').hide();
-
-            function checkPass ()
-            {
                 var pass1 = $('#password-user-field-1').val();
                 var pass2 = $('#password-user-field-2').val();
 
                 if( pass1 != pass2 ){
-                    uotInfo("Пароли не совпадают");
-                    $('button[type=submit]').attr("disabled","disabled");
-
-                }
-                else{
-                    $('#info').hide();
-                    $('button[type=submit]').removeAttr("disabled");
-                }
-
-                function uotInfo(text){
-                    $('#info').text(text);
+                    $('#info').text("Пароли не совпадают");
                     $('#info').show();
+                    return false;
+                }
+                else if( pass1 == pass2 && pass1 != '' && pass2 != '') {
+                    $('#info').hide();
+                    return true;
                 }
             }
+
 
         </script>
 
